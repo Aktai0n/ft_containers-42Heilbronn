@@ -6,7 +6,7 @@
 /*   By: skienzle <skienzle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 15:46:55 by skienzle          #+#    #+#             */
-/*   Updated: 2022/01/06 17:01:09 by skienzle         ###   ########.fr       */
+/*   Updated: 2022/01/06 21:11:33 by skienzle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,17 @@ int main()
 
 	PRINT(test.size());
 	PRINT(test.capacity());
-	test.front();
+	PRINT(test.max_size());
+	try
+	{
+		test.at(5);
+	}
+	catch(const std::exception& e)
+	{
+		std::cerr << e.what() << '\n';
+	}
+	
+	// test.front();
 	// test.size_type hello_world;
 	// test.value_type testing;
 	// test.allocator_type tester;

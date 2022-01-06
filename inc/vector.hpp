@@ -6,11 +6,13 @@
 /*   By: skienzle <skienzle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 15:40:35 by skienzle          #+#    #+#             */
-/*   Updated: 2022/01/06 17:02:01 by skienzle         ###   ########.fr       */
+/*   Updated: 2022/01/06 22:05:03 by skienzle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #pragma once
+
+#include <memory>
 
 namespace ft
 {
@@ -21,18 +23,55 @@ class vector
 {
 public: // types
 	typedef Alloc allocator_type;
-	typedef typename allocator_type::value_type value_type; // expands to typedef T value_type for std::allocator
-	typedef typename allocator_type::size_type size_type; // expands to typedef size_t size_type for std::allocator
+	typedef typename allocator_type::value_type	value_type; // expands to typedef T value_type for std::allocator
+	typedef typename allocator_type::size_type	size_type; // expands to typedef size_t size_type for std::allocator
+	typedef value_type&							reference;
+	typedef const value_type&					const_reference;
 	
 public: // methods
+	// constructors
 	explicit vector(const allocator_type &alloc = allocator_type());
 	explicit vector(size_type n, const value_type &val = value_type(), const allocator_type &alloc = allocator_type());
 	template<typename InputIterator>
 	vector(InputIterator first, InputIterator last, const allocator_type &alloc = allocator_type());
-	vector(const vector &other);
-	
-private:
+	vector(const vector &x);
 
+	// destructor
+	~vector();
+
+	// operator overloads
+	vector<T, Alloc> &operator=(const vector<T, Alloc> &x);
+	reference operator[](size_type n);
+	const_reference operator[](size_type n) const;
+
+	// capacity
+	size_type size() const;
+	size_type max_size() const;
+	void resize(size_type n, value_type val = value_type());
+	size_type capacity() const;
+	bool empty() const;
+	void reserve(size_type n);
+
+	// element access
+	reference at(size_type n);
+	const_reference at(size_type n) const;
+	reference front();
+	const_reference front() const;
+	reference back();
+	const_reference back() const;
+
+	// modifiers
+	template<typename InputIterator>
+	void assign(InputIterator first, InputIterator last);
+	void assign(size_type n, const value_type &val);
+	void push_back(const value_type &val);
+	void pop_back(const value_type &val);
+	
+private: // variables
+	size_type _size;
+	size_type _capacity;
+	size_type _max_size;
+	value_type _arr;
 };
 
 template<typename T, typename Alloc>
@@ -57,10 +96,145 @@ vector<T, Alloc>::vector(InputIterator first, InputIterator last, const allocato
 }
 
 template<typename T, typename Alloc>
-vector<T, Alloc>::vector(const vector &other)
+vector<T, Alloc>::vector(const vector &x)
 {
-	(void)other;
+	(void)x;
 }
+
+template<typename T, typename Alloc>
+vector<T, Alloc>::~vector()
+{
+	// allocator_type::deallocate(ptr, size);
+}
+
+template<typename T, typename Alloc>
+vector<T, Alloc> &vector<T, Alloc>::operator=(const vector<T, Alloc> &x)
+{
+	(void)x;
+}
+
+template<typename T, typename Alloc>
+typename vector<T, Alloc>::reference vector<T, Alloc>::operator[](size_type n)
+{
+	return this->_arr[n];
+}
+
+template<typename T, typename Alloc>
+typename vector<T, Alloc>::const_reference vector<T, Alloc>::operator[](size_type n) const
+{
+	return this->_arr[n];
+}
+
+template<typename T, typename Alloc>
+typename vector<T, Alloc>::size_type vector<T, Alloc>::size() const
+{
+	return this->_size;
+}
+
+template<typename T, typename Alloc>
+typename vector<T, Alloc>::size_type vector<T, Alloc>::max_size() const
+{
+	return this->_max_size;
+}
+
+template<typename T, typename Alloc>
+void vector<T, Alloc>::resize(size_type n, value_type val)
+{
+	(void)n;
+	(void)val;
+}
+
+template<typename T, typename Alloc>
+typename vector<T, Alloc>::size_type vector<T, Alloc>::capacity() const
+{
+	return this->_capacity;
+}
+
+template<typename T, typename Alloc>
+bool vector<T, Alloc>::empty() const
+{
+	return this->_size == 0 ? true : false;
+}
+
+template<typename T, typename Alloc>
+void vector<T, Alloc>::reserve(size_type n)
+{
+	if (n <= this->_size)
+		return;
+	if (n > this->_max_size)
+		throw std::length_error("vector->reserve exception: requested size exceeds maximum size"); // change that to the appropriate size
+	
+}
+
+
+template<typename T, typename Alloc>
+typename vector<T, Alloc>::reference vector<T, Alloc>::at(size_type n)
+{
+	if (n >= this->_size)
+		throw std::out_of_range("vector");
+	return this->_arr[n];
+}
+
+template<typename T, typename Alloc>
+typename vector<T, Alloc>::const_reference vector<T, Alloc>::at(size_type n) const
+{
+	if (n >= this->_size)
+		throw std::out_of_range("vector");
+	return this->_arr[n];
+}
+
+template<typename T, typename Alloc>
+typename vector<T, Alloc>::reference vector<T, Alloc>::front()
+{
+	return this->_arr[0];
+}
+
+template<typename T, typename Alloc>
+typename vector<T, Alloc>::const_reference vector<T, Alloc>::front() const
+{
+	return this->_arr[0];
+}
+
+template<typename T, typename Alloc>
+typename vector<T, Alloc>::reference vector<T, Alloc>::back()
+{
+	return this->_arr[this->_size - 1];
+}
+
+template<typename T, typename Alloc>
+typename vector<T, Alloc>::const_reference vector<T, Alloc>::back() const
+{
+	return this->_arr[this->_size - 1];
+}
+
+template<typename T, typename Alloc>
+template<typename InputIterator>
+void vector<T, Alloc>::assign(InputIterator first, InputIterator last)
+{
+	(void)first;
+	(void)last;
+}
+
+template<typename T, typename Alloc>
+void vector<T, Alloc>::assign(size_type n, const value_type &val)
+{
+	(void)n;
+	(void)val;
+}
+
+template<typename T, typename Alloc>
+void vector<T, Alloc>::push_back(const value_type &val)
+{
+	(void)val;
+}
+
+template<typename T, typename Alloc>
+void vector<T, Alloc>::pop_back(const value_type &val)
+{
+	(void)val;
+}
+
+
 
 } // namespace ft
 
