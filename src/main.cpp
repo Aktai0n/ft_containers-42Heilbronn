@@ -6,7 +6,7 @@
 /*   By: skienzle <skienzle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 15:46:55 by skienzle          #+#    #+#             */
-/*   Updated: 2022/01/06 21:11:33 by skienzle         ###   ########.fr       */
+/*   Updated: 2022/01/16 20:18:01 by skienzle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 #include <iostream>
 
 #define PRINT(__msg) (std::cout << __msg << std::endl)
+
 
 int main()
 {
@@ -39,7 +40,7 @@ int main()
 	{
 		std::cerr << e.what() << '\n';
 	}
-	
+	// test.size_type;
 	// test.front();
 	// test.size_type hello_world;
 	// test.value_type testing;

@@ -6,7 +6,7 @@
 /*   By: skienzle <skienzle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 15:40:35 by skienzle          #+#    #+#             */
-/*   Updated: 2022/01/06 22:05:03 by skienzle         ###   ########.fr       */
+/*   Updated: 2022/01/16 19:56:54 by skienzle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ public: // methods
 	explicit vector(const allocator_type &alloc = allocator_type());
 	explicit vector(size_type n, const value_type &val = value_type(), const allocator_type &alloc = allocator_type());
 	template<typename InputIterator>
-	vector(InputIterator first, InputIterator last, const allocator_type &alloc = allocator_type());
+		vector(InputIterator first, InputIterator last, const allocator_type &alloc = allocator_type());
 	vector(const vector &x);
 
 	// destructor
@@ -62,12 +62,12 @@ public: // methods
 
 	// modifiers
 	template<typename InputIterator>
-	void assign(InputIterator first, InputIterator last);
+		void assign(InputIterator first, InputIterator last);
 	void assign(size_type n, const value_type &val);
 	void push_back(const value_type &val);
 	void pop_back(const value_type &val);
 	
-private: // variables
+private: // attributes
 	size_type _size;
 	size_type _capacity;
 	size_type _max_size;
@@ -153,7 +153,7 @@ typename vector<T, Alloc>::size_type vector<T, Alloc>::capacity() const
 template<typename T, typename Alloc>
 bool vector<T, Alloc>::empty() const
 {
-	return this->_size == 0 ? true : false;
+	return this->_size == 0;
 }
 
 template<typename T, typename Alloc>
