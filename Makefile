@@ -6,7 +6,7 @@
 #    By: skienzle <skienzle@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/06 15:15:49 by skienzle          #+#    #+#              #
-#    Updated: 2022/01/08 09:44:46 by skienzle         ###   ########.fr        #
+#    Updated: 2022/01/21 20:08:25 by skienzle         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,8 @@ CC = clang++
 CFLAGS = -Wall -Wextra -Werror -std=c++98
 RM = rm -rf
 
-INC = vector.hpp map.hpp stack.hpp iterator.hpp
+INC = vector.hpp map.hpp stack.hpp set.hpp iterator.hpp \
+	utility.hpp type_traits.hpp algorithm.hpp
 IDIR = inc
 INC_FULL = $(addprefix $(IDIR)/, $(INC))
 
