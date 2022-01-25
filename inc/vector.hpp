@@ -6,7 +6,7 @@
 /*   By: skienzle <skienzle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 15:40:35 by skienzle          #+#    #+#             */
-/*   Updated: 2022/01/25 19:48:41 by skienzle         ###   ########.fr       */
+/*   Updated: 2022/01/25 23:49:20 by skienzle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,18 +105,29 @@ private: // attributes
 	pointer			_begin;
 	pointer			_end;
 	allocator_type	_allocator;
+
+private: // methods
+	pointer _vallocate(size_type n);
+	
+	size_type _vsizecheck(size_type new_size) const;
 };
+
 
 template<typename T, typename Alloc>
 vector<T, Alloc>::vector(const allocator_type &alloc):
-	_begin(nullptr), _end(nullptr), _allocator(alloc) {}
+	_capacity(0), _begin(nullptr), _end(nullptr), _allocator(alloc) {}
 
 template<typename T, typename Alloc>
-vector<T, Alloc>::vector(size_type n, const value_type &val, const allocator_type &alloc)
+vector<T, Alloc>::vector(size_type n, const value_type &val, const allocator_type &alloc):
+	_capacity(0), _begin(), _end(), _allocator(alloc)
 {
-	(void)n;
-	(void)val;
-	(void)alloc;
+	if (n > 0)
+	{
+		this->_begin = this->_vallocate(n);
+		this->_end = this->_begin + n;
+		for (size_type i = 0; i < n; ++i)
+			this->_allocator.construct(this->_begin + i, val);
+	}
 }
 
 template<typename T, typename Alloc>
@@ -129,15 +140,24 @@ vector<T, Alloc>::vector(InputIterator first, InputIterator last, const allocato
 }
 
 template<typename T, typename Alloc>
-vector<T, Alloc>::vector(const vector &x)
+vector<T, Alloc>::vector(const vector &x):
+	_capacity(0), _begin(), _end(), _allocator(x._allocator)
 {
-	(void)x;
+	size_type n = x.size();
+	this->_begin = this->_vallocate(x._capacity);
+	this->_end = this->_begin + n;
+	for (size_type i = 0; i < n; ++i)
+		this->_allocator.construct(this->_begin + i, x[i]);
 }
 
 template<typename T, typename Alloc>
 vector<T, Alloc>::~vector()
 {
-	// allocator_type::deallocate(ptr, size);
+	if (this->_begin != nullptr)
+	{
+		this->clear();
+		this->_allocator.deallocate(this->_begin, this->_capacity);
+	}
 }
 
 
@@ -145,7 +165,11 @@ vector<T, Alloc>::~vector()
 template<typename T, typename Alloc>
 vector<T, Alloc> &vector<T, Alloc>::operator=(const vector<T, Alloc> &x)
 {
-	(void)x;
+	if (this != &x)
+	{
+		
+		// this->assign(x._begin, x._end);
+	}
 }
 
 template<typename T, typename Alloc>
@@ -246,11 +270,10 @@ bool vector<T, Alloc>::empty() const
 template<typename T, typename Alloc>
 void vector<T, Alloc>::reserve(size_type n)
 {
-	if (n <= this->_size)
+	if (n <= this->size())
 		return;
 	if (n > this->_max_size)
 		throw std::length_error("vector->reserve exception: requested size exceeds maximum size"); // change that to the appropriate size
-	
 }
 
 
@@ -258,7 +281,7 @@ void vector<T, Alloc>::reserve(size_type n)
 template<typename T, typename Alloc>
 typename vector<T, Alloc>::reference vector<T, Alloc>::at(size_type n)
 {
-	if (n >= this->_size)
+	if (n >= this->size())
 		throw std::out_of_range("vector");
 	return this->_begin[n];
 }
@@ -266,7 +289,7 @@ typename vector<T, Alloc>::reference vector<T, Alloc>::at(size_type n)
 template<typename T, typename Alloc>
 typename vector<T, Alloc>::const_reference vector<T, Alloc>::at(size_type n) const
 {
-	if (n >= this->_size)
+	if (n >= this->size())
 		throw std::out_of_range("vector");
 	return this->_begin[n];
 }
@@ -319,7 +342,8 @@ void vector<T, Alloc>::push_back(const value_type &val)
 template<typename T, typename Alloc>
 void vector<T, Alloc>::pop_back()
 {
-
+	--this->_end;
+	this->_allocator.destroy(this->_end);
 }
 
 template<typename T, typename Alloc>
@@ -379,6 +403,28 @@ typename vector<T, Alloc>::allocator_type vector<T, Alloc>::get_allocator() cons
 }
 
 
+
+template<typename T, typename Alloc>
+typename vector<T,Alloc>::pointer vector<T,Alloc>::_vallocate(size_type n)
+{
+	n = this->_vsizecheck(n);
+	this->_capacity = n;
+	return (this->_allocator.allocate(n));
+}
+
+template<typename T, typename Alloc>
+typename vector<T,Alloc>::size_type vector<T,Alloc>::_vsizecheck(size_type new_size) const
+{
+	const size_type temp_max_size = this->max_size();
+	if (new_size > temp_max_size)
+		std::length_error("vector");
+	size_type temp_capacity = this->capacity();
+	if (temp_capacity >= temp_max_size / 2)
+		return temp_max_size;
+	temp_capacity *= 2;
+	return new_size > temp_capacity ? new_size : temp_capacity;
+}
+
 // relational operator overloads
 
 template<typename T, typename Alloc>
@@ -422,6 +468,9 @@ void swap(vector<T,Alloc> &x, vector<T,Alloc> &y)
 {
 	x.swap(y);
 }
+
+
+
 
 
 } // namespace ft
