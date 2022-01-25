@@ -6,7 +6,7 @@
 /*   By: skienzle <skienzle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 19:21:18 by skienzle          #+#    #+#             */
-/*   Updated: 2022/01/21 22:13:46 by skienzle         ###   ########.fr       */
+/*   Updated: 2022/01/25 15:15:19 by skienzle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,8 @@ struct integral_constant
 };
 
 
-typedef integral_constant<bool,true>	true_type;
-typedef integral_constant<bool,false>	false_type;
+typedef integral_constant<bool,true> true_type;
+typedef integral_constant<bool,false> false_type;
 
 template<typename T>
 struct is_integral: public false_type {};
