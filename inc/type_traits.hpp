@@ -6,7 +6,7 @@
 /*   By: skienzle <skienzle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 19:21:18 by skienzle          #+#    #+#             */
-/*   Updated: 2022/01/25 15:15:19 by skienzle         ###   ########.fr       */
+/*   Updated: 2022/02/08 23:14:09 by skienzle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ struct enable_if {};
 template<typename T>
 struct enable_if<true, T>
 {
-	typedef typename T	type;
+	typedef T	type;
 };
 
 
@@ -35,12 +35,12 @@ struct enable_if<true, T>
 template<typename T, T v>
 struct integral_constant
 {
-	typedef T	value_type;
-	typedef v	type;
+	typedef T					value_type;
+	typedef integral_constant	type;
 
-	static const T value = v;
+	static const value_type value = v;
 
-	const operator value_type() const
+	const value_type operator()() const
 	{
 		return value;
 	}
@@ -52,9 +52,6 @@ typedef integral_constant<bool,false> false_type;
 
 template<typename T>
 struct is_integral: public false_type {};
-
-template<>
-struct is_integral<bool>: public true_type {};
 
 template<>
 struct is_integral<bool>: public true_type {};

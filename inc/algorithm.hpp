@@ -6,7 +6,7 @@
 /*   By: skienzle <skienzle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 19:31:04 by skienzle          #+#    #+#             */
-/*   Updated: 2022/01/21 20:12:24 by skienzle         ###   ########.fr       */
+/*   Updated: 2022/02/05 17:32:21 by skienzle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@ namespace ft
 
 
 template<typename InputIterator1, typename InputIterator2>
-bool equal(InputIterator1 first1, InputIterator1 last1, InputIterator2 first2)
+bool
+equal(InputIterator1 first1, InputIterator1 last1, InputIterator2 first2)
 {
 	while (first1 != last1)
 	{
@@ -33,8 +34,9 @@ bool equal(InputIterator1 first1, InputIterator1 last1, InputIterator2 first2)
 }
 
 template<typename InputIterator1, typename InputIterator2, typename BinaryPredicate>
-bool equal(InputIterator1 first1, InputIterator1 last1, InputIterator2 first2,
-			BinaryPredicate pred)
+bool
+equal(InputIterator1 first1, InputIterator1 last1, InputIterator2 first2,
+		BinaryPredicate pred)
 {
 	while (first1 != last1)
 	{
@@ -47,8 +49,9 @@ bool equal(InputIterator1 first1, InputIterator1 last1, InputIterator2 first2,
 }
 
 template<typename InputIterator1, typename InputIterator2>
-bool lexicographical_compare(InputIterator1 first1, InputIterator1 last1,
-							InputIterator2 first2, InputIterator2 last2)
+bool
+lexicographical_compare(InputIterator1 first1, InputIterator1 last1,
+						InputIterator2 first2, InputIterator2 last2)
 {
 	while (first1 != last1)
 	{
@@ -64,9 +67,10 @@ bool lexicographical_compare(InputIterator1 first1, InputIterator1 last1,
 
 
 template<typename InputIterator1, typename InputIterator2, typename Compare>
-bool lexicographical_compare(InputIterator1 first1, InputIterator1 last1,
-							InputIterator2 first2, InputIterator2 last2,
-							Compare comp)
+bool
+lexicographical_compare(InputIterator1 first1, InputIterator1 last1,
+						InputIterator2 first2, InputIterator2 last2,
+						Compare comp)
 {
 	while (first1 != last1)
 	{

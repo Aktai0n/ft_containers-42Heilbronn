@@ -6,7 +6,7 @@
 /*   By: skienzle <skienzle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 15:46:55 by skienzle          #+#    #+#             */
-/*   Updated: 2022/01/25 23:49:38 by skienzle         ###   ########.fr       */
+/*   Updated: 2022/02/08 22:32:31 by skienzle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,17 @@
 
 int main()
 {
-	std::vector<int> test;
-	ft::vector<int> referencer(5);
+	const std::vector<int> test;
+	const ft::vector<int> referencer(5);
 
 	PRINT(referencer.size());
 	PRINT(referencer.capacity());
 	PRINT(referencer.max_size());
+	std::vector<int>::const_reverse_iterator rit = test.rbegin();
+	(void)rit;
+	ft::vector<int>::const_reverse_iterator it = referencer.rbegin();
+	for (; it != referencer.rend(); ++it)
+		PRINT(*it);
 	try
 	{
 		referencer.at(5);
@@ -48,4 +53,10 @@ int main()
 	// test.value_type testing;
 	// test.allocator_type tester;
 	// referencer.size_type hello_world2;
+	std::map<int, int> test_map;
+	std::map<int, int> test_map2;
+	test_map.insert(std::make_pair(5, 2));
+	test_map2.insert(std::make_pair(5, 2));
+	if (test_map != test_map2)
+		;
 }
