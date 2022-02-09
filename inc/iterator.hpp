@@ -6,7 +6,7 @@
 /*   By: skienzle <skienzle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/08 09:38:58 by skienzle          #+#    #+#             */
-/*   Updated: 2022/02/08 22:38:18 by skienzle         ###   ########.fr       */
+/*   Updated: 2022/02/09 20:00:52 by skienzle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,34 @@ struct iterator_traits<const T*>
 	typedef const T&								reference;
 	typedef random_access_iterator_tag				iterator_category;
 };
+
+
+// distance
+
+template<typename InputIterator>
+inline typename iterator_traits<InputIterator>::difference_type
+_distance(InputIterator first, InputIterator last, input_iterator_tag)
+{
+	typename iterator_traits<InputIterator>::difference_type count(0);
+	for (; first != last; ++first)
+		++count;
+	return count;
+}
+
+template<typename RandomAccessIterator>
+inline typename iterator_traits<RandomAccessIterator>::difference_type
+_distance(RandomAccessIterator first, RandomAccessIterator last, random_access_iterator_tag)
+{
+	return last - first;
+}
+
+
+template<typename InputIterator>
+inline typename iterator_traits<InputIterator>::difference_type
+distance(InputIterator first, InputIterator last)
+{
+	return _distance(first, last, typename iterator_traits<InputIterator>::iterator_category());
+}
 
 
 // reverse Iterator

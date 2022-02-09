@@ -6,7 +6,7 @@
 /*   By: skienzle <skienzle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 15:46:55 by skienzle          #+#    #+#             */
-/*   Updated: 2022/02/08 22:32:31 by skienzle         ###   ########.fr       */
+/*   Updated: 2022/02/09 17:37:17 by skienzle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@
 int main()
 {
 	const std::vector<int> test;
+	ft::vector<int> ft_test(5, 10);
 	const ft::vector<int> referencer(5);
 
 	PRINT(referencer.size());
@@ -34,8 +35,8 @@ int main()
 	PRINT(referencer.max_size());
 	std::vector<int>::const_reverse_iterator rit = test.rbegin();
 	(void)rit;
-	ft::vector<int>::const_reverse_iterator it = referencer.rbegin();
-	for (; it != referencer.rend(); ++it)
+	ft::vector<int>::reverse_iterator it = ft_test.rbegin();
+	for (; it != ft_test.rend(); ++it)
 		PRINT(*it);
 	try
 	{

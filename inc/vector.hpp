@@ -6,7 +6,7 @@
 /*   By: skienzle <skienzle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 15:40:35 by skienzle          #+#    #+#             */
-/*   Updated: 2022/02/08 22:59:03 by skienzle         ###   ########.fr       */
+/*   Updated: 2022/02/09 23:13:22 by skienzle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ public: // types
 	typedef typename allocator_type::value_type			value_type; // typedef T for std::allocator
 	typedef typename allocator_type::size_type			size_type; //  typedef size_t for std::allocator
 	typedef typename allocator_type::pointer			pointer; // typedef T* for std::allocator
+	typedef typename allocator_type::difference_type	difference_type; // typedef ptrdiff_t for std::allocator
 	typedef typename allocator_type::const_pointer		const_pointer; // typedef const T* for std::allocator
 	typedef typename allocator_type::reference			reference; // typedef T& for std::allocator
 	typedef typename allocator_type::const_reference	const_reference; // typedef const T& for std::allocator
@@ -50,14 +51,14 @@ public: // methods
 	explicit vector(size_type n, const value_type& val = value_type(), const allocator_type& alloc = allocator_type());
 	template<typename InputIterator>
 		vector(InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type(),
-				typename ft::enable_if<!ft::is_integral<InputIterator>::value>::type* = nullptr);
+				typename ft::enable_if<!ft::is_integral<InputIterator>::value>::type = 0);
 	vector(const vector& other);
 
 	// destructor
 	~vector();
 
 	// operator overloads
-	vector<T,Alloc>&	operator=(const vector<T,Alloc>& x);
+	vector<T,Alloc>&	operator=(const vector<T,Alloc>& other);
 	reference			operator[](size_type n);
 	const_reference		operator[](size_type n) const;
 
@@ -89,14 +90,16 @@ public: // methods
 
 	// modifiers
 	template<typename InputIterator>
-		void	assign(InputIterator first, InputIterator last);
+		void	assign(InputIterator first, InputIterator last,
+						typename ft::enable_if<!ft::is_integral<InputIterator>::value>::type = 0);
 	void		assign(size_type n, const value_type& val);
 	void		push_back(const value_type& val);
 	void		pop_back();
 	iterator	insert(iterator position, const value_type& val);
 	void		insert(iterator position, size_type n, const value_type& val);
 	template<typename InputIterator>
-		void	insert(iterator position, InputIterator first, InputIterator last);
+		void	insert(iterator position, InputIterator first, InputIterator last,
+						typename ft::enable_if<!ft::is_integral<InputIterator>::value>::type = 0);
 	iterator	erase(iterator position);
 	iterator	erase(iterator first, iterator last);
 	void		swap(vector& other);
@@ -114,7 +117,11 @@ private: // attributes
 
 private: // methods
 	pointer _vallocate(size_type n);
-	
+	void _vdeallocate();
+	void _vreallocate(size_type n);
+	void _construct_at_front(const size_type& n, const value_type& val);
+	void _construct_at_front(const vector& other);
+	void _destroy_at_end(pointer new_end);
 	size_type _vsizecheck(size_type new_size) const;
 };
 
@@ -131,19 +138,19 @@ vector<T,Alloc>::vector(size_type n, const value_type& val, const allocator_type
 	{
 		this->_begin = this->_vallocate(n);
 		this->_end = this->_begin + n;
-		for (size_type i = 0; i < n; ++i)
-			this->_allocator.construct(this->_begin + i, val);
+		this->_construct_at_front(n, val);
 	}
 }
 
 template<typename T, typename Alloc>
 template<typename InputIterator>
 vector<T,Alloc>::vector(InputIterator first, InputIterator last, const allocator_type& alloc,
-						typename ft::enable_if<!ft::is_integral<InputIterator>::value>::type*)
+						typename ft::enable_if<!ft::is_integral<InputIterator>::value>::type):
+	_capacity(0), _begin(), _end(), _allocator(alloc)
 {
-	(void)first;
-	(void)last;
-	(void)alloc;
+	this->_begin = this->_end = this->_vallocate(ft::distance(first, last));
+	for (; first != last; ++first)
+		this->push_back(*first);
 }
 
 template<typename T, typename Alloc>
@@ -153,31 +160,35 @@ vector<T,Alloc>::vector(const vector& other):
 	size_type n = other.size();
 	this->_begin = this->_vallocate(other._capacity);
 	this->_end = this->_begin + n;
-	for (size_type i = 0; i < n; ++i)
-		this->_allocator.construct(this->_begin + i, other[i]);
+	this->_construct_at_front(other);
 }
 
 template<typename T, typename Alloc>
 vector<T,Alloc>::~vector()
 {
 	if (this->_begin != nullptr)
-	{
-		this->clear();
-		this->_allocator.deallocate(this->_begin, this->_capacity);
-	}
+		this->_vdeallocate();
 }
 
 
 
 template<typename T, typename Alloc>
 vector<T,Alloc>&
-vector<T,Alloc>::operator=(const vector<T, Alloc>& x)
+vector<T,Alloc>::operator=(const vector<T,Alloc>& other)
 {
-	if (this != &x)
+	if (this != &other)
 	{
-		
-		// this->assign(x._begin, x._end);
+		// if (this->_capacity >= other._capacity)
+		// {
+		// 	this->clear();
+		// 	this->_construct_at_front(other);
+		// }
+		this->_vdeallocate();
+		this->_begin = this->_vallocate(other.capacity());
+		this->_end = this->begin + other.size();
+		this->assign(other.begin(), other.end());
 	}
+	return *this;
 }
 
 template<typename T, typename Alloc>
@@ -272,10 +283,14 @@ template<typename T, typename Alloc>
 void
 vector<T,Alloc>::resize(size_type n, value_type val)
 {
-	(void)n;
-	(void)val;
-	// size_type curr_size = this->size();
-
+	size_type curr_size = this->size();
+	if (curr_size >= n)
+		this->_destroy_at_end(this->_begin + n);
+	else
+	{
+		for (; curr_size < n; ++curr_size)
+			this->push_back(val);
+	}
 }
 
 template<typename T, typename Alloc>
@@ -296,10 +311,14 @@ template<typename T, typename Alloc>
 void
 vector<T,Alloc>::reserve(size_type n)
 {
-	if (n <= this->size())
+	if (n <= this->_capacity)
 		return;
-	if (n > this->_max_size)
-		throw std::length_error("vector->reserve exception: requested size exceeds maximum size"); // change that to the appropriate size
+	pointer new_begin = this->_vallocate(n);
+	pointer new_end = new_begin + n;
+	ft::copy(this->_begin, this->_end, new_begin);
+	this->_vdeallocate();
+	this->_begin = new_begin;
+	this->_end = new_end;
 }
 
 
@@ -353,25 +372,45 @@ vector<T,Alloc>::back() const
 template<typename T, typename Alloc>
 template<typename InputIterator>
 void
-vector<T,Alloc>::assign(InputIterator first, InputIterator last)
+vector<T,Alloc>::assign(InputIterator first, InputIterator last,
+						typename ft::enable_if<!ft::is_integral<InputIterator>::value>::type)
 {
-	(void)first;
-	(void)last;
+	size_type new_size = static_cast<size_type>(ft::distance(first, last));
+	if (new_size > this->_capacity)
+	{
+		this->_vreallocate(new_size);
+		for (; first != last; ++first)
+			this->push_back(*first);
+	}
+	else
+	{
+		// work to be done
+	}
 }
 
 template<typename T, typename Alloc>
 void
 vector<T,Alloc>::assign(size_type n, const value_type& val)
 {
-	(void)n;
-	(void)val;
+	if (n <= this->_capacity)
+	{
+		this->clear();
+		this->_construct_at_front(n, val);
+	}
+	else
+	{
+		this->_vreallocate(n);
+		this->_construct_at_front(n, val);
+	}
 }
 
 template<typename T, typename Alloc>
 void
 vector<T,Alloc>::push_back(const value_type& val)
 {
-	(void)val;
+	this->reserve(this->size() + 1);
+	this->_allocator.construct(this->_end, val);
+	++this->_end;
 }
 
 template<typename T, typename Alloc>
@@ -386,7 +425,8 @@ template<typename T, typename Alloc>
 typename vector<T,Alloc>::iterator
 vector<T,Alloc>::insert(iterator position, const value_type& val)
 {
-	(void)position;
+	pointer pos = this->_begin + (position - this->begin());
+	
 	(void)val;
 }
 
@@ -394,15 +434,16 @@ template<typename T, typename Alloc>
 void
 vector<T,Alloc>::insert(iterator position, size_type n, const value_type& val)
 {
-	(void)position;
-	(void)n;
-	(void)val;
+	// room for optimisation
+	for (size_type i = 0; i < n; ++i)
+		this->insert(position + i, val);
 }
 
 template<typename T, typename Alloc>
 template<typename InputIterator>
 void
-vector<T,Alloc>::insert(iterator position, InputIterator first, InputIterator last)
+vector<T,Alloc>::insert(iterator position, InputIterator first, InputIterator last,
+						typename ft::enable_if<!ft::is_integral<InputIterator>::value>::type)
 {
 	(void)position;
 	(void)first;
@@ -413,29 +454,40 @@ template<typename T, typename Alloc>
 typename vector<T,Alloc>::iterator
 vector<T, Alloc>::erase(iterator position)
 {
-	(void)position;
+	if (position == this->end())
+		this->pop_back();
+	else
+	{
+		pointer pos = this->_begin + (position - this->begin());
+		this->_destroy_at_end(ft::copy(pos + 1, this->_end, pos));
+	}
+	return position;
 }
 
 template<typename T, typename Alloc>
 typename vector<T,Alloc>::iterator
 vector<T,Alloc>::erase(iterator first, iterator last)
 {
-	(void)first;
-	(void)last;
+	pointer pos = this->_begin + (first - this->begin());
+	if (first != last)
+		this->_destroy_at_end(ft::copy(pos + (last - first), this->_end, pos));
+	return iterator(pos);
 }
 
 template<typename T, typename Alloc>
 void
 vector<T,Alloc>::swap(vector& other)
 {
-	(void)other;
+	ft::swap(this->_capacity, other._capacity);
+	ft::swap(this->_begin, other._begin);
+	ft::swap(this->_end, other._end);
 }
 
 template<typename T, typename Alloc>
 void
 vector<T,Alloc>::clear()
 {
-	
+	this->_destroy_at_end(this->_begin);
 }
 
 template<typename T, typename Alloc>
@@ -454,6 +506,56 @@ vector<T,Alloc>::_vallocate(size_type n)
 	n = this->_vsizecheck(n);
 	this->_capacity = n;
 	return (this->_allocator.allocate(n));
+}
+
+template<typename T, typename Alloc>
+void
+vector<T,Alloc>::_vdeallocate()
+{
+	this->_destroy_at_end(this->_begin);
+	this->_allocator.deallocate(this->_begin, this->_capacity);
+	this->_begin = this->_end = nullptr;
+	this->_capacity = 0;
+}
+
+template<typename T, typename Alloc>
+void
+vector<T,Alloc>::_vreallocate(size_type n)
+{
+	this->_vdeallocate();
+	this->_begin = this->_vallocate(n);
+	this->_end = this->_begin + n;
+}
+
+template<typename T, typename Alloc>
+void
+vector<T,Alloc>::_construct_at_front(const size_type& n, const value_type& val)
+{
+	for (size_type i = 0; i < n; ++i)
+		this->_allocator.construct(this->_begin + i, val);
+}
+
+template<typename T, typename Alloc>
+void
+vector<T,Alloc>::_construct_at_front(const vector& other)
+{
+	size_type n = other.size();
+	for (size_type i = 0; i < n; ++i)
+		this->_allocator.construct(this->_begin + i, other[i]);
+}
+
+template<typename T, typename Alloc>
+void
+vector<T,Alloc>::_destroy_at_end(pointer new_end)
+{
+	pointer current_end = this->_end;
+
+	while (current_end != new_end)
+	{
+		--current_end;
+		this->_allocator.destroy(current_end);
+	}
+	this->_end = new_end;
 }
 
 template<typename T, typename Alloc>

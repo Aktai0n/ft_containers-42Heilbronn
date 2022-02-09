@@ -6,7 +6,7 @@
 /*   By: skienzle <skienzle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 19:31:04 by skienzle          #+#    #+#             */
-/*   Updated: 2022/02/05 17:32:21 by skienzle         ###   ########.fr       */
+/*   Updated: 2022/02/09 22:32:24 by skienzle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,27 @@ lexicographical_compare(InputIterator1 first1, InputIterator1 last1,
 	return false;
 }
 
+template<typename InputIterator, typename OutputIterator>
+OutputIterator
+copy(InputIterator first, InputIterator last, OutputIterator result)
+{
+	while (first != last)
+	{
+		*result = *first;
+		++result;
+		++first;
+	}
+	return result;
+}
+
+template<typename T>
+void
+swap(T& first, T& second)
+{
+	T temp = first;
+	first = second;
+	second = temp;
+}
 
 
 
