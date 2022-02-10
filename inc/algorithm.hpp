@@ -6,7 +6,7 @@
 /*   By: skienzle <skienzle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 19:31:04 by skienzle          #+#    #+#             */
-/*   Updated: 2022/02/09 22:32:24 by skienzle         ###   ########.fr       */
+/*   Updated: 2022/02/10 23:05:24 by skienzle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,11 +97,21 @@ copy(InputIterator first, InputIterator last, OutputIterator result)
 	return result;
 }
 
+template<typename BidirectionalIterator1, typename BidirectionalIterator2>
+BidirectionalIterator2
+copy_backward(BidirectionalIterator1 first, BidirectionalIterator1 last,
+				BidirectionalIterator2 result)
+{
+	while (last != first)
+		*(--result) = *(--last);
+	return result;
+}
+
 template<typename T>
 void
 swap(T& first, T& second)
 {
-	T temp = first;
+	T temp(first);
 	first = second;
 	second = temp;
 }

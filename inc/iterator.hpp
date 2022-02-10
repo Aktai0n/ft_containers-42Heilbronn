@@ -6,7 +6,7 @@
 /*   By: skienzle <skienzle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/08 09:38:58 by skienzle          #+#    #+#             */
-/*   Updated: 2022/02/09 20:00:52 by skienzle         ###   ########.fr       */
+/*   Updated: 2022/02/10 15:00:29 by skienzle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,6 @@ _distance(RandomAccessIterator first, RandomAccessIterator last, random_access_i
 	return last - first;
 }
 
-
 template<typename InputIterator>
 inline typename iterator_traits<InputIterator>::difference_type
 distance(InputIterator first, InputIterator last)
@@ -115,21 +114,21 @@ public: // methods
 	reverse_iterator();
 	explicit reverse_iterator(Iterator it);
 	template<typename U>
-		reverse_iterator(const reverse_iterator<U> &rev_it);
+		reverse_iterator(const reverse_iterator<U>& rev_it);
 
 	// operator overloads
 	template<typename U>
-		reverse_iterator	&operator=(const reverse_iterator<U> &rev_it);
+		reverse_iterator&	operator=(const reverse_iterator<U>& rev_it);
 	reference				operator*() const;
 	pointer					operator->() const;
-	reverse_iterator		&operator++();
+	reverse_iterator&		operator++();
 	reverse_iterator		operator++(int);
-	reverse_iterator		&operator--();
+	reverse_iterator&		operator--();
 	reverse_iterator		operator--(int);
 	reverse_iterator		operator+(difference_type n) const;
-	reverse_iterator		&operator+=(difference_type n);
+	reverse_iterator&		operator+=(difference_type n);
 	reverse_iterator		operator-(difference_type n) const;
-	reverse_iterator		&operator-=(difference_type n);
+	reverse_iterator&		operator-=(difference_type n);
 	reference				operator[](difference_type n) const;
 
 	// getter
@@ -148,13 +147,13 @@ reverse_iterator<Iterator>::reverse_iterator(Iterator it): current(it) {}
 
 template<typename Iterator>
 template<typename U>
-reverse_iterator<Iterator>::reverse_iterator(const reverse_iterator<U> &rev_it):
+reverse_iterator<Iterator>::reverse_iterator(const reverse_iterator<U>& rev_it):
 	current(rev_it.base()) {}
 
 template<typename Iterator>
 template<typename U>
 reverse_iterator<Iterator>&
-reverse_iterator<Iterator>::operator=(const reverse_iterator<U> &rev_it)
+reverse_iterator<Iterator>::operator=(const reverse_iterator<U>& rev_it)
 {
 	this->current = rev_it.base();
 	return *this;

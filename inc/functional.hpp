@@ -6,7 +6,7 @@
 /*   By: skienzle <skienzle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/05 17:45:42 by skienzle          #+#    #+#             */
-/*   Updated: 2022/02/05 17:53:54 by skienzle         ###   ########.fr       */
+/*   Updated: 2022/02/10 15:15:28 by skienzle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ struct binary_function
 template<typename T>
 struct less: binary_function<T,T,bool>
 {
-	bool operator()(const T &x, const T &y) const
+	bool operator()(const T& x, const T& y) const
 	{
 		return x < y;
 	}

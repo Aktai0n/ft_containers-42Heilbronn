@@ -6,7 +6,7 @@
 /*   By: skienzle <skienzle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 15:40:35 by skienzle          #+#    #+#             */
-/*   Updated: 2022/02/09 23:13:22 by skienzle         ###   ########.fr       */
+/*   Updated: 2022/02/10 23:02:27 by skienzle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,6 +123,7 @@ private: // methods
 	void _construct_at_front(const vector& other);
 	void _destroy_at_end(pointer new_end);
 	size_type _vsizecheck(size_type new_size) const;
+	pointer _iterator_to_pointer(const iterator& it) const;
 };
 
 
@@ -157,9 +158,8 @@ template<typename T, typename Alloc>
 vector<T,Alloc>::vector(const vector& other):
 	_capacity(0), _begin(), _end(), _allocator(other._allocator)
 {
-	size_type n = other.size();
 	this->_begin = this->_vallocate(other._capacity);
-	this->_end = this->_begin + n;
+	this->_end = this->_begin + other.size();
 	this->_construct_at_front(other);
 }
 
@@ -184,9 +184,10 @@ vector<T,Alloc>::operator=(const vector<T,Alloc>& other)
 		// 	this->_construct_at_front(other);
 		// }
 		this->_vdeallocate();
+		this->_capacity = 0;
 		this->_begin = this->_vallocate(other.capacity());
 		this->_end = this->begin + other.size();
-		this->assign(other.begin(), other.end());
+		this->_construct_at_front(other);
 	}
 	return *this;
 }
@@ -375,33 +376,30 @@ void
 vector<T,Alloc>::assign(InputIterator first, InputIterator last,
 						typename ft::enable_if<!ft::is_integral<InputIterator>::value>::type)
 {
+	if (first == last)
+		return;
 	size_type new_size = static_cast<size_type>(ft::distance(first, last));
 	if (new_size > this->_capacity)
 	{
 		this->_vreallocate(new_size);
-		for (; first != last; ++first)
-			this->push_back(*first);
+		this->_end = this->_begin;
 	}
 	else
-	{
-		// work to be done
-	}
+		this->clear();
+	for (; first != last; ++first)
+		this->push_back(*first);
 }
 
 template<typename T, typename Alloc>
 void
 vector<T,Alloc>::assign(size_type n, const value_type& val)
 {
-	if (n <= this->_capacity)
-	{
-		this->clear();
-		this->_construct_at_front(n, val);
-	}
-	else
-	{
+	if (n > this->_capacity)
 		this->_vreallocate(n);
-		this->_construct_at_front(n, val);
-	}
+	else
+		this->clear();
+	this->_construct_at_front(n, val);
+	this->_end = this->_begin + n;
 }
 
 template<typename T, typename Alloc>
@@ -425,18 +423,45 @@ template<typename T, typename Alloc>
 typename vector<T,Alloc>::iterator
 vector<T,Alloc>::insert(iterator position, const value_type& val)
 {
-	pointer pos = this->_begin + (position - this->begin());
-	
-	(void)val;
+	pointer pos = this->_iterator_to_pointer(position);
+	size_type index = static_cast<size_type>(ft::distance(this->_begin, pos));
+	if (pos == this->_end)
+		this->push_back(val);
+	else
+		this->insert(position, 1, val);
+	return iterator(this->_begin[index]);
 }
 
 template<typename T, typename Alloc>
 void
 vector<T,Alloc>::insert(iterator position, size_type n, const value_type& val)
 {
-	// room for optimisation
-	for (size_type i = 0; i < n; ++i)
-		this->insert(position + i, val);
+	if (n <= 0)
+		return;
+	pointer pos = this->_iterator_to_pointer(position);
+	size_type tot_size = this->size() + n;
+	if (tot_size >= this->_capacity)
+	{
+		pointer new_begin = this->_vallocate(tot_size);
+		size_type dist = pos - this->_begin;
+		size_type i, j;
+		for (i = 0; i < dist; ++i)
+			this->_allocator.construct(new_begin + i, this->_begin[i]);
+		for (j = 0; j < n; ++j)
+			this->_allocator.construct(new_begin + j + dist, val);
+		size_type vec_size = this->size();
+		for (; i < vec_size; ++i)
+			this->_allocator.construct(new_begin + i + dist + n, this->_begin[i]);
+		this->_vdeallocate();
+		this->_begin = new_begin;
+		this->_end = new_begin + i + j;
+	}
+	else
+	{
+		ft::copy(pos, this->_end, pos + n);
+		for (size_type i = 0; i < n; ++i)
+			pos[i] = val;
+	}
 }
 
 template<typename T, typename Alloc>
@@ -445,9 +470,33 @@ void
 vector<T,Alloc>::insert(iterator position, InputIterator first, InputIterator last,
 						typename ft::enable_if<!ft::is_integral<InputIterator>::value>::type)
 {
-	(void)position;
-	(void)first;
-	(void)last;
+	if (first == last)
+		return;
+	pointer pos = this->_iterator_to_pointer(position);
+	size_type n = static_cast<size_type>(ft::distance(first, last));
+	size_type tot_size = this->size() + n;
+	if (tot_size >= this->_capacity)
+	{
+		pointer new_begin = this->_vallocate(tot_size);
+		size_type dist = pos - this->_begin;
+		size_type i, j;
+		for (i = 0; i < dist; ++i)
+			this->_allocator.construct(new_begin + i, this->_begin[i]);
+		for (j = 0; first != last; ++j, ++first)
+			this->_allocator.construct(new_begin + j + dist, *first);
+		size_type vec_size = this->size();
+		for (; i < vec_size; ++i)
+			this->_allocator.construct(new_begin + i + dist + n, this->_begin[i]);
+		this->_vdeallocate();
+		this->_begin = new_begin;
+		this->_end = new_begin + i + j;
+	}
+	else
+	{
+		ft::copy_backward(this->_end, pos, this->_end + (n - 1));
+		for (size_type i = 0; first != last; ++first, ++i)
+			pos[i] = *first;
+	}
 }
 
 template<typename T, typename Alloc>
@@ -458,7 +507,7 @@ vector<T, Alloc>::erase(iterator position)
 		this->pop_back();
 	else
 	{
-		pointer pos = this->_begin + (position - this->begin());
+		pointer pos = this->_iterator_to_pointer(position);
 		this->_destroy_at_end(ft::copy(pos + 1, this->_end, pos));
 	}
 	return position;
@@ -468,7 +517,7 @@ template<typename T, typename Alloc>
 typename vector<T,Alloc>::iterator
 vector<T,Alloc>::erase(iterator first, iterator last)
 {
-	pointer pos = this->_begin + (first - this->begin());
+	pointer pos = this->_iterator_to_pointer(first);
 	if (first != last)
 		this->_destroy_at_end(ft::copy(pos + (last - first), this->_end, pos));
 	return iterator(pos);
@@ -515,7 +564,6 @@ vector<T,Alloc>::_vdeallocate()
 	this->_destroy_at_end(this->_begin);
 	this->_allocator.deallocate(this->_begin, this->_capacity);
 	this->_begin = this->_end = nullptr;
-	this->_capacity = 0;
 }
 
 template<typename T, typename Alloc>
@@ -571,6 +619,14 @@ vector<T,Alloc>::_vsizecheck(size_type new_size) const
 	temp_capacity *= 2;
 	return new_size > temp_capacity ? new_size : temp_capacity;
 }
+
+template<typename T, typename Alloc>
+typename vector<T,Alloc>::pointer
+vector<T,Alloc>::_iterator_to_pointer(const iterator& it) const
+{
+	return this->_begin + (it - this->begin());
+}
+
 
 // relational operator overloads
 
