@@ -6,7 +6,7 @@
 /*   By: skienzle <skienzle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 15:40:35 by skienzle          #+#    #+#             */
-/*   Updated: 2022/02/10 23:02:27 by skienzle         ###   ########.fr       */
+/*   Updated: 2022/02/10 23:15:59 by skienzle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -458,7 +458,7 @@ vector<T,Alloc>::insert(iterator position, size_type n, const value_type& val)
 	}
 	else
 	{
-		ft::copy(pos, this->_end, pos + n);
+		ft::copy_backward(this->_end, pos, this->_end + (n - 1));
 		for (size_type i = 0; i < n; ++i)
 			pos[i] = val;
 	}
@@ -678,9 +678,6 @@ swap(vector<T,Alloc>& x, vector<T,Alloc>& y)
 {
 	x.swap(y);
 }
-
-
-
 
 
 } // namespace ft

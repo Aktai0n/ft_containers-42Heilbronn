@@ -6,7 +6,7 @@
 /*   By: skienzle <skienzle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/20 20:29:10 by skienzle          #+#    #+#             */
-/*   Updated: 2022/02/05 20:31:57 by skienzle         ###   ########.fr       */
+/*   Updated: 2022/02/11 19:22:49 by skienzle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,6 @@ make_pair(T1 first, T2 second)
 {
 	return pair<T1,T2>(first, second);
 }
-
 
 
 

@@ -6,7 +6,7 @@
 /*   By: skienzle <skienzle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 15:40:18 by skienzle          #+#    #+#             */
-/*   Updated: 2022/02/08 22:38:30 by skienzle         ###   ########.fr       */
+/*   Updated: 2022/02/11 21:25:14 by skienzle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 #include "functional.hpp"
 #include "utility.hpp"
 #include "iterator.hpp"
+#include "RBtree.hpp"
 
 #ifndef nullptr
 #define nullptr NULL
@@ -43,8 +44,8 @@ public: // types
 	typedef typename allocator_type::size_type			size_type;
 	typedef typename allocator_type::difference_type	difference_type;
 	
-	typedef pointer iterator; // temporary
-	typedef const_pointer const_iterator; // temporary
+	typedef tree_iterator<value_type>					iterator;
+	typedef const_tree_iterator<value_type>				const_iterator;
 	typedef ft::reverse_iterator<iterator>				reverse_iterator;
 	typedef ft::reverse_iterator<const_iterator>		const_reverse_iterator;
 	
@@ -135,51 +136,43 @@ public: // methods
 
 	allocator_type	get_allocator() const;
 
+private: // types
+	typedef ft::RBtree<value_type,value_compare,allocator_type>	red_black_tree;
 
 private: // attributes
-
-
-	allocator_type _allocator;
+	red_black_tree _tree;
 };
 
 
 template<typename Key, typename T, typename Compare, typename Alloc>
-map<Key,T,Compare,Alloc>::map(const key_compare& comp, const allocator_type& alloc)
-{
-	(void)comp;
-	(void)alloc;
-}
+map<Key,T,Compare,Alloc>::map(const key_compare& comp, const allocator_type& alloc):
+	_tree(value_compare(comp), alloc) {}
 
 template<typename Key, typename T, typename Compare, typename Alloc>
 template<typename InputIterator>
 map<Key,T,Compare,Alloc>::map(InputIterator first, InputIterator last,
-								const key_compare& comp, const allocator_type& alloc)
+								const key_compare& comp, const allocator_type& alloc):
+	_tree(value_compare(comp), alloc)
 {
-	(void)first;
-	(void)last;
-	(void)comp;
-	(void)alloc;
+	this->insert(first, last);
 }
 
 template<typename Key, typename T, typename Compare, typename Alloc>
-map<Key,T,Compare,Alloc>::map(const map& other)
-{
-	(void)other;
-}
+map<Key,T,Compare,Alloc>::map(const map& other): _tree(other._tree) {}
+
 
 
 template<typename Key, typename T, typename Compare, typename Alloc>
-map<Key,T,Compare,Alloc>::~map()
-{
-	
-}
+map<Key,T,Compare,Alloc>::~map() {}
 
 
 template<typename Key, typename T, typename Compare, typename Alloc>
 map<Key,T,Compare,Alloc>&
 map<Key,T,Compare,Alloc>::operator=(const map& other)
 {
-	(void)other;
+	if (this != &other)
+		this->_tree = other._tree;
+	return *this;
 }
 
 template<typename Key, typename T, typename Compare, typename Alloc>
@@ -251,7 +244,7 @@ template<typename Key, typename T, typename Compare, typename Alloc>
 bool
 map<Key,T,Compare,Alloc>::empty() const
 {
-	
+	return this->_tree.empty();
 }
 
 template<typename Key, typename T, typename Compare, typename Alloc>
@@ -320,14 +313,14 @@ template<typename Key, typename T, typename Compare, typename Alloc>
 void
 map<Key,T,Compare,Alloc>::swap(map& other)
 {
-	(void)other;
+	ft::swap(this->_tree, other._tree);
 }
 
 template<typename Key, typename T, typename Compare, typename Alloc>
 void
 map<Key,T,Compare,Alloc>::clear()
 {
-	
+	this->_tree.clear();
 }
 
 

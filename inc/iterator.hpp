@@ -6,7 +6,7 @@
 /*   By: skienzle <skienzle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/08 09:38:58 by skienzle          #+#    #+#             */
-/*   Updated: 2022/02/10 15:00:29 by skienzle         ###   ########.fr       */
+/*   Updated: 2022/02/11 21:34:51 by skienzle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -575,5 +575,38 @@ operator>=(const linear_iterator<Iterator1>& lhs, const linear_iterator<Iterator
 {
 	return lhs.base() >= rhs.base();
 }
+
+
+template<typename Iterator>
+class tree_iterator
+{
+public: // types
+	typedef Iterator													iterator_type;
+	typedef bidirectional_iterator_tag									iterator_category;
+	typedef typename iterator_traits<iterator_type>::value_type			value_type;
+	typedef typename iterator_traits<iterator_type>::difference_type	difference_type;
+	typedef typename iterator_traits<iterator_type>::pointer			pointer;
+	typedef typename iterator_traits<iterator_type>::reference			reference;
+
+	// coming soon
+};
+
+template<typename Iterator>
+class const_tree_iterator
+{
+public: // types
+	typedef Iterator													iterator_type;
+	typedef bidirectional_iterator_tag									iterator_category;
+	typedef const typename iterator_traits<iterator_type>::value_type	value_type;
+	typedef typename iterator_traits<iterator_type>::difference_type	difference_type;
+	typedef const typename iterator_traits<iterator_type>::pointer		pointer;
+	typedef const typename iterator_traits<iterator_type>::reference	reference;
+
+	// coming soon
+};
+
+
+
+
 
 } // namespace ft

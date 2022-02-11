@@ -6,7 +6,7 @@
 /*   By: skienzle <skienzle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 19:31:04 by skienzle          #+#    #+#             */
-/*   Updated: 2022/02/10 23:05:24 by skienzle         ###   ########.fr       */
+/*   Updated: 2022/02/11 19:25:08 by skienzle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,6 +116,19 @@ swap(T& first, T& second)
 	second = temp;
 }
 
+template<typename T>
+const T&
+max(const T& first, const T& second)
+{
+	return first < second ? first : second;
+}
+
+template<typename T>
+const T&
+min(const T& first, const T& second)
+{
+	return !(first < second) ? first : second;
+}
 
 
 } // namespace ft

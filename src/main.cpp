@@ -6,7 +6,7 @@
 /*   By: skienzle <skienzle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 15:46:55 by skienzle          #+#    #+#             */
-/*   Updated: 2022/02/10 15:46:21 by skienzle         ###   ########.fr       */
+/*   Updated: 2022/02/11 17:22:32 by skienzle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,16 @@
 
 #define PRINT(__msg) (std::cout << __msg << std::endl)
 
+template<typename T>
+class my_allocator: public std::allocator<T>
+{};
 
 int main()
 {
 	const std::vector<int> test;
 	ft::vector<int> ft_test(5, 10);
 	const ft::vector<int> referencer(5);
+	ft::vector<float, my_allocator<float> > my_test;
 
 	PRINT(referencer.size());
 	PRINT(referencer.capacity());
