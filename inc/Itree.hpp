@@ -6,7 +6,7 @@
 /*   By: skienzle <skienzle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/11 14:34:38 by skienzle          #+#    #+#             */
-/*   Updated: 2022/02/11 21:26:39 by skienzle         ###   ########.fr       */
+/*   Updated: 2022/02/15 21:31:08 by skienzle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,13 @@ public: // types
 	typedef Compare				value_compare;
 	typedef Alloc				allocator_type;
 
-public: // methods
-	virtual void traverse() = 0;
-	virtual bool empty() = 0;
-	virtual void insert(const value_type& data) = 0;
-	virtual void erase(const value_type& data) = 0;
-	virtual void clear() = 0;
-	virtual ~Itree() {};
+// public: // methods
+// 	virtual void traverse() = 0;
+// 	virtual bool empty() const = 0;
+// 	virtual void insert(const value_type& data) = 0;
+// 	virtual void erase(const value_type& data) = 0;
+// 	virtual void clear() = 0;
+// 	virtual ~Itree() {};
 };
 
 } // namespace ft

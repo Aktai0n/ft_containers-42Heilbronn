@@ -6,7 +6,7 @@
 /*   By: skienzle <skienzle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 15:40:18 by skienzle          #+#    #+#             */
-/*   Updated: 2022/02/11 21:25:14 by skienzle         ###   ########.fr       */
+/*   Updated: 2022/02/15 23:09:40 by skienzle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,13 +43,7 @@ public: // types
 	typedef typename allocator_type::const_pointer		const_pointer;
 	typedef typename allocator_type::size_type			size_type;
 	typedef typename allocator_type::difference_type	difference_type;
-	
-	typedef tree_iterator<value_type>					iterator;
-	typedef const_tree_iterator<value_type>				const_iterator;
-	typedef ft::reverse_iterator<iterator>				reverse_iterator;
-	typedef ft::reverse_iterator<const_iterator>		const_reverse_iterator;
-	
-	
+
 public: // subclass
 	class value_compare: public ft::binary_function<value_type, value_type, bool>
 	{
@@ -67,6 +61,16 @@ public: // subclass
 		key_compare comp;
 	};
 
+private: // types
+	typedef ft::RBtree<value_type,value_compare,allocator_type>	tree_type;
+
+public: // iterator types
+	typedef typename tree_type::iterator				iterator;
+	typedef typename tree_type::const_iterator			const_iterator;
+	typedef ft::reverse_iterator<iterator>				reverse_iterator;
+	typedef ft::reverse_iterator<const_iterator>		const_reverse_iterator;
+	
+	
 public: // methods
 	// constructors
 
@@ -136,11 +140,8 @@ public: // methods
 
 	allocator_type	get_allocator() const;
 
-private: // types
-	typedef ft::RBtree<value_type,value_compare,allocator_type>	red_black_tree;
-
 private: // attributes
-	red_black_tree _tree;
+	tree_type _tree;
 };
 
 
@@ -179,7 +180,8 @@ template<typename Key, typename T, typename Compare, typename Alloc>
 typename map<Key,T,Compare,Alloc>::mapped_type&
 map<Key,T,Compare,Alloc>::operator[](const key_type& key)
 {
-	(void)key;
+	iterator pos(this->insert(ft::make_pair(key, mapped_type())).first);
+	return (*pos).second;
 }
 
 
@@ -187,56 +189,56 @@ template<typename Key, typename T, typename Compare, typename Alloc>
 typename map<Key,T,Compare,Alloc>::iterator
 map<Key,T,Compare,Alloc>::begin()
 {
-	
+	return this->_tree.begin();
 }
 
 template<typename Key, typename T, typename Compare, typename Alloc>
 typename map<Key,T,Compare,Alloc>::const_iterator
 map<Key,T,Compare,Alloc>::begin() const
 {
-	
+	return this->_tree.begin();
 }
 
 template<typename Key, typename T, typename Compare, typename Alloc>
 typename map<Key,T,Compare,Alloc>::iterator
 map<Key,T,Compare,Alloc>::end()
 {
-	
+	return this->_tree.end();
 }
 
 template<typename Key, typename T, typename Compare, typename Alloc>
 typename map<Key,T,Compare,Alloc>::const_iterator
 map<Key,T,Compare,Alloc>::end() const
 {
-	
+	return this->_tree.end();
 }
 
 template<typename Key, typename T, typename Compare, typename Alloc>
 typename map<Key,T,Compare,Alloc>::reverse_iterator
 map<Key,T,Compare,Alloc>::rbegin()
 {
-	return reverse_iterator(this->end());
+	return this->_tree.rbegin();
 }
 
 template<typename Key, typename T, typename Compare, typename Alloc>
 typename map<Key,T,Compare,Alloc>::const_reverse_iterator
 map<Key,T,Compare,Alloc>::rbegin() const
 {
-	return const_reverse_iterator(this->end());
+	return this->_tree.rbegin();
 }
 
 template<typename Key, typename T, typename Compare, typename Alloc>
 typename map<Key,T,Compare,Alloc>::reverse_iterator
 map<Key,T,Compare,Alloc>::rend()
 {
-	return reverse_iterator(this->begin());
+	return this->_tree.rend();
 }
 
 template<typename Key, typename T, typename Compare, typename Alloc>
 typename map<Key,T,Compare,Alloc>::const_reverse_iterator
 map<Key,T,Compare,Alloc>::rend() const
 {
-	return const_reverse_iterator(this->begin());
+	return this->_tree.rend();
 }
 
 
@@ -251,7 +253,7 @@ template<typename Key, typename T, typename Compare, typename Alloc>
 typename map<Key,T,Compare,Alloc>::size_type
 map<Key,T,Compare,Alloc>::size() const
 {
-	
+	return this->_tree.size();
 }
 
 
@@ -259,7 +261,7 @@ template<typename Key, typename T, typename Compare, typename Alloc>
 typename map<Key,T,Compare,Alloc>::size_type
 map<Key,T,Compare,Alloc>::max_size() const
 {
-	
+	this->_tree.max_size();
 }
 
 
@@ -267,15 +269,15 @@ template<typename Key, typename T, typename Compare, typename Alloc>
 ft::pair<typename map<Key,T,Compare,Alloc>::iterator,bool>
 map<Key,T,Compare,Alloc>::insert(const value_type& val)
 {
-	(void)val;
+	this->_tree.insert(val);
+	return ft::make_pair(iterator(), true);
 }
 
 template<typename Key, typename T, typename Compare, typename Alloc>
 typename map<Key,T,Compare,Alloc>::iterator
 map<Key,T,Compare,Alloc>::insert(iterator position, const value_type& val)
 {
-	(void)position;
-	(void)val;
+	return this->_tree.insert(position, val);
 }
 
 template<typename Key, typename T, typename Compare, typename Alloc>
@@ -283,30 +285,28 @@ template<typename InputIterator>
 void
 map<Key,T,Compare,Alloc>::insert(InputIterator first, InputIterator last)
 {
-	(void)first;
-	(void)last;
+	this->_tree.insert(first, last);
 }
 
 template<typename Key, typename T, typename Compare, typename Alloc>
 void
 map<Key,T,Compare,Alloc>::erase(iterator position)
 {
-	(void)position;
+	this->_tree.erase(position);
 }
 
 template<typename Key, typename T, typename Compare, typename Alloc>
 typename map<Key,T,Compare,Alloc>::size_type
 map<Key,T,Compare,Alloc>::erase(const key_type& key)
 {
-	(void)key;
+	return this->_tree.erase(ft::make_pair(key, mapped_type()));
 }
 
 template<typename Key, typename T, typename Compare, typename Alloc>
 void
 map<Key,T,Compare,Alloc>::erase(iterator first, iterator last)
 {
-	(void)first;
-	(void)last;
+	this->_tree.erase(first, last);
 }
 
 template<typename Key, typename T, typename Compare, typename Alloc>
@@ -328,14 +328,14 @@ template<typename Key, typename T, typename Compare, typename Alloc>
 typename map<Key,T,Compare,Alloc>::key_compare
 map<Key,T,Compare,Alloc>::key_comp() const
 {
-	
+	return key_compare();
 }
 
 template<typename Key, typename T, typename Compare, typename Alloc>
 typename map<Key,T,Compare,Alloc>::value_compare
 map<Key,T,Compare,Alloc>::value_comp() const
 {
-	
+	return this->_tree.value_comp();
 }
 
 
@@ -343,21 +343,21 @@ template<typename Key, typename T, typename Compare, typename Alloc>
 typename map<Key,T,Compare,Alloc>::iterator
 map<Key,T,Compare,Alloc>::find(const key_type& key)
 {
-	(void)key;
+	return this->_tree.find(ft::make_pair(key, mapped_type()));
 }
 
 template<typename Key, typename T, typename Compare, typename Alloc>
 typename map<Key,T,Compare,Alloc>::const_iterator
 map<Key,T,Compare,Alloc>::find(const key_type& key) const
 {
-	(void)key;
+	return this->_tree.find(ft::make_pair(key, mapped_type()));
 }
 
 template<typename Key, typename T, typename Compare, typename Alloc>
 typename map<Key,T,Compare,Alloc>::size_type
 map<Key,T,Compare,Alloc>::count(const key_type& key) const
 {
-	(void)key;
+	return this->_tree.count(ft::make_pair(key, mapped_type()));
 }
 
 
@@ -365,28 +365,28 @@ template<typename Key, typename T, typename Compare, typename Alloc>
 typename map<Key,T,Compare,Alloc>::iterator
 map<Key,T,Compare,Alloc>::lower_bound(const key_type& key)
 {
-	(void)key;
+	return this->_tree.lower_bound(ft::make_pair(key, mapped_type()));
 }
 
 template<typename Key, typename T, typename Compare, typename Alloc>
 typename map<Key,T,Compare,Alloc>::const_iterator
 map<Key,T,Compare,Alloc>::lower_bound(const key_type& key) const
 {
-	(void)key;
+	return this->_tree.lower_bound(ft::make_pair(key, mapped_type()));
 }
 
 template<typename Key, typename T, typename Compare, typename Alloc>
 typename map<Key,T,Compare,Alloc>::iterator
 map<Key,T,Compare,Alloc>::upper_bound(const key_type& key)
 {
-	(void)key;
+	return this->_tree.upper_bound(ft::make_pair(key, mapped_type()));
 }
 
 template<typename Key, typename T, typename Compare, typename Alloc>
 typename map<Key,T,Compare,Alloc>::const_iterator
 map<Key,T,Compare,Alloc>::upper_bound(const key_type& key) const
 {
-	(void)key;
+	return this->_tree.upper_bound(ft::make_pair(key, mapped_type()));
 }
 
 template<typename Key, typename T, typename Compare, typename Alloc>
@@ -394,7 +394,7 @@ ft::pair<typename map<Key,T,Compare,Alloc>::iterator,
 		typename map<Key,T,Compare,Alloc>::iterator>
 map<Key,T,Compare,Alloc>::equal_range(const key_type& key)
 {
-	(void)key;
+	return this->_tree.equal_range(ft::make_pair(key, mapped_type()));
 }
 
 template<typename Key, typename T, typename Compare, typename Alloc>
@@ -402,7 +402,7 @@ ft::pair<typename map<Key,T,Compare,Alloc>::const_iterator,
 		typename map<Key,T,Compare,Alloc>::const_iterator>
 map<Key,T,Compare,Alloc>::equal_range(const key_type& key) const
 {
-	(void)key;
+	return this->_tree.equal_range(ft::make_pair(key, mapped_type()));
 }
 
 
@@ -410,7 +410,7 @@ template<typename Key, typename T, typename Compare, typename Alloc>
 typename map<Key,T,Compare,Alloc>::allocator_type
 map<Key,T,Compare,Alloc>::get_allocator() const
 {
-	return this->_allocator;
+	return this->_tree.get_allocator();
 }
 
 // relational operator overloads
@@ -466,9 +466,9 @@ operator>=(const map<Key,T,Compare,Alloc>& lhs,
 
 template<typename Key, typename T, typename Compare, typename Alloc>
 void
-swap(map<Key,T,Compare,Alloc>& x, map<Key,T,Compare,Alloc>& y)
+swap(map<Key,T,Compare,Alloc>& lhs, map<Key,T,Compare,Alloc>& rhs)
 {
-	x.swap(y);
+	lhs.swap(rhs);
 }
 
 } // namespace ft

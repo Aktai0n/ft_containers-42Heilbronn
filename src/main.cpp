@@ -6,7 +6,7 @@
 /*   By: skienzle <skienzle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 15:46:55 by skienzle          #+#    #+#             */
-/*   Updated: 2022/02/11 17:22:32 by skienzle         ###   ########.fr       */
+/*   Updated: 2022/02/15 22:01:57 by skienzle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,41 +15,82 @@
 #include <map>
 
 
+#include <iostream>
+#include <string>
+
 #include "../inc/vector.hpp"
 #include "../inc/stack.hpp"
 #include "../inc/map.hpp"
 
-#include <iostream>
-
 #define PRINT(__msg) (std::cout << __msg << std::endl)
 
-template<typename T>
-class my_allocator: public std::allocator<T>
-{};
+template<typename T1, typename T2>
+std::ostream& operator<<(std::ostream& lhs, const std::pair<T1,T2>& rhs)
+{
+	lhs << "First: " << rhs.first << " Second: " << rhs.second;
+	return lhs;
+}
+
+
+template<typename Container>
+void
+print_container(Container c)
+{
+	for (typename Container::iterator it = c.begin(); it != c.end(); ++it)
+	{
+		PRINT(*it);
+
+		
+	}
+}
+
+
+void map_benchmark()
+{
+	ft::map<std::string,int> ft_test_map;
+	ft_test_map.insert(ft::make_pair("alf", 10));
+	ft_test_map.insert(ft::make_pair("robin", 45));
+	// ft_test_map.erase("alf");
+	ft_test_map.insert(ft::make_pair("robin", 100));
+	// ft_test_map.erase("robin");
+	for (int i = 0; i < 10; ++i)
+	{
+		std::string temp("name");
+		temp.push_back(i + '0');
+		ft_test_map.insert(ft::make_pair(temp, i));
+	}
+		for (int i = 0; i < 10; ++i)
+	{
+		std::string temp("name");
+		temp.push_back(i + '0');
+		ft_test_map.erase(temp);
+	}
+}
+
 
 int main()
 {
-	const std::vector<int> test;
-	ft::vector<int> ft_test(5, 10);
-	const ft::vector<int> referencer(5);
-	ft::vector<float, my_allocator<float> > my_test;
+	// const std::vector<int> test;
+	// ft::vector<int> ft_test(5, 10);
+	// const ft::vector<int> referencer(5);
+	map_benchmark();
 
-	PRINT(referencer.size());
-	PRINT(referencer.capacity());
-	PRINT(referencer.max_size());
-	std::vector<int>::const_reverse_iterator rit = test.rbegin();
-	(void)rit;
-	ft::vector<int>::reverse_iterator it = ft_test.rbegin();
-	for (; it != ft_test.rend(); ++it)
-		PRINT(*it);
-	try
-	{
-		referencer.at(5);
-	}
-	catch(const std::exception& e)
-	{
-		std::cerr << e.what() << '\n';
-	}
+	// PRINT(referencer.size());
+	// PRINT(referencer.capacity());
+	// PRINT(referencer.max_size());
+	// std::vector<int>::const_reverse_iterator rit = test.rbegin();
+	// (void)rit;
+	// ft::vector<int>::reverse_iterator it = ft_test.rbegin();
+	// for (; it != ft_test.rend(); ++it)
+	// 	PRINT(*it);
+	// try
+	// {
+	// 	referencer.at(5);
+	// }
+	// catch(const std::exception& e)
+	// {
+	// 	std::cerr << e.what() << '\n';
+	// }
 	// ft::vector<int>::reverse_iterator rit = referencer.rbegin();
 	// for (; rit != referencer.rend(); ++rit);
 	// test.size_type;
@@ -58,10 +99,9 @@ int main()
 	// test.value_type testing;
 	// test.allocator_type tester;
 	// referencer.size_type hello_world2;
-	std::map<int, int> test_map;
-	std::map<int, int> test_map2;
-	test_map.insert(std::make_pair(5, 2));
-	test_map2.insert(std::make_pair(5, 2));
-	if (test_map != test_map2)
-		;
+	// std::map<int, int> test_map;
+	// std::map<int, int> test_map2;
+	// test_map.insert(std::make_pair(5, 2));
+	// test_map.insert(std::make_pair(5, 10));
+	// print_container(test_map);
 }
