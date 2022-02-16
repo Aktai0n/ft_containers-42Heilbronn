@@ -6,7 +6,7 @@
 /*   By: skienzle <skienzle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 15:46:55 by skienzle          #+#    #+#             */
-/*   Updated: 2022/02/15 22:01:57 by skienzle         ###   ########.fr       */
+/*   Updated: 2022/02/16 22:59:23 by skienzle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,9 @@
 
 #define PRINT(__msg) (std::cout << __msg << std::endl)
 
+
 template<typename T1, typename T2>
-std::ostream& operator<<(std::ostream& lhs, const std::pair<T1,T2>& rhs)
+std::ostream& operator<<(std::ostream& lhs, const ft::pair<T1,T2>& rhs)
 {
 	lhs << "First: " << rhs.first << " Second: " << rhs.second;
 	return lhs;
@@ -36,35 +37,38 @@ template<typename Container>
 void
 print_container(Container c)
 {
-	for (typename Container::iterator it = c.begin(); it != c.end(); ++it)
+	typename Container::iterator ite = c.end();
+	for (typename Container::iterator it = c.begin(); it != ite; ++it)
 	{
 		PRINT(*it);
 
-		
 	}
 }
 
 
 void map_benchmark()
 {
-	ft::map<std::string,int> ft_test_map;
-	ft_test_map.insert(ft::make_pair("alf", 10));
-	ft_test_map.insert(ft::make_pair("robin", 45));
+	using namespace ft;
+	map<std::string,int> ft_test_map;
+	ft_test_map.insert(make_pair("zalf", 10));
+	ft_test_map.insert(make_pair("robin", 45));
 	// ft_test_map.erase("alf");
-	ft_test_map.insert(ft::make_pair("robin", 100));
+	ft_test_map.insert(make_pair("robin", 100));
 	// ft_test_map.erase("robin");
 	for (int i = 0; i < 10; ++i)
 	{
 		std::string temp("name");
-		temp.push_back(i + '0');
+		temp.push_back(i * 2 + '0');
 		ft_test_map.insert(ft::make_pair(temp, i));
 	}
-		for (int i = 0; i < 10; ++i)
-	{
-		std::string temp("name");
-		temp.push_back(i + '0');
-		ft_test_map.erase(temp);
-	}
+	ft_test_map.insert(make_pair("name5", 500));
+	// 	for (int i = 0; i < 10; ++i)
+	// {
+	// 	std::string temp("name");
+	// 	temp.push_back(i + '0');
+	// 	ft_test_map.erase(temp);
+	// }
+	print_container(ft_test_map);
 }
 
 
