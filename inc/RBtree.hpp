@@ -6,7 +6,7 @@
 /*   By: skienzle <skienzle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/11 16:06:31 by skienzle          #+#    #+#             */
-/*   Updated: 2022/02/16 22:56:38 by skienzle         ###   ########.fr       */
+/*   Updated: 2022/02/17 22:48:22 by skienzle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ struct RBtree_node
 };
 
 template<typename T>
-RBtree_node<T>::RBtree_node(): _color(red), _data(), _parent(), _left(), _right() {}
+RBtree_node<T>::RBtree_node(): _color(black), _data(), _parent(), _left(), _right() {}
 
 template<typename T>
 RBtree_node<T>::RBtree_node(const RBtree_node& other):
@@ -164,6 +164,7 @@ public: // methods
 	tree_iterator(const Node_ptr& val);
 	// operator overloads
 	tree_iterator&	operator=(const tree_iterator& other);
+	tree_iterator&	operator=(const Node_ptr& ptr);
 	reference		operator*() const;
 	pointer			operator->() const;
 	tree_iterator&	operator++();
@@ -186,10 +187,7 @@ tree_iterator<Node_ptr,Value>::tree_iterator(const tree_iterator& other):
 
 template<typename Node_ptr, typename Value>
 tree_iterator<Node_ptr,Value>::tree_iterator(const Node_ptr& val):
-	_current_node(val) {
-		std::cout << "tree_iterator_constructor:\n";
-		val->print_node();
-	}
+	_current_node(val) {}
 
 template<typename Node_ptr, typename Value>
 tree_iterator<Node_ptr,Value>&
@@ -197,6 +195,14 @@ tree_iterator<Node_ptr,Value>::operator=(const tree_iterator& other)
 {
 	if (this != &other)
 		this->_current_node = other._current_node;
+	return *this;
+}
+
+template<typename Node_ptr, typename Value>
+tree_iterator<Node_ptr,Value>&
+tree_iterator<Node_ptr,Value>::operator=(const Node_ptr& ptr)
+{
+	this->_current_node = ptr;
 	return *this;
 }
 
@@ -219,7 +225,6 @@ template<typename Node_ptr, typename Value>
 tree_iterator<Node_ptr,Value>&
 tree_iterator<Node_ptr,Value>::operator++()
 {
-		_current_node->print_node();
 	if (_current_node->_right != nullptr)
 		_current_node = tree_min<value_type>(_current_node->_right);
 	else
@@ -293,7 +298,175 @@ operator!=(const tree_iterator<Node_ptr,Value>& rhs,
 	return rhs.base() != lhs.base();
 }
 
+// const_tree_iterator
 
+template<typename Const_node_ptr, typename Value>
+class const_tree_iterator
+{
+public: // types
+	typedef bidirectional_iterator_tag		iterator_category;
+	typedef Value							value_type;
+	typedef ptrdiff_t						difference_type;
+	typedef const Value*					pointer;
+	typedef const Value&					reference;
+
+private: // types
+	typedef tree_iterator<RBtree_node<Value>,Value>	normal_tree_iterator;
+public: // methods
+	// constructors
+	const_tree_iterator();
+	const_tree_iterator(const const_tree_iterator& other);
+	const_tree_iterator(const normal_tree_iterator& other);
+	const_tree_iterator(const Const_node_ptr& val);
+	// operator overloads
+	const_tree_iterator&	operator=(const const_tree_iterator& other);
+	const_tree_iterator&	operator=(const normal_tree_iterator& other);
+	const_tree_iterator&	operator=(const Const_node_ptr& ptr);
+	reference		operator*() const;
+	pointer			operator->() const;
+	const_tree_iterator&	operator++();
+	const_tree_iterator	operator++(int);
+	const_tree_iterator&	operator--();
+	const_tree_iterator	operator--(int);
+
+	Const_node_ptr	base() const;
+
+private: // attributes
+	Const_node_ptr _current_node;
+};
+
+template<typename Const_node_ptr, typename Value>
+const_tree_iterator<Const_node_ptr,Value>::const_tree_iterator(): _current_node() {}
+
+template<typename Const_node_ptr, typename Value>
+const_tree_iterator<Const_node_ptr,Value>::const_tree_iterator(const const_tree_iterator& other):
+	_current_node(other._current_node) {}
+
+template<typename Const_node_ptr, typename Value>
+const_tree_iterator<Const_node_ptr,Value>::const_tree_iterator(const normal_tree_iterator& other):
+	_current_node(other._current_node) {}
+
+template<typename Const_node_ptr, typename Value>
+const_tree_iterator<Const_node_ptr,Value>::const_tree_iterator(const Const_node_ptr& val):
+	_current_node(val) {}
+
+template<typename Const_node_ptr, typename Value>
+const_tree_iterator<Const_node_ptr,Value>&
+const_tree_iterator<Const_node_ptr,Value>::operator=(const const_tree_iterator& other)
+{
+	if (this != &other)
+		this->_current_node = other._current_node;
+	return *this;
+}
+
+template<typename Const_node_ptr, typename Value>
+const_tree_iterator<Const_node_ptr,Value>&
+const_tree_iterator<Const_node_ptr,Value>::operator=(const normal_tree_iterator& other)
+{
+	this->_current_node = other._current_node;
+	return *this;
+}
+
+template<typename Const_node_ptr, typename Value>
+const_tree_iterator<Const_node_ptr,Value>&
+const_tree_iterator<Const_node_ptr,Value>::operator=(const Const_node_ptr& ptr)
+{
+	this->_current_node = ptr;
+	return *this;
+}
+
+template<typename Const_node_ptr, typename Value>
+typename const_tree_iterator<Const_node_ptr,Value>::reference
+const_tree_iterator<Const_node_ptr,Value>::operator*() const
+{
+	return _current_node->_data;
+}
+
+template<typename Const_node_ptr, typename Value>
+typename const_tree_iterator<Const_node_ptr,Value>::pointer
+const_tree_iterator<Const_node_ptr,Value>::operator->() const
+{
+	return &_current_node->_data;
+}
+
+template<typename Const_node_ptr, typename Value>
+const_tree_iterator<Const_node_ptr,Value>&
+const_tree_iterator<Const_node_ptr,Value>::operator++()
+{
+	if (_current_node->_right != nullptr)
+		_current_node = tree_min<value_type>(_current_node->_right);
+	else
+	{
+		while (!tree_is_left_child<value_type>(_current_node))
+		{
+			_current_node = _current_node->_parent;
+		}
+		_current_node = _current_node->_parent;
+	}
+	return *this;
+}
+
+template<typename Const_node_ptr, typename Value>
+const_tree_iterator<Const_node_ptr,Value>
+const_tree_iterator<Const_node_ptr,Value>::operator++(int)
+{
+	const_tree_iterator ret(*this);
+	++(*this);
+	return ret;
+}
+
+template<typename Const_node_ptr, typename Value>
+const_tree_iterator<Const_node_ptr,Value>&
+const_tree_iterator<Const_node_ptr,Value>::operator--()
+{
+	if (_current_node->_left != nullptr)
+		_current_node = tree_max<value_type>(_current_node->_left);
+	else
+	{
+		while (tree_is_left_child<value_type>(_current_node))
+			_current_node = _current_node->_parent;
+		_current_node = _current_node->_parent;
+	}
+	return *this;
+}
+
+template<typename Const_node_ptr, typename Value>
+const_tree_iterator<Const_node_ptr,Value>
+const_tree_iterator<Const_node_ptr,Value>::operator--(int)
+{
+	const_tree_iterator ret(*this);
+	--(*this);
+	return ret;
+}
+
+template<typename Const_node_ptr, typename Value>
+Const_node_ptr
+const_tree_iterator<Const_node_ptr,Value>::base() const
+{
+	return _current_node;
+}
+
+
+// relational operator overloads for const_tree_iterator
+
+template<typename Const_node_ptr, typename Value>
+inline bool
+operator==(const const_tree_iterator<Const_node_ptr,Value>& rhs,
+			const const_tree_iterator<Const_node_ptr,Value>& lhs)
+{
+	return rhs.base() == lhs.base();
+}
+
+template<typename Const_node_ptr, typename Value>
+inline bool
+operator!=(const const_tree_iterator<Const_node_ptr,Value>& rhs,
+			const const_tree_iterator<Const_node_ptr,Value>& lhs)
+{
+	return rhs.base() != lhs.base();
+}
+
+
+// RBtree
 
 template<typename T, typename Compare, typename Alloc>
 class RBtree: public Itree<T,Compare,Alloc>
@@ -314,7 +487,7 @@ public: // types
 	typedef typename RBtree_node<T>::const_node_ptr										const_node_ptr;
 
 	typedef ft::tree_iterator<node_ptr,value_type>										iterator;
-	typedef ft::const_tree_iterator<const_node_ptr, value_type>							const_iterator;
+	typedef ft::const_tree_iterator<const_node_ptr,value_type>							const_iterator;
 	typedef ft::reverse_iterator<iterator>												reverse_iterator;
 	typedef ft::reverse_iterator<const_iterator>										const_reverse_iterator;
 	
@@ -353,15 +526,16 @@ public: // methods
 
 	// modifiers
 
-	void insert(const value_type& val); // dummy
-	// ft::pair<iterator,bool>		insert(const value_type& val);
-	iterator			insert(iterator position, const value_type& val);
+	// void insert(const value_type& val); // dummy
+	ft::pair<iterator,bool>		insert(const value_type& val);
+	iterator					insert(iterator position, const value_type& val);
 	template<typename InputIterator>
-		void			insert(InputIterator first, InputIterator last);
-	void				erase(iterator position);
-	size_type			erase(const value_type& val);
-	void				erase(iterator first, iterator last);
-	void				clear();
+		void					insert(InputIterator first, InputIterator last);
+	void						erase(iterator position);
+	size_type					erase(const value_type& val);
+	void						erase(iterator first, iterator last);
+	void						swap(RBtree& other);
+	void						clear();
 
 
 	// observers
@@ -386,16 +560,20 @@ public: // methods
 
 	
 private: // methods
-	const_node_ptr& _root() const;
+	const_node_ptr&	_root() const;
 	node_ptr&		_root();
-	node_ptr _construct_node(const value_type& data);
-	void _destroy_node(node_ptr node);
-	node_ptr _insert(node_ptr node, node_ptr new_node, bool& inserted);
-	node_ptr _erase(node_ptr node, const value_type& val, bool& deleted);
-	node_ptr _copy(node_ptr node);
-	void _destroy(node_ptr node);
-	bool _equals(const value_type& first, const value_type& second) const;
-	const_iterator _find(node_ptr node, const value_type& val) const;
+	const_node_ptr	_end_node() const;
+	node_ptr		_end_node();
+	node_ptr		_construct_node(const value_type& data);
+	void			_destroy_node(node_ptr node);
+	node_ptr		_insert(node_ptr node, node_ptr new_node, bool& inserted, iterator& pos);
+	void			_rebalance_after_insertion(node_ptr node);
+	void			_rotate_right(node_ptr node);
+	void			_rotate_left(node_ptr node);
+	node_ptr		_erase(node_ptr node, const value_type& val, bool& deleted);
+	node_ptr		_copy(node_ptr node);
+	void			_destroy(node_ptr node);
+	bool			_equals(const value_type& first, const value_type& second) const;
 	void print_tree(const node_ptr node) const
 	{
 		if (node == nullptr)
@@ -406,7 +584,7 @@ private: // methods
 	}
 private: // attributes
 	size_type			_size;
-	node_type			_parent; // note: _parent->_left is the root
+	node_type			_parent; // _parent->_left is the root
 	node_ptr			_begin_node;
 	value_compare		_comp;
 	allocator_type		_allocator;
@@ -415,15 +593,19 @@ private: // attributes
 
 template<typename T, typename Compare, typename Alloc>
 RBtree<T,Compare,Alloc>::RBtree(const value_compare& comp, const allocator_type& alloc):
-	 _size(), _parent(), _begin_node(&_parent), _comp(comp),
+	_size(), _parent(), _begin_node(&_parent), _comp(comp),
 	_allocator(alloc), _node_allocator(alloc) {}
 
 template<typename T, typename Compare, typename Alloc>
-RBtree<T,Compare,Alloc>::RBtree(const RBtree& other): 
+RBtree<T,Compare,Alloc>::RBtree(const RBtree& other):
 	_size(), _parent(), _begin_node(&_parent), _comp(other._comp),
 	_allocator(other._allocator), _node_allocator(other._node_allocator)
 {
-	this->_root() = this->_copy(other._parent._left);
+	if (other._root() != nullptr)
+	{
+		this->_root() = this->_copy(other._parent._left);
+		this->_root()->_parent = &this->_parent;
+	}
 }
 
 template<typename T, typename Compare, typename Alloc>
@@ -443,8 +625,14 @@ RBtree<T,Compare,Alloc>::operator=(const RBtree& other)
 	if (this != &other)
 	{
 		this->_destroy(this->_root());
-		this->_root() = this->_copy(other._parent._left);
 		this->_comp = other._comp;
+		if (other._root() != nullptr)
+		{
+			this->_root() = this->_copy(other._parent._left);
+			this->_root()->_parent = &this->_parent;
+		}
+		else
+			this->_root() = nullptr;
 	}
 	return *this;
 }
@@ -467,6 +655,7 @@ template<typename T, typename Compare, typename Alloc>
 typename RBtree<T,Compare,Alloc>::iterator
 RBtree<T,Compare,Alloc>::end()
 {
+
 	return iterator(&this->_parent);
 }
 
@@ -530,28 +719,28 @@ RBtree<T,Compare,Alloc>::max_size() const
 
 
 template<typename T, typename Compare, typename Alloc>
-void
+ft::pair<typename RBtree<T,Compare,Alloc>::iterator,bool>
 RBtree<T,Compare,Alloc>::insert(const value_type& val)
 {
 	node_ptr new_node = this->_construct_node(val);
 	bool inserted = false;
-	this->_root() = this->_insert(this->_root(), new_node, inserted);
+	iterator pos;
+	this->_root() = this->_insert(this->_root(), new_node, inserted, pos);
 	this->_root()->_parent = &this->_parent;
-	// std::cout << "root:\n";
-	// _root()->print_node();
 	if (!inserted)
 		this->_destroy_node(new_node);
-	// std::cout << new_node->_parent << std::endl;
-	// std::cout << "after insert\n";
-	// print_tree(this->_root());
+	else
+		this->_rebalance_after_insertion(new_node);
+	this->_root()->_color = black;
+	return ft::make_pair(pos, inserted);
 }
 
 template<typename T, typename Compare, typename Alloc>
 typename RBtree<T,Compare,Alloc>::iterator
-RBtree<T,Compare,Alloc>::insert(iterator position, const value_type& val)
+RBtree<T,Compare,Alloc>::insert(iterator position, const value_type& val) // room for optimisation
 {
+	return this->insert(val).first;
 	(void)position;
-	(void)val;
 }
 
 template<typename T, typename Compare, typename Alloc>
@@ -565,9 +754,9 @@ RBtree<T,Compare,Alloc>::insert(InputIterator first, InputIterator last)
 
 template<typename T, typename Compare, typename Alloc>
 void
-RBtree<T,Compare,Alloc>::erase(iterator position)
+RBtree<T,Compare,Alloc>::erase(iterator position) // room for optimisation
 {
-	(void)position;
+	this->erase(*position);
 }
 
 template<typename T, typename Compare, typename Alloc>
@@ -578,8 +767,6 @@ RBtree<T,Compare,Alloc>::erase(const value_type& val)
 	bool deleted = false;
 	this->_root() = this->_erase(this->_root(), val, deleted);
 	this->_root()->_parent = &this->_parent;
-	// std::cout << "after erase\n";
-	// print_tree(this->_root);
 	return old_size - this->_size;
 }
 
@@ -593,13 +780,24 @@ RBtree<T,Compare,Alloc>::erase(iterator first, iterator last)
 
 template<typename T, typename Compare, typename Alloc>
 void
+RBtree<T,Compare,Alloc>::swap(RBtree& other)
+{
+	ft::swap(this->_begin_node, other._begin_node);
+	ft::swap(this->_parent, other._parent);
+	ft::swap(this->_size, other._size);
+	ft::swap(this->_comp, other._comp);
+}
+
+
+template<typename T, typename Compare, typename Alloc>
+void
 RBtree<T,Compare,Alloc>::clear()
 {
 	if (this->_root() != nullptr)
 	{
 		this->_destroy(this->_root());
 		this->_root() = nullptr;
-		this->_begin_node = &this->_parent;
+		this->_begin_node = this->_end_node();
 	}
 }
 
@@ -615,49 +813,123 @@ template<typename T, typename Compare, typename Alloc>
 typename RBtree<T,Compare,Alloc>::iterator
 RBtree<T,Compare,Alloc>::find(const value_type& val)
 {
-	(void)val;
+	node_ptr node = this->_root();
+
+	while (node != nullptr)
+	{
+		if (this->_comp(node->_data, val))
+			node = node->_right;
+		else if (this->_comp(node->_data, val))
+			node = node->_left;
+		else
+			return iterator(node);
+	}
+	return this->end();
 }
 
 template<typename T, typename Compare, typename Alloc>
 typename RBtree<T,Compare,Alloc>::const_iterator
 RBtree<T,Compare,Alloc>::find(const value_type& val) const
 {
-	(void)val;
+	node_ptr node = this->_root();
+
+	while (node != nullptr)
+	{
+		if (this->_comp(node->_data, val))
+			node = node->_right;
+		else if (this->_comp(val, node->_data))
+			node = node->_left;
+		else
+			return const_iterator(node);
+	}
+	return this->end();
 }
 
 template<typename T, typename Compare, typename Alloc>
 typename RBtree<T,Compare,Alloc>::size_type
 RBtree<T,Compare,Alloc>::count(const value_type& val) const
 {
-	return this->_find(this->_root(), val) == this->end() ? 0 : 1;
+	return this->find(val) == this->end() ? 0 : 1;
 }
 
 template<typename T, typename Compare, typename Alloc>
 typename RBtree<T,Compare,Alloc>::iterator
 RBtree<T,Compare,Alloc>::lower_bound(const value_type& val)
 {
-	(void)val;
+	node_ptr node = this->_root();
+	node_ptr pos = this->_end_node();
+
+	while (node != nullptr)
+	{
+		if (!this->_comp(node->_data, val))
+		{
+			pos = node;
+			node = node->_left;
+		}
+		else
+			node = node->_right;
+	}
+	return iterator(pos);
 }
 
 template<typename T, typename Compare, typename Alloc>
 typename RBtree<T,Compare,Alloc>::const_iterator
 RBtree<T,Compare,Alloc>::lower_bound(const value_type& val) const
 {
-	(void)val;
+	node_ptr node = this->_root();
+	const_node_ptr pos = this->_end_node();
+
+	while (node != nullptr)
+	{
+		if (!this->_comp(node->_data, val))
+		{
+			pos = node;
+			node = node->_left;
+		}
+		else
+			node = node->_right;
+	}
+	return const_iterator(pos);
 }
 
 template<typename T, typename Compare, typename Alloc>
 typename RBtree<T,Compare,Alloc>::iterator
 RBtree<T,Compare,Alloc>::upper_bound(const value_type& val)
 {
-	(void)val;
+	node_ptr node = this->_root();
+	node_ptr pos = this->_end_node();
+
+	while (node != nullptr)
+	{
+		if (this->_comp(val, node->_data))
+		{
+			pos = node;
+			node = node->_left;
+		}
+		else
+			node = node->_right;
+	}
+	return iterator(pos);
 }
 
 template<typename T, typename Compare, typename Alloc>
 typename RBtree<T,Compare,Alloc>::const_iterator
 RBtree<T,Compare,Alloc>::upper_bound(const value_type& val) const
 {
-	(void)val;
+	node_ptr node = this->_root();
+	const_node_ptr pos = this->_end_node();
+
+	while (node != nullptr)
+	{
+		if (this->_comp(val, node->_data))
+		{
+			pos = node;
+			node = node->_left;
+		}
+		else
+			node = node->_right;
+	}
+	return const_iterator(pos);
 }
 
 template<typename T, typename Compare, typename Alloc>
@@ -665,7 +937,23 @@ ft::pair<typename RBtree<T,Compare,Alloc>::iterator,
 		typename RBtree<T,Compare,Alloc>::iterator>
 RBtree<T,Compare,Alloc>::equal_range(const value_type& val)
 {
-	(void)val;
+	node_ptr node = this->_root();
+	node_ptr pos = this->_end_node();
+
+	while (node != nullptr)
+	{
+		if (this->_comp(val, node->_data))
+		{
+			pos = node;
+			node = node->_left;
+		}
+		else if (this->_comp(node->_data, val))
+			node = node->_right;
+		else
+			return ft::make_pair(iterator(node), iterator(
+				node->_right == nullptr ? pos : tree_min(node->_right)));
+	}
+	return ft::make_pair(iterator(pos), iterator(pos));
 }
 
 template<typename T, typename Compare, typename Alloc>
@@ -673,7 +961,23 @@ ft::pair<typename RBtree<T,Compare,Alloc>::const_iterator,
 		typename RBtree<T,Compare,Alloc>::const_iterator>
 RBtree<T,Compare,Alloc>::equal_range(const value_type& val) const
 {
-	(void)val;
+	node_ptr node = this->_root();
+	const_node_ptr pos = this->_end_node();
+
+	while (node != nullptr)
+	{
+		if (this->_comp(val, node->_data))
+		{
+			pos = node;
+			node = node->_left;
+		}
+		else if (this->_comp(node->data, val))
+			node = node->_right;
+		else
+			return ft::make_pair(const_iterator(node), const_iterator(
+				node->_right == nullptr ? pos : tree_min(node->_right)));
+	}
+	return ft::make_pair(const_iterator(pos), const_iterator(pos));
 }
 
 template<typename T, typename Compare, typename Alloc>
@@ -689,7 +993,7 @@ template<typename T, typename Compare, typename Alloc>
 typename RBtree<T,Compare,Alloc>::const_node_ptr&
 RBtree<T,Compare,Alloc>::_root() const
 {
-	return this->_parent._left;
+	return const_cast<const_node_ptr&>(this->_parent._left);
 }
 
 template<typename T, typename Compare, typename Alloc>
@@ -700,27 +1004,119 @@ RBtree<T,Compare,Alloc>::_root()
 }
 
 template<typename T, typename Compare, typename Alloc>
+typename RBtree<T,Compare,Alloc>::const_node_ptr
+RBtree<T,Compare,Alloc>::_end_node() const
+{
+	return const_cast<const_node_ptr>(&this->_parent);
+}
+
+template<typename T, typename Compare, typename Alloc>
 typename RBtree<T,Compare,Alloc>::node_ptr
-RBtree<T,Compare,Alloc>::_insert(node_ptr node, node_ptr new_node, bool& inserted)
+RBtree<T,Compare,Alloc>::_end_node()
+{
+	return &this->_parent;
+}
+
+template<typename T, typename Compare, typename Alloc>
+typename RBtree<T,Compare,Alloc>::node_ptr
+RBtree<T,Compare,Alloc>::_insert(node_ptr node, node_ptr new_node,
+									bool& inserted, iterator& pos)
 {
 	if (node == nullptr)
 	{
+		pos = new_node;
 		inserted = true;
 		return new_node;
 	}
-	if (this->_comp(node->_data, new_node->_data))
+	if (this->_comp(node->_data, new_node->_data)) // greater than
 	{
-		node->_right = _insert(node->_right, new_node, inserted);
+		node->_right = _insert(node->_right, new_node, inserted, pos);
 		node->_right->_parent = node;
 	}
-	else if (this->_comp(new_node->_data, node->_data))
+	else if (this->_comp(new_node->_data, node->_data)) // less than
 	{
-		node->_left = _insert(node->_left, new_node, inserted);
+		node->_left = _insert(node->_left, new_node, inserted, pos);
 		node->_left->_parent = node;
 	}
-	else
+	else // equal
+	{
+		pos = node;
 		inserted = false;
+	}
 	return node;
+}
+
+template<typename T, typename Compare, typename Alloc>
+void
+RBtree<T,Compare,Alloc>::_rebalance_after_insertion(node_ptr node)
+{
+	node_ptr parent = node->_parent;
+	if (node != this->_root() && parent->_color == red)
+	{
+		node_ptr grandparent = parent->_parent;
+		node_ptr uncle = grandparent->_right;
+		if (uncle != nullptr && uncle->_color == red) // only recoloring needed
+		{
+			parent->flip_color();
+			uncle->flip_color();
+			grandparent->flip_color();
+			this->_rebalance_after_insertion(grandparent);
+		}
+		else if (tree_is_left_child<value_type>(parent)) // left-heavy situation
+		{
+			if (!tree_is_left_child<value_type>(node)) // left-right-heavy situation
+				this->_rotate_left(parent);
+			parent->flip_color();
+			grandparent->flip_color();
+			this->_rotate_right(grandparent);
+			this->_rebalance_after_insertion(
+				tree_is_left_child<value_type>(node) ? parent : grandparent);
+		}
+		else // right-heavy situation
+		{
+			if (tree_is_left_child<value_type>(node)) // right-left-heavy situation
+				this->_rotate_right(parent);
+			parent->flip_color();
+			grandparent->flip_color();
+			this->_rotate_left(grandparent);
+			this->_rebalance_after_insertion(
+				!tree_is_left_child<value_type>(node) ? parent : grandparent);
+		}
+	}
+}
+
+template<typename T, typename Compare, typename Alloc>
+void
+RBtree<T,Compare,Alloc>::_rotate_left(node_ptr node)
+{
+	node_ptr right_node = node->_right;
+	node->_right = right_node->_left;
+	if (node->_right != nullptr)
+		node->_right->_parent = node;
+	right_node->_parent = node->_parent;
+	if (tree_is_left_child<value_type>(node))
+		node->_parent->_left = right_node;
+	else
+		node->_parent->_right = right_node;
+	right_node->_left = node;
+	node->_parent = right_node;
+}
+
+template<typename T, typename Compare, typename Alloc>
+void
+RBtree<T,Compare,Alloc>::_rotate_right(node_ptr node)
+{
+	node_ptr left_node = node->_left;
+	node->_left = left_node->_right;
+	if (node->_left != nullptr)
+		node->_left->_parent = node;
+	left_node->_parent = node->_parent;
+	if (tree_is_left_child<value_type>(node))
+		node->_parent->_left = left_node;
+	else
+		node->_parent->_right = left_node;
+	left_node->_right = node;
+	node->_parent = left_node;
 }
 
 template<typename T, typename Compare, typename Alloc>
@@ -746,6 +1142,8 @@ RBtree<T,Compare,Alloc>::_erase(node_ptr node, const value_type& val, bool& dele
 		{
 			ret_node = node;
 			node = ft::tree_max<value_type>(node->_left);
+			// ret_node->_data = node->_data; // doesn't work because the first object is marked as const
+			// rebalance here
 			ret_node->_left = _erase(ret_node->_left, node->_data, deleted);
 		}
 		if (!deleted)
@@ -754,20 +1152,6 @@ RBtree<T,Compare,Alloc>::_erase(node_ptr node, const value_type& val, bool& dele
 		return ret_node;
 	}
 	return node;
-}
-
-template<typename T, typename Compare, typename Alloc>
-typename RBtree<T,Compare,Alloc>::const_iterator
-RBtree<T,Compare,Alloc>::_find(node_ptr node, const value_type& val) const
-{
-	if (node == nullptr)
-		return this->end();
-	if (this->_comp(node->_data, val))
-		return _find(node->_right, val);
-	else if (this->_comp(val, node->_data))
-		return _find(node->_left, val);
-	else
-		return const_iterator(node);
 }
 
 template<typename T, typename Compare, typename Alloc>
@@ -809,11 +1193,13 @@ RBtree<T,Compare,Alloc>::_copy(const node_ptr node)
 		return nullptr;
 	node_ptr new_node = this->_construct_node(node->_data);
 	new_node->_left = _copy(node->_left);
+	if (new_node->_left != nullptr)
+		new_node->_left->_parent = new_node;
 	new_node->_right = _copy(node->_right);
+	if (new_node->_right != nullptr)
+		new_node->_right->_parent = new_node;
 	return new_node;
 }
-
-
 
 template<typename T, typename Compare, typename Alloc>
 void
@@ -831,6 +1217,13 @@ bool
 RBtree<T,Compare,Alloc>::_equals(const value_type& first, const value_type& second) const
 {
 	return !this->_comp(first, second) && !this->_comp(second, first);
+}
+
+template<typename T, typename Compare, typename Alloc>
+void
+swap(RBtree<T,Compare,Alloc>& first, RBtree<T,Compare,Alloc>& second)
+{
+	first.swap(second);
 }
 
 } // namespace ft

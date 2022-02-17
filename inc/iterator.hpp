@@ -6,7 +6,7 @@
 /*   By: skienzle <skienzle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/08 09:38:58 by skienzle          #+#    #+#             */
-/*   Updated: 2022/02/15 18:35:24 by skienzle         ###   ########.fr       */
+/*   Updated: 2022/02/17 20:19:50 by skienzle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -579,23 +579,6 @@ operator>=(const linear_iterator<Iterator1>& lhs, const linear_iterator<Iterator
 {
 	return lhs.base() >= rhs.base();
 }
-
-
-template<typename Const_node_ptr, typename Value>
-class const_tree_iterator
-{
-public: // types
-	typedef bidirectional_iterator_tag	iterator_category;
-	typedef Value						value_type;
-	typedef ptrdiff_t					difference_type;
-	typedef const Value*				pointer;
-	typedef const Value&				reference;
-
-	// coming soon
-};
-
-
-
 
 
 } // namespace ft

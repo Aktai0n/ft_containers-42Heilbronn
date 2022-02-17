@@ -6,7 +6,7 @@
 /*   By: skienzle <skienzle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 15:46:55 by skienzle          #+#    #+#             */
-/*   Updated: 2022/02/16 22:59:23 by skienzle         ###   ########.fr       */
+/*   Updated: 2022/02/17 22:15:31 by skienzle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,13 +35,12 @@ std::ostream& operator<<(std::ostream& lhs, const ft::pair<T1,T2>& rhs)
 
 template<typename Container>
 void
-print_container(Container c)
+print_container(const Container &c)
 {
-	typename Container::iterator ite = c.end();
-	for (typename Container::iterator it = c.begin(); it != ite; ++it)
+	typename Container::const_iterator ite = c.end();
+	for (typename Container::const_iterator it = c.begin(); it != ite; ++it)
 	{
 		PRINT(*it);
-
 	}
 }
 
@@ -68,7 +67,13 @@ void map_benchmark()
 	// 	temp.push_back(i + '0');
 	// 	ft_test_map.erase(temp);
 	// }
+	// ft_test_map.erase(std::string("name5"));
+	ft_test_map.erase(std::string("robin"));
+	map<std::string,int> copy_map = ft_test_map;
 	print_container(ft_test_map);
+	print_container(copy_map);
+	// for (map<std::string,int>::iterator it = ft_test_map.begin(); it != ft_test_map.end(); ++it)
+	// 	std::cout << (*it).first << std::endl;
 }
 
 

@@ -6,7 +6,7 @@
 /*   By: skienzle <skienzle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 15:40:18 by skienzle          #+#    #+#             */
-/*   Updated: 2022/02/15 23:09:40 by skienzle         ###   ########.fr       */
+/*   Updated: 2022/02/17 22:44:30 by skienzle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -269,8 +269,7 @@ template<typename Key, typename T, typename Compare, typename Alloc>
 ft::pair<typename map<Key,T,Compare,Alloc>::iterator,bool>
 map<Key,T,Compare,Alloc>::insert(const value_type& val)
 {
-	this->_tree.insert(val);
-	return ft::make_pair(iterator(), true);
+	return this->_tree.insert(val);
 }
 
 template<typename Key, typename T, typename Compare, typename Alloc>
@@ -313,7 +312,7 @@ template<typename Key, typename T, typename Compare, typename Alloc>
 void
 map<Key,T,Compare,Alloc>::swap(map& other)
 {
-	ft::swap(this->_tree, other._tree);
+	this->_tree.swap(other._tree);
 }
 
 template<typename Key, typename T, typename Compare, typename Alloc>
