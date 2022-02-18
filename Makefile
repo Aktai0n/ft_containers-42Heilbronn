@@ -6,13 +6,13 @@
 #    By: skienzle <skienzle@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/06 15:15:49 by skienzle          #+#    #+#              #
-#    Updated: 2022/02/11 16:37:13 by skienzle         ###   ########.fr        #
+#    Updated: 2022/02/18 22:52:12 by skienzle         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = ft_containers
 CC = clang++
-CFLAGS = -Wall -Wextra -Werror -std=c++98
+CFLAGS = -Wall -Wextra -Werror -std=c++98 -g
 RM = rm -rf
 
 INC = vector.hpp map.hpp stack.hpp set.hpp iterator.hpp \
