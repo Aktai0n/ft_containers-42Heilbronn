@@ -6,7 +6,7 @@
 /*   By: skienzle <skienzle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/20 16:50:18 by skienzle          #+#    #+#             */
-/*   Updated: 2022/02/20 18:37:04 by skienzle         ###   ########.fr       */
+/*   Updated: 2022/02/20 19:16:39 by skienzle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -1032,14 +1032,12 @@ RBtree<T,Compare,Alloc>::_erase(node_ptr root, node_ptr node)
 	// more nodes in the tree
 	if (repl_color == black && root != nullptr) // Case 1
 	{
-		// repl had either no children or one red child (repl_child)
-		// so, if repl_child != nullptr it is either red or root
+		// repl had either no children or one red child (repl_child).
+		// so, if repl_child != nullptr it is either red or root.
 		// root can't be double black and a red node will be flipped
 		// to black
 		if (repl_child != nullptr) // Case 2
-		{
 			repl_child->_color = black;
-		}
 		else
 			this->_rebalance_before_erasion(root, repl_child, sibling); // repl_child is always null at the start
 	}
@@ -1132,7 +1130,6 @@ RBtree<T,Compare,Alloc>::_rebalance_before_erasion(node_ptr root, node_ptr db_no
 			}
 		}
 	}
-
 }
 
 

@@ -6,7 +6,7 @@
 /*   By: skienzle <skienzle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 15:40:38 by skienzle          #+#    #+#             */
-/*   Updated: 2022/02/20 18:59:26 by skienzle         ###   ########.fr       */
+/*   Updated: 2022/02/20 21:28:58 by skienzle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ public: // friends
 	friend bool operator<(const stack &lhs, const stack &rhs);
 
 protected:
-	container_type _c;
+	container_type c;
 };
 
 
@@ -52,7 +52,7 @@ template<typename T, typename Container>
 inline bool
 operator==(const stack<T,Container> &lhs, const stack<T,Container> &rhs)
 {
-	return lhs._c == rhs._c;
+	return lhs.c == rhs.c;
 }
 
 
@@ -67,7 +67,7 @@ template<typename T, typename Container>
 inline bool
 operator<(const stack<T,Container> &lhs, const stack<T,Container> &rhs)
 {
-	return lhs._c < rhs._c;
+	return lhs.c < rhs.c;
 }
 
 template<typename T, typename Container>

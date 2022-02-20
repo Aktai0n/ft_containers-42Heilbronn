@@ -6,17 +6,15 @@
 /*   By: skienzle <skienzle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/20 20:29:10 by skienzle          #+#    #+#             */
-/*   Updated: 2022/02/19 16:06:40 by skienzle         ###   ########.fr       */
+/*   Updated: 2022/02/20 21:11:49 by skienzle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #pragma once
 
-#include <utility>
-
-
 namespace ft
 {
+
 
 template<typename T1, typename T2>
 struct pair
@@ -59,7 +57,6 @@ pair<T1,T2>::operator=(const pair<T1,T2>& pr)
 	}
 	return *this;
 }
-
 
 
 template<typename T1, typename T2>
@@ -112,5 +109,6 @@ make_pair(T1 first, T2 second)
 {
 	return pair<T1,T2>(first, second);
 }
+
 
 } // namespace ft

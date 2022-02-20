@@ -6,7 +6,7 @@
 /*   By: skienzle <skienzle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/20 19:23:50 by skienzle          #+#    #+#             */
-/*   Updated: 2022/02/20 18:50:09 by skienzle         ###   ########.fr       */
+/*   Updated: 2022/02/20 21:25:54 by skienzle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 #include <memory>
 
 #include "./utils/RBtree.hpp"
+#include "./utils/iterator.hpp"
 #include "./utils/algorithm.hpp"
 #include "./utils/functional.hpp"
 

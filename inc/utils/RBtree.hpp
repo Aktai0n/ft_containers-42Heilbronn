@@ -6,14 +6,16 @@
 /*   By: skienzle <skienzle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/11 16:06:31 by skienzle          #+#    #+#             */
-/*   Updated: 2022/02/20 18:53:34 by skienzle         ###   ########.fr       */
+/*   Updated: 2022/02/20 21:24:53 by skienzle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #pragma once
 
 #include <memory>
-#include <iostream>
+#include <iostream> // has to be erased
+
+#include "iterator.hpp"
 
 #ifndef nullptr
 #define nullptr NULL
@@ -34,7 +36,7 @@
 	-> However, compared to the AVL tree, there are less rotations necessary when
 		inserting / deleting elements
 *	The red black tree is considered a comprimise between fast insertion / deletion (O log(n))
-	and fast lookup times (O log(n)), making it the "all round work horse" in the world
+	and fast lookup times (O log(n)), making it the "allround work horse" in the world
 	of data structures
 *	Rules of the red black tree:
 	-> The root is always black

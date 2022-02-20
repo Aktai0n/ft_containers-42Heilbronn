@@ -6,15 +6,15 @@
 /*   By: skienzle <skienzle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/20 16:54:35 by skienzle          #+#    #+#             */
-/*   Updated: 2022/02/20 19:09:17 by skienzle         ###   ########.fr       */
+/*   Updated: 2022/02/20 21:27:26 by skienzle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #pragma once
 
+
 namespace ft
 {
-
 
 // constructors / destructor
 
