@@ -1,62 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   RBtree.hpp                                         :+:      :+:    :+:   */
+/*   RBtree.tpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: skienzle <skienzle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/02/11 16:06:31 by skienzle          #+#    #+#             */
-/*   Updated: 2022/02/19 23:19:33 by skienzle         ###   ########.fr       */
+/*   Created: 2022/02/20 16:50:18 by skienzle          #+#    #+#             */
+/*   Updated: 2022/02/20 18:37:04 by skienzle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #pragma once
 
-#include <memory>
-#include <iostream>
-
-#include "Itree.hpp"
-#include "iterator.hpp"
-
-#ifndef nullptr
-#define nullptr NULL
-#endif
-
 namespace ft
 {
 
-enum node_color { black = true, red = false };
 
-template<typename T>
-struct RBtree_node
-{
-	typedef T								value_type;
-	typedef RBtree_node<value_type>*		node_ptr;
-	typedef const RBtree_node<value_type>*	const_node_ptr;
+//		RBtree_node
 
-	RBtree_node();
-	RBtree_node(const RBtree_node& other);
-
-	~RBtree_node();
-
-	RBtree_node& operator=(const RBtree_node& other);
-
-	void flip_color();
-
-	void print_node() const
-	{
-		std::cout << "color: " << (_color == black ? "black" : "red") << '\n'
-			<< "data: " << _data.first << ' ' << _data.second << '\n'
-			<< "parent: " << _parent << "\nleft: " << _left
-			<< "\nright: " << _right << "\nnode addr: " << this << '\n' << std::endl;
-	}
-
-	node_color	_color;
-	value_type	_data;
-	node_ptr	_parent;
-	node_ptr	_left;
-	node_ptr	_right;
-};
+// public methods
 
 template<typename T>
 RBtree_node<T>::RBtree_node(): _color(black), _data(), _parent(), _left(), _right() {}
@@ -92,6 +54,7 @@ RBtree_node<T>::flip_color()
 }
 
 
+//		tree utility functions
 
 template<typename T>
 bool
@@ -144,39 +107,9 @@ tree_max(typename RBtree_node<T>::const_node_ptr root)
 }
 
 
+//		tree_iterator
 
-// tree_iterator
-
-template<typename Node_ptr, typename Value>
-class tree_iterator
-{
-public: // types
-	typedef bidirectional_iterator_tag		iterator_category;
-	typedef Value							value_type;
-	typedef ptrdiff_t						difference_type;
-	typedef Value*							pointer;
-	typedef Value&							reference;
-
-public: // methods
-	// constructors
-	tree_iterator();
-	tree_iterator(const tree_iterator& other);
-	tree_iterator(const Node_ptr& val);
-	// operator overloads
-	tree_iterator&	operator=(const tree_iterator& other);
-	tree_iterator&	operator=(const Node_ptr& ptr);
-	reference		operator*() const;
-	pointer			operator->() const;
-	tree_iterator&	operator++();
-	tree_iterator	operator++(int);
-	tree_iterator&	operator--();
-	tree_iterator	operator--(int);
-
-	Node_ptr	base() const;
-
-private: // attributes
-	Node_ptr _current_node;
-};
+// public methods
 
 template<typename Node_ptr, typename Value>
 tree_iterator<Node_ptr,Value>::tree_iterator(): _current_node() {}
@@ -220,7 +153,6 @@ tree_iterator<Node_ptr,Value>::operator->() const
 	return &_current_node->_data;
 }
 
-// needs testing!
 template<typename Node_ptr, typename Value>
 tree_iterator<Node_ptr,Value>&
 tree_iterator<Node_ptr,Value>::operator++()
@@ -247,7 +179,6 @@ tree_iterator<Node_ptr,Value>::operator++(int)
 	return ret;
 }
 
-// also needs testing!
 template<typename Node_ptr, typename Value>
 tree_iterator<Node_ptr,Value>&
 tree_iterator<Node_ptr,Value>::operator--()
@@ -280,60 +211,9 @@ tree_iterator<Node_ptr,Value>::base() const
 }
 
 
-// relational operator overloads for tree_iterator
+//		const_tree_iterator
 
-template<typename Node_ptr, typename Value>
-inline bool
-operator==(const tree_iterator<Node_ptr,Value>& rhs,
-			const tree_iterator<Node_ptr,Value>& lhs)
-{
-	return rhs.base() == lhs.base();
-}
-
-template<typename Node_ptr, typename Value>
-inline bool
-operator!=(const tree_iterator<Node_ptr,Value>& rhs,
-			const tree_iterator<Node_ptr,Value>& lhs)
-{
-	return rhs.base() != lhs.base();
-}
-
-// const_tree_iterator
-
-template<typename Const_node_ptr, typename Value>
-class const_tree_iterator
-{
-public: // types
-	typedef bidirectional_iterator_tag		iterator_category;
-	typedef Value							value_type;
-	typedef ptrdiff_t						difference_type;
-	typedef const Value*					pointer;
-	typedef const Value&					reference;
-
-private: // types
-	typedef tree_iterator<RBtree_node<Value>,Value>	normal_tree_iterator;
-public: // methods
-	// constructors
-	const_tree_iterator();
-	const_tree_iterator(const const_tree_iterator& other);
-	const_tree_iterator(const normal_tree_iterator& other);
-	const_tree_iterator(const Const_node_ptr& val);
-	// operator overloads
-	const_tree_iterator&	operator=(const const_tree_iterator& other);
-	const_tree_iterator&	operator=(const normal_tree_iterator& other);
-	const_tree_iterator&	operator=(const Const_node_ptr& ptr);
-	reference		operator*() const;
-	pointer			operator->() const;
-	const_tree_iterator&	operator++();
-	const_tree_iterator	operator++(int);
-	const_tree_iterator&	operator--();
-	const_tree_iterator	operator--(int);
-
-	Const_node_ptr	base() const;
-
-private: // attributes
-	Const_node_ptr _current_node;
-};
+// public methods
 
 template<typename Const_node_ptr, typename Value>
 const_tree_iterator<Const_node_ptr,Value>::const_tree_iterator(): _current_node() {}
@@ -447,157 +327,11 @@ const_tree_iterator<Const_node_ptr,Value>::base() const
 }
 
 
-// relational operator overloads for const_tree_iterator
+//		RBtree
 
-template<typename Const_node_ptr, typename Value>
-inline bool
-operator==(const const_tree_iterator<Const_node_ptr,Value>& rhs,
-			const const_tree_iterator<Const_node_ptr,Value>& lhs)
-{
-	return rhs.base() == lhs.base();
-}
+// public methods
 
-template<typename Const_node_ptr, typename Value>
-inline bool
-operator!=(const const_tree_iterator<Const_node_ptr,Value>& rhs,
-			const const_tree_iterator<Const_node_ptr,Value>& lhs)
-{
-	return rhs.base() != lhs.base();
-}
-
-
-// RBtree
-
-template<typename T, typename Compare, typename Alloc>
-class RBtree: public Itree<T,Compare,Alloc>
-{
-private: // types
-	typedef Itree<T,Compare,Alloc>						interface_type;
-	typedef RBtree_node<T>								node_type;
-public: // types
-	typedef typename interface_type::value_type											value_type;
-	typedef typename interface_type::value_compare										value_compare;
-	typedef typename interface_type::allocator_type										allocator_type;
-	typedef typename allocator_type::template rebind<RBtree_node<value_type> >::other	node_allocator_type;
-	typedef typename allocator_type::pointer											pointer;
-	typedef typename allocator_type::const_pointer										const_pointer;
-	typedef typename allocator_type::size_type											size_type;
-	typedef typename allocator_type::difference_type									difference_type;
-	typedef typename node_type::node_ptr												node_ptr;
-	typedef typename node_type::const_node_ptr											const_node_ptr;
-
-	typedef ft::tree_iterator<node_ptr,value_type>										iterator;
-	typedef ft::const_tree_iterator<const_node_ptr,value_type>							const_iterator;
-	typedef ft::reverse_iterator<iterator>												reverse_iterator;
-	typedef ft::reverse_iterator<const_iterator>										const_reverse_iterator;
-	
-
-public: // methods
-	// constructors
-
-	explicit RBtree(const value_compare& comp, const allocator_type& alloc);
-	RBtree(const RBtree& other);
-
-
-	// destructor
-
-	~RBtree();
-
-	// operator overload
-
-	RBtree& operator=(const RBtree& other);
-
-	// iterators
-
-	iterator				begin();
-	const_iterator			begin() const;
-	iterator				end();
-	const_iterator			end() const;
-	reverse_iterator		rbegin();
-	const_reverse_iterator	rbegin() const;
-	reverse_iterator		rend();
-	const_reverse_iterator	rend() const;
-
-	// capacity
-
-	bool		empty() const;
-	size_type	size() const;
-	size_type	max_size() const;
-
-	// modifiers
-
-	// void insert(const value_type& val); // dummy
-	ft::pair<iterator,bool>		insert(const value_type& val);
-	iterator					insert(iterator position, const value_type& val);
-	template<typename InputIterator>
-		void					insert(InputIterator first, InputIterator last);
-	void						erase(iterator position);
-	size_type					erase(const value_type& val);
-	void						erase(iterator first, iterator last);
-	void						swap(RBtree& other);
-	void						clear();
-
-
-	// observers
-
-	value_compare	value_comp() const;
-
-	// operations
-
-	iterator									find(const value_type& val);
-	const_iterator								find(const value_type& val) const;
-	size_type									count(const value_type& val) const;
-	iterator									lower_bound(const value_type& val);
-	const_iterator								lower_bound(const value_type& val) const;
-	iterator									upper_bound(const value_type& val);
-	const_iterator								upper_bound(const value_type& val) const;
-	ft::pair<iterator,iterator>					equal_range(const value_type& val);
-	ft::pair<const_iterator,const_iterator>		equal_range(const value_type& val) const;
-
-	// allocator
-
-	allocator_type	get_allocator() const;
-
-	
-private: // methods
-	const_node_ptr&	_root() const;
-	node_ptr&		_root();
-	const_node_ptr	_end_node() const;
-	node_ptr		_end_node();
-	node_ptr		_construct_node(const value_type& data);
-	void			_destroy_node(node_ptr node);
-	node_ptr		_insert(node_ptr node, node_ptr new_node, bool& inserted, iterator& pos);
-	void			_rebalance_after_insertion(node_ptr node);
-	void			_rotate_right(node_ptr node);
-	void			_rotate_left(node_ptr node);
-	node_ptr		_erase(node_ptr node, const value_type& val, bool& deleted);
-	void			_erase(node_ptr root, node_ptr node);
-	void			_rebalance_before_erasion(node_ptr root, node_ptr node, node_ptr sibling);
-	node_ptr		_replacement_node(node_ptr node) const;
-	node_ptr		_get_sibling(node_ptr node) const;
-	node_color		_get_node_color(node_ptr node) const;
-	bool			_is_double_black(node_ptr node, node_ptr replacement) const;
-	node_ptr		_copy(const_node_ptr node);
-	void			_destroy(node_ptr node);
-	bool			_equals(const value_type& first, const value_type& second) const;
-	void print_tree(const node_ptr node) const
-	{
-		if (node == nullptr)
-			return;
-		node->print_node();
-		std::cout << "going left" << std::endl;
-		print_tree(node->_left);
-		std::cout << "going right" << std::endl;
-		print_tree(node->_right);
-	}
-private: // attributes
-	size_type			_size;
-	node_type			_parent; // _parent->_left is the root
-	node_ptr			_begin_node;
-	value_compare		_comp;
-	allocator_type		_allocator;
-	node_allocator_type	_node_allocator;
-};
+// constructors / destructor
 
 template<typename T, typename Compare, typename Alloc>
 RBtree<T,Compare,Alloc>::RBtree(const value_compare& comp, const allocator_type& alloc):
@@ -621,11 +355,14 @@ RBtree<T,Compare,Alloc>::~RBtree()
 {
 	if (this->_root() != nullptr)
 	{
-		std::cout << "destructor called" << std::endl;
 		this->_destroy(this->_root());
 		this->_root() = nullptr;
+		this->_begin_node = this->_end_node();
 	}
 }
+
+
+// operator overload
 
 template<typename T, typename Compare, typename Alloc>
 RBtree<T,Compare,Alloc>&
@@ -633,18 +370,19 @@ RBtree<T,Compare,Alloc>::operator=(const RBtree& other)
 {
 	if (this != &other)
 	{
-		this->_destroy(this->_root());
+		this->clear();
 		this->_comp = other._comp;
 		if (other._root() != nullptr)
 		{
 			this->_root() = this->_copy(other._root());
 			this->_root()->_parent = &this->_parent;
 		}
-		else
-			this->_root() = nullptr;
 	}
 	return *this;
 }
+
+
+// iterators
 
 template<typename T, typename Compare, typename Alloc>
 typename RBtree<T,Compare,Alloc>::iterator
@@ -704,6 +442,7 @@ RBtree<T,Compare,Alloc>::rend() const
 }
 
 
+// capacity
 
 template<typename T, typename Compare, typename Alloc>
 bool
@@ -726,6 +465,8 @@ RBtree<T,Compare,Alloc>::max_size() const
 	return this->_allocator.max_size();
 }
 
+
+// modifiers
 
 template<typename T, typename Compare, typename Alloc>
 ft::pair<typename RBtree<T,Compare,Alloc>::iterator,bool>
@@ -823,12 +564,17 @@ RBtree<T,Compare,Alloc>::clear()
 }
 
 
+// observer
+
 template<typename T, typename Compare, typename Alloc>
 typename RBtree<T,Compare,Alloc>::value_compare
 RBtree<T,Compare,Alloc>::value_comp() const
 {
 	return this->_comp;
 }
+
+
+// operations
 
 template<typename T, typename Compare, typename Alloc>
 typename RBtree<T,Compare,Alloc>::iterator
@@ -972,7 +718,7 @@ RBtree<T,Compare,Alloc>::equal_range(const value_type& val)
 			node = node->_right;
 		else
 			return ft::make_pair(iterator(node), iterator(
-				node->_right == nullptr ? pos : tree_min(node->_right)));
+				node->_right == nullptr ? pos : tree_min<value_type>(node->_right)));
 	}
 	return ft::make_pair(iterator(pos), iterator(pos));
 }
@@ -996,10 +742,13 @@ RBtree<T,Compare,Alloc>::equal_range(const value_type& val) const
 			node = node->_right;
 		else
 			return ft::make_pair(const_iterator(node), const_iterator(
-				node->_right == nullptr ? pos : tree_min(node->_right)));
+				node->_right == nullptr ? pos : tree_min<value_type>(node->_right)));
 	}
 	return ft::make_pair(const_iterator(pos), const_iterator(pos));
 }
+
+
+// allocator
 
 template<typename T, typename Compare, typename Alloc>
 typename RBtree<T,Compare,Alloc>::allocator_type
@@ -1009,6 +758,9 @@ RBtree<T,Compare,Alloc>::get_allocator() const
 }
 
 
+// private methods
+
+// utility
 
 template<typename T, typename Compare, typename Alloc>
 typename RBtree<T,Compare,Alloc>::const_node_ptr&
@@ -1040,6 +792,105 @@ RBtree<T,Compare,Alloc>::_end_node()
 
 template<typename T, typename Compare, typename Alloc>
 typename RBtree<T,Compare,Alloc>::node_ptr
+RBtree<T,Compare,Alloc>::_get_sibling(node_ptr node) const
+{
+	if (tree_is_left_child<value_type>(node))
+		return node->_parent->_right;
+	else
+		return node->_parent->_left;
+}
+
+template<typename T, typename Compare, typename Alloc>
+typename RBtree<T,Compare,Alloc>::node_ptr
+RBtree<T,Compare,Alloc>::_replacement_node(node_ptr node) const
+{
+	if (node->_left == nullptr || node->_right == nullptr)
+		return node;
+	else
+		return tree_min<value_type>(node->_right);
+}
+
+
+template<typename T, typename Compare, typename Alloc>
+node_color
+RBtree<T,Compare,Alloc>::_get_node_color(node_ptr node) const
+{
+	if (node == nullptr)
+		return black;
+	return node->_color;
+}
+
+template<typename T, typename Compare, typename Alloc>
+void
+RBtree<T,Compare,Alloc>::_rotate_left(node_ptr node)
+{
+	node_ptr right_node = node->_right;
+	node->_right = right_node->_left;
+	if (node->_right != nullptr)
+		node->_right->_parent = node;
+	right_node->_parent = node->_parent;
+	if (tree_is_left_child<value_type>(node))
+		node->_parent->_left = right_node;
+	else
+		node->_parent->_right = right_node;
+	right_node->_left = node;
+	node->_parent = right_node;
+}
+
+template<typename T, typename Compare, typename Alloc>
+void
+RBtree<T,Compare,Alloc>::_rotate_right(node_ptr node)
+{
+	node_ptr left_node = node->_left;
+	node->_left = left_node->_right;
+	if (node->_left != nullptr)
+		node->_left->_parent = node;
+	left_node->_parent = node->_parent;
+	if (tree_is_left_child<value_type>(node))
+		node->_parent->_left = left_node;
+	else
+		node->_parent->_right = left_node;
+	left_node->_right = node;
+	node->_parent = left_node;
+}
+
+
+// insertion
+
+template<typename T, typename Compare, typename Alloc>
+typename RBtree<T,Compare,Alloc>::node_ptr
+RBtree<T,Compare,Alloc>::_construct_node(const value_type& data)
+{
+	node_ptr new_node = this->_node_allocator.allocate(1);
+	this->_allocator.construct(&new_node->_data, data);
+	new_node->_color = red;
+	new_node->_parent = nullptr;
+	new_node->_left = nullptr;
+	new_node->_right = nullptr;
+	if (this->empty() || this->_comp(data, this->_begin_node->_data))
+		this->_begin_node = new_node;
+	++this->_size;
+	return new_node;
+}
+
+template<typename T, typename Compare, typename Alloc>
+typename RBtree<T,Compare,Alloc>::node_ptr
+RBtree<T,Compare,Alloc>::_copy(const_node_ptr node)
+{
+	if (node == nullptr)
+		return nullptr;
+	node_ptr new_node = this->_construct_node(node->_data);
+	new_node->_left = _copy(node->_left);
+	if (new_node->_left != nullptr)
+		new_node->_left->_parent = new_node;
+	new_node->_right = _copy(node->_right);
+	if (new_node->_right != nullptr)
+		new_node->_right->_parent = new_node;
+	return new_node;
+}
+
+template<typename T, typename Compare, typename Alloc>
+typename RBtree<T,Compare,Alloc>::node_ptr
 RBtree<T,Compare,Alloc>::_insert(node_ptr node, node_ptr new_node,
 									bool& inserted, iterator& pos)
 {
@@ -1066,41 +917,6 @@ RBtree<T,Compare,Alloc>::_insert(node_ptr node, node_ptr new_node,
 	}
 	return node;
 }
-
-/*
-						Summary of the cases:
-*	Case 1: the node is the root
-		-> nothing to be done
-*	Case 2: the parent of node is black
-		-> nothing to be done (no change in the black height)
-*	Case 3: the node has a red uncle
-		-> node's uncle becomes black
-		-> node's parent becomes black
-		-> node's grandparent becomes red
-		-> proceed to the appropriate case with the grandparent
-*	Case 4: the uncle is black
-		-> perform the appropriate rotation of the tree:
-		Case 4.1: parent is a left child and node is a right child
-				(left-right-heavy situation)
-				-> rotate the parent to the left
-				-> proceed to case 4.2 (with the parent as node)
-		Case 4.2: parent and node are left children
-				(left-heavy situation)
-				-> the parent becomes black
-				-> the grandparent becomes red
-				-> rotate the grandparent to the right
-				-> we're done
-		Case 4.3: parent is a right child and node is a left child
-				(right-left-heavy situation)
-				-> rotate the parent to the right
-				-> procees to case 4.4 (with the parent as node)
-		Case 4.4: parent and node are right cildren
-				(right-heavy situation)
-				-> the parent becomes black
-				-> the grandparent becomes red
-				-> rotate the grandparent to the left
-				-> we're done
-*/
 
 template<typename T, typename Compare, typename Alloc>
 void
@@ -1148,62 +964,29 @@ RBtree<T,Compare,Alloc>::_rebalance_after_insertion(node_ptr node)
 	}
 }
 
+
+// erasion
+
 template<typename T, typename Compare, typename Alloc>
 void
-RBtree<T,Compare,Alloc>::_rotate_left(node_ptr node)
+RBtree<T,Compare,Alloc>::_destroy_node(node_ptr node)
 {
-	node_ptr right_node = node->_right;
-	node->_right = right_node->_left;
-	if (node->_right != nullptr)
-		node->_right->_parent = node;
-	right_node->_parent = node->_parent;
-	if (tree_is_left_child<value_type>(node))
-		node->_parent->_left = right_node;
-	else
-		node->_parent->_right = right_node;
-	right_node->_left = node;
-	node->_parent = right_node;
+	this->_allocator.destroy(&node->_data);
+	this->_node_allocator.deallocate(node, 1);
+	--this->_size;
 }
 
 template<typename T, typename Compare, typename Alloc>
 void
-RBtree<T,Compare,Alloc>::_rotate_right(node_ptr node)
+RBtree<T,Compare,Alloc>::_destroy(node_ptr node)
 {
-	node_ptr left_node = node->_left;
-	node->_left = left_node->_right;
-	if (node->_left != nullptr)
-		node->_left->_parent = node;
-	left_node->_parent = node->_parent;
-	if (tree_is_left_child<value_type>(node))
-		node->_parent->_left = left_node;
-	else
-		node->_parent->_right = left_node;
-	left_node->_right = node;
-	node->_parent = left_node;
+	if (node == nullptr)
+		return;
+	_destroy(node->_left);
+	_destroy(node->_right);
+	this->_destroy_node(node);
 }
 
-/*
-							Node name lookup table:
-*	many guides aren't very verbose, so they just call the nodes w, x, y and z.
-	I decided to be a bit more verbose, so here's a lookup table if the names are
-	confusing:
-*	root: The root of the tree
-*	node: The node to be deleted (also known as z)
-*	repl: The successor of node or if node had either no children or one child,
-			the same as node. It's the leaf-node node will be replaced by
-			(also known as y)
-*	repl_child: The child of repl. It's null if repl had no children. (also known as x)
-				It's the first node to be marked as double black if it was
-				black before.
-				In the rebalancing part, it will be referred to as db_node,
-				since it's the double black node
-*	sibling: The sibling of repl_child (also known as w).
-			Case 3, 4, 5 and 6 will be chosen according to his color
-			and the colors of his children.
-			It is also the node responsible for the heavy lifting in the
-			rebalancing part, since repl_child is might be null
-			(and is null for sure at the start)
-*/
 template<typename T, typename Compare, typename Alloc>
 void
 RBtree<T,Compare,Alloc>::_erase(node_ptr root, node_ptr node)
@@ -1262,49 +1045,12 @@ RBtree<T,Compare,Alloc>::_erase(node_ptr root, node_ptr node)
 	}
 }
 
-/*
-							Summary of the cases:
-* note: parent is always the parent of the sibling and the db_node
-*	Case 1: repl was red
-		-> no rebalancing needed, as there is no change in the black depth
-*	Case 2: repl_child was red or the root
-		-> if repl_child is red, we can simply color it black to preserve
-			the black depth
-		-> the root can't be double black, so we just remove the db
-*	Case 3: sibling is red
-		-> sibling "takes over" one of the blacks, so db_node and sibling
-			are now normal black
-		-> the parent of them becomes red
-		-> rotation of the parent in the appropriate direction
-			(left if db_node is on the left and otherwise right)
-		-> reset the sibling and continue to the appropriate case
-*	Case 4: both of siblings children are black (and sibling is black)
-		-> sibling becomes red
-		-> the parent node "takes over" one of the blacks, so
-			if it was red, it will become black and if it was black
-			it will become double black
-		-> if the parent is the root or normal black, we are done.
-			Otherwise we reset the sibling and continue
-*	Case 5: sibling's child that's facing towards db_node is red
-			(and sibling is black)
-		-> since one of the children is red it can't be null
-		-> sibling and his red child swap colors
-		-> rotate sibling away from the db_node
-			(right if db_node is on the left and left otherwise)
-		-> reset the sibling and move on to case 6
-*	Case 6: sibling's child that's facing away from db_node is red
-			(and sibling is black)
-		-> sibling and his parent swap colors
-		-> rotate the parent towards the db_node
-			(left if db_node is on the left and right otherwise)
-		-> the sibling's child "has taken over" one of the blacks from db_node
-		-> we are done
-*/
+
 template<typename T, typename Compare, typename Alloc>
 void
 RBtree<T,Compare,Alloc>::_rebalance_before_erasion(node_ptr root, node_ptr db_node, node_ptr sibling)
 {
-	while (true)//(node != root && this->_get_node_color(node) == black)
+	while (true) // == (node != root && this->_get_node_color(node) == black)
 	{
 		if (!tree_is_left_child<value_type>(sibling)) // == tree_is_left_child(node)
 		{
@@ -1389,108 +1135,5 @@ RBtree<T,Compare,Alloc>::_rebalance_before_erasion(node_ptr root, node_ptr db_no
 
 }
 
-template<typename T, typename Compare, typename Alloc>
-typename RBtree<T,Compare,Alloc>::node_ptr
-RBtree<T,Compare,Alloc>::_replacement_node(node_ptr node) const
-{
-	if (node->_left == nullptr || node->_right == nullptr)
-		return node;
-	else
-		return tree_min<value_type>(node->_right);
-}
-
-template<typename T, typename Compare, typename Alloc>
-typename RBtree<T,Compare,Alloc>::node_ptr
-RBtree<T,Compare,Alloc>::_get_sibling(node_ptr node) const
-{
-	if (tree_is_left_child<value_type>(node))
-		return node->_parent->_right;
-	else
-		return node->_parent->_left;
-}
-
-template<typename T, typename Compare, typename Alloc>
-node_color
-RBtree<T,Compare,Alloc>::_get_node_color(node_ptr node) const
-{
-	if (node == nullptr)
-		return black;
-	return node->_color;
-}
-
-// up for deletion
-template<typename T, typename Compare, typename Alloc>
-bool
-RBtree<T,Compare,Alloc>::_is_double_black(node_ptr node, node_ptr replacement) const
-{
-	return _get_node_color(node) == black && _get_node_color(replacement) == black;
-}
-
-template<typename T, typename Compare, typename Alloc>
-typename RBtree<T,Compare,Alloc>::node_ptr
-RBtree<T,Compare,Alloc>::_construct_node(const value_type& data)
-{
-	node_ptr new_node = this->_node_allocator.allocate(1);
-	this->_allocator.construct(&new_node->_data, data);
-	new_node->_color = red;
-	new_node->_parent = nullptr;
-	new_node->_left = nullptr;
-	new_node->_right = nullptr;
-	if (this->empty() || this->_comp(data, this->_begin_node->_data))
-		this->_begin_node = new_node;
-	++this->_size;
-	return new_node;
-}
-
-template<typename T, typename Compare, typename Alloc>
-void
-RBtree<T,Compare,Alloc>::_destroy_node(node_ptr node)
-{
-	this->_allocator.destroy(&node->_data);
-	this->_node_allocator.deallocate(node, 1);
-	--this->_size;
-}
-
-template<typename T, typename Compare, typename Alloc>
-typename RBtree<T,Compare,Alloc>::node_ptr
-RBtree<T,Compare,Alloc>::_copy(const_node_ptr node)
-{
-	if (node == nullptr)
-		return nullptr;
-	node_ptr new_node = this->_construct_node(node->_data);
-	new_node->_left = _copy(node->_left);
-	if (new_node->_left != nullptr)
-		new_node->_left->_parent = new_node;
-	new_node->_right = _copy(node->_right);
-	if (new_node->_right != nullptr)
-		new_node->_right->_parent = new_node;
-	return new_node;
-}
-
-template<typename T, typename Compare, typename Alloc>
-void
-RBtree<T,Compare,Alloc>::_destroy(node_ptr node)
-{
-	if (node == nullptr)
-		return;
-	_destroy(node->_left);
-	_destroy(node->_right);
-	this->_destroy_node(node);
-}
-
-// up for deletion
-template<typename T, typename Compare, typename Alloc>
-bool
-RBtree<T,Compare,Alloc>::_equals(const value_type& first, const value_type& second) const
-{
-	return !this->_comp(first, second) && !this->_comp(second, first);
-}
-
-template<typename T, typename Compare, typename Alloc>
-void
-swap(RBtree<T,Compare,Alloc>& first, RBtree<T,Compare,Alloc>& second)
-{
-	first.swap(second);
-}
 
 } // namespace ft

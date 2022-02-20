@@ -6,7 +6,7 @@
 /*   By: skienzle <skienzle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/08 09:38:58 by skienzle          #+#    #+#             */
-/*   Updated: 2022/02/17 20:19:50 by skienzle         ###   ########.fr       */
+/*   Updated: 2022/02/20 15:59:58 by skienzle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@
 
 namespace ft
 {
+
+
 // Iterator traits
 
 struct output_iterator_tag {};

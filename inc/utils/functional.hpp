@@ -6,17 +6,16 @@
 /*   By: skienzle <skienzle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/05 17:45:42 by skienzle          #+#    #+#             */
-/*   Updated: 2022/02/19 15:58:29 by skienzle         ###   ########.fr       */
+/*   Updated: 2022/02/20 15:59:33 by skienzle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #pragma once
 
-#include <functional>
-
 
 namespace ft
 {
+
 
 template<typename Arg1, typename Arg2, typename Result>
 struct binary_function
@@ -34,5 +33,6 @@ struct less: binary_function<T,T,bool>
 		return x < y;
 	}
 };
+
 
 } // namespace ft

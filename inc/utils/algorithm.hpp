@@ -6,14 +6,12 @@
 /*   By: skienzle <skienzle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 19:31:04 by skienzle          #+#    #+#             */
-/*   Updated: 2022/02/11 19:25:08 by skienzle         ###   ########.fr       */
+/*   Updated: 2022/02/20 15:59:07 by skienzle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #pragma once
 
-#include <algorithm>
-#include <functional>
 
 namespace ft
 {

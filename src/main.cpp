@@ -6,7 +6,7 @@
 /*   By: skienzle <skienzle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 15:46:55 by skienzle          #+#    #+#             */
-/*   Updated: 2022/02/19 21:34:49 by skienzle         ###   ########.fr       */
+/*   Updated: 2022/02/20 18:33:39 by skienzle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 #include <vector>
 #include <stack>
 #include <map>
-
+// don't forget to erase those includes in the container files!!!
 
 #include <iostream>
 #include <string>
@@ -26,6 +26,7 @@
 #include "../inc/vector.hpp"
 #include "../inc/stack.hpp"
 #include "../inc/map.hpp"
+#include "../inc/set.hpp"
 
 #define PRINT(__msg) (std::cout << __msg << std::endl)
 
@@ -87,7 +88,7 @@ void map_benchmark()
 	std::cout << __tree_invariant(ft_test_map.end().base()->_left) << std::endl;
 	// PRINT(ft_test_map.size());
 	// map<std::string,int> copy_map = ft_test_map;
-	// print_container(ft_test_map);
+	print_container(ft_test_map);
 	// print_container(copy_map);
 	// for (map<std::string,int>::iterator it = ft_test_map.begin(); it != ft_test_map.end(); ++it)
 	// 	std::cout << (*it).first << std::endl;
@@ -97,10 +98,12 @@ void map_benchmark()
 int main()
 {
 	// const std::vector<int> test;
-	// ft::vector<int> ft_test(5, 10);
+	ft::vector<int> ft_test(5, 10);
 	// const ft::vector<int> referencer(5);
 	map_benchmark();
-	// system("leaks ft_containers");
+	ft::set<int> my_set;
+	my_set.insert(500);
+	system("leaks ft_containers");
 	// PRINT(referencer.size());
 	// PRINT(referencer.capacity());
 	// PRINT(referencer.max_size());
