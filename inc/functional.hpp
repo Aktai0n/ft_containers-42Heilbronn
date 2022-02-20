@@ -6,7 +6,7 @@
 /*   By: skienzle <skienzle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/05 17:45:42 by skienzle          #+#    #+#             */
-/*   Updated: 2022/02/10 15:15:28 by skienzle         ###   ########.fr       */
+/*   Updated: 2022/02/19 15:58:29 by skienzle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@
 
 namespace ft
 {
-
 
 template<typename Arg1, typename Arg2, typename Result>
 struct binary_function

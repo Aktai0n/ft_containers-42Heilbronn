@@ -6,7 +6,7 @@
 /*   By: skienzle <skienzle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/20 19:23:50 by skienzle          #+#    #+#             */
-/*   Updated: 2022/02/16 14:48:45 by skienzle         ###   ########.fr       */
+/*   Updated: 2022/02/18 23:24:45 by skienzle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -285,7 +285,7 @@ template<typename T, typename Compare, typename Alloc>
 void
 set<T,Compare,Alloc>::swap(set& other)
 {
-	ft::swap(this->_tree, other._tree);
+	this->_tree.swap(other._tree);
 }
 
 template<typename T, typename Compare, typename Alloc>

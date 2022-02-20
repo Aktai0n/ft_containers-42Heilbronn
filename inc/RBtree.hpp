@@ -6,7 +6,7 @@
 /*   By: skienzle <skienzle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/11 16:06:31 by skienzle          #+#    #+#             */
-/*   Updated: 2022/02/18 23:03:00 by skienzle         ###   ########.fr       */
+/*   Updated: 2022/02/19 23:19:33 by skienzle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@
 namespace ft
 {
 
-enum node_color { black = false, red = true };
+enum node_color { black = true, red = false };
 
 template<typename T>
 struct RBtree_node
@@ -48,7 +48,7 @@ struct RBtree_node
 		std::cout << "color: " << (_color == black ? "black" : "red") << '\n'
 			<< "data: " << _data.first << ' ' << _data.second << '\n'
 			<< "parent: " << _parent << "\nleft: " << _left
-			<< "\nright: " << _right << "\nnode addr: " << this << std::endl;
+			<< "\nright: " << _right << "\nnode addr: " << this << '\n' << std::endl;
 	}
 
 	node_color	_color;
@@ -763,12 +763,20 @@ RBtree<T,Compare,Alloc>::insert(InputIterator first, InputIterator last)
 
 template<typename T, typename Compare, typename Alloc>
 void
-RBtree<T,Compare,Alloc>::erase(iterator position) // room for optimisation
+RBtree<T,Compare,Alloc>::erase(iterator position)
 {
 	node_ptr pos = position.base();
+	if (pos == this->_begin_node)
+	{
+		++position;
+		this->_begin_node = position.base();
+	}
 	this->_erase(this->_root(), pos);
 	if (this->_root() != nullptr)
+	{
 		this->_root()->_parent = this->_end_node();
+		this->_root()->_color = black;
+	}
 	this->_destroy_node(pos);
 }
 
@@ -776,13 +784,10 @@ template<typename T, typename Compare, typename Alloc>
 typename RBtree<T,Compare,Alloc>::size_type
 RBtree<T,Compare,Alloc>::erase(const value_type& val)
 {
-	node_ptr pos = this->find(val).base();
-	if (pos == this->_end_node())
+	iterator pos = this->find(val);
+	if (pos == this->end())
 		return 0;
 	this->erase(pos);
-	// bool deleted = false;
-	// this->_root() = this->_erase(this->_root(), val, deleted);
-	// this->_root()->_parent = &this->_parent;
 	return 1;
 }
 
@@ -835,7 +840,7 @@ RBtree<T,Compare,Alloc>::find(const value_type& val)
 	{
 		if (this->_comp(node->_data, val))
 			node = node->_right;
-		else if (this->_comp(node->_data, val))
+		else if (this->_comp(val, node->_data))
 			node = node->_left;
 		else
 			return iterator(node);
@@ -1062,41 +1067,83 @@ RBtree<T,Compare,Alloc>::_insert(node_ptr node, node_ptr new_node,
 	return node;
 }
 
+/*
+						Summary of the cases:
+*	Case 1: the node is the root
+		-> nothing to be done
+*	Case 2: the parent of node is black
+		-> nothing to be done (no change in the black height)
+*	Case 3: the node has a red uncle
+		-> node's uncle becomes black
+		-> node's parent becomes black
+		-> node's grandparent becomes red
+		-> proceed to the appropriate case with the grandparent
+*	Case 4: the uncle is black
+		-> perform the appropriate rotation of the tree:
+		Case 4.1: parent is a left child and node is a right child
+				(left-right-heavy situation)
+				-> rotate the parent to the left
+				-> proceed to case 4.2 (with the parent as node)
+		Case 4.2: parent and node are left children
+				(left-heavy situation)
+				-> the parent becomes black
+				-> the grandparent becomes red
+				-> rotate the grandparent to the right
+				-> we're done
+		Case 4.3: parent is a right child and node is a left child
+				(right-left-heavy situation)
+				-> rotate the parent to the right
+				-> procees to case 4.4 (with the parent as node)
+		Case 4.4: parent and node are right cildren
+				(right-heavy situation)
+				-> the parent becomes black
+				-> the grandparent becomes red
+				-> rotate the grandparent to the left
+				-> we're done
+*/
+
 template<typename T, typename Compare, typename Alloc>
 void
 RBtree<T,Compare,Alloc>::_rebalance_after_insertion(node_ptr node)
 {
-	node_ptr parent = node->_parent;
-	if (node != this->_root() && this->_get_node_color(parent) == red)
+	while (node != this->_root() && this->_get_node_color(node->_parent) == red) // Case 1 and 2
 	{
-		node_ptr grandparent = parent->_parent;
-		node_ptr uncle = grandparent->_right;
-		if (this->_get_node_color(uncle) == red) // only recoloring needed
+		node_ptr uncle = this->_get_sibling(node->_parent);
+		if (this->_get_node_color(uncle) == red) // Case 3
 		{
-			parent->flip_color();
 			uncle->flip_color();
-			grandparent->flip_color();
-			this->_rebalance_after_insertion(grandparent);
+			node = node->_parent;
+			node->flip_color();
+			node = node->_parent;
+			node->flip_color();
 		}
-		else if (tree_is_left_child<value_type>(parent)) // left-heavy situation
+		else if (tree_is_left_child<value_type>(node->_parent)) // Case 4
 		{
-			if (!tree_is_left_child<value_type>(node)) // left-right-heavy situation
-				this->_rotate_left(parent);
-			parent->flip_color();
-			grandparent->flip_color();
-			this->_rotate_right(grandparent);
-			this->_rebalance_after_insertion(
-				tree_is_left_child<value_type>(node) ? parent : grandparent);
+			if (!tree_is_left_child<value_type>(node)) // Case 4.1
+			{
+				node = node->_parent;
+				this->_rotate_left(node);
+			}
+			node = node->_parent; // Case 4.2
+			node->flip_color();
+			node = node->_parent;
+			node->flip_color();
+			this->_rotate_right(node);
+			break;
 		}
-		else // right-heavy situation
+		else // Case 4
 		{
-			if (tree_is_left_child<value_type>(node)) // right-left-heavy situation
-				this->_rotate_right(parent);
-			parent->flip_color();
-			grandparent->flip_color();
-			this->_rotate_left(grandparent);
-			this->_rebalance_after_insertion(
-				!tree_is_left_child<value_type>(node) ? parent : grandparent);
+			if (tree_is_left_child<value_type>(node)) // Case 4.3
+			{
+				node = node->_parent;
+				this->_rotate_right(node);
+			}
+			node = node->_parent; // Case 4.4
+			node->flip_color();
+			node = node->_parent;
+			node->flip_color();
+			this->_rotate_left(node);
+			break;
 		}
 	}
 }
@@ -1135,12 +1182,34 @@ RBtree<T,Compare,Alloc>::_rotate_right(node_ptr node)
 	node->_parent = left_node;
 }
 
+/*
+							Node name lookup table:
+*	many guides aren't very verbose, so they just call the nodes w, x, y and z.
+	I decided to be a bit more verbose, so here's a lookup table if the names are
+	confusing:
+*	root: The root of the tree
+*	node: The node to be deleted (also known as z)
+*	repl: The successor of node or if node had either no children or one child,
+			the same as node. It's the leaf-node node will be replaced by
+			(also known as y)
+*	repl_child: The child of repl. It's null if repl had no children. (also known as x)
+				It's the first node to be marked as double black if it was
+				black before.
+				In the rebalancing part, it will be referred to as db_node,
+				since it's the double black node
+*	sibling: The sibling of repl_child (also known as w).
+			Case 3, 4, 5 and 6 will be chosen according to his color
+			and the colors of his children.
+			It is also the node responsible for the heavy lifting in the
+			rebalancing part, since repl_child is might be null
+			(and is null for sure at the start)
+*/
 template<typename T, typename Compare, typename Alloc>
 void
-RBtree<T,Compare,Alloc>::_erase(node_ptr root, node_ptr node) // also known as z
+RBtree<T,Compare,Alloc>::_erase(node_ptr root, node_ptr node)
 {
-	node_ptr repl = this->_replacement_node(node); // also known as y
-	node_ptr repl_child = repl->_left == nullptr ? repl->_right : repl->_left; // also known as x
+	node_ptr repl = this->_replacement_node(node);
+	node_ptr repl_child = repl->_left == nullptr ? repl->_right : repl->_left;
 	node_ptr sibling = nullptr;
 	if (repl_child != nullptr)
 		repl_child->_parent = repl->_parent;
@@ -1159,7 +1228,6 @@ RBtree<T,Compare,Alloc>::_erase(node_ptr root, node_ptr node) // also known as z
 		sibling = repl->_parent->_left;
 	}
 	node_color repl_color = repl->_color;
-	// bool bouble_black = this->_is_double_black(node, repl);
 	if (repl != node) // copy the contents of node into repl
 	{
 		repl->_parent = node->_parent;
@@ -1175,37 +1243,72 @@ RBtree<T,Compare,Alloc>::_erase(node_ptr root, node_ptr node) // also known as z
 		repl->_color = node->_color;
 		if (node == root)
 			root = repl;
+		
 	}
 	// we don't need to rebalance if we removed a red node or if there are no
 	// more nodes in the tree
-	if (repl_color == black && root != nullptr)
+	if (repl_color == black && root != nullptr) // Case 1
 	{
 		// repl had either no children or one red child (repl_child)
 		// so, if repl_child != nullptr it is either red or root
 		// root can't be double black and a red node will be flipped
 		// to black
-		if (repl_child != nullptr)
+		if (repl_child != nullptr) // Case 2
 		{
-			repl_child->print_node();
 			repl_child->_color = black;
 		}
 		else
-			// this->_rebalance_before_erasion(root, repl_child, sibling); // repl_child is always null at the start
-		this->_root()->_color = black;
+			this->_rebalance_before_erasion(root, repl_child, sibling); // repl_child is always null at the start
 	}
 }
 
+/*
+							Summary of the cases:
+* note: parent is always the parent of the sibling and the db_node
+*	Case 1: repl was red
+		-> no rebalancing needed, as there is no change in the black depth
+*	Case 2: repl_child was red or the root
+		-> if repl_child is red, we can simply color it black to preserve
+			the black depth
+		-> the root can't be double black, so we just remove the db
+*	Case 3: sibling is red
+		-> sibling "takes over" one of the blacks, so db_node and sibling
+			are now normal black
+		-> the parent of them becomes red
+		-> rotation of the parent in the appropriate direction
+			(left if db_node is on the left and otherwise right)
+		-> reset the sibling and continue to the appropriate case
+*	Case 4: both of siblings children are black (and sibling is black)
+		-> sibling becomes red
+		-> the parent node "takes over" one of the blacks, so
+			if it was red, it will become black and if it was black
+			it will become double black
+		-> if the parent is the root or normal black, we are done.
+			Otherwise we reset the sibling and continue
+*	Case 5: sibling's child that's facing towards db_node is red
+			(and sibling is black)
+		-> since one of the children is red it can't be null
+		-> sibling and his red child swap colors
+		-> rotate sibling away from the db_node
+			(right if db_node is on the left and left otherwise)
+		-> reset the sibling and move on to case 6
+*	Case 6: sibling's child that's facing away from db_node is red
+			(and sibling is black)
+		-> sibling and his parent swap colors
+		-> rotate the parent towards the db_node
+			(left if db_node is on the left and right otherwise)
+		-> the sibling's child "has taken over" one of the blacks from db_node
+		-> we are done
+*/
 template<typename T, typename Compare, typename Alloc>
 void
-RBtree<T,Compare,Alloc>::_rebalance_before_erasion(node_ptr root, node_ptr node, node_ptr sibling)
+RBtree<T,Compare,Alloc>::_rebalance_before_erasion(node_ptr root, node_ptr db_node, node_ptr sibling)
 {
-	// node == x and sibling == w
-	
-	while (node != root && this->_get_node_color(node) == black)
+	while (true)//(node != root && this->_get_node_color(node) == black)
 	{
 		if (!tree_is_left_child<value_type>(sibling)) // == tree_is_left_child(node)
 		{
-			if (this->_get_node_color(sibling) == red) // Case 1
+			if (this->_get_node_color(sibling) == red) // Case 3
 			{
 				sibling->flip_color();
 				sibling->_parent->flip_color();
@@ -1215,36 +1318,36 @@ RBtree<T,Compare,Alloc>::_rebalance_before_erasion(node_ptr root, node_ptr node,
 				sibling = sibling->_left->_right;
 			}
 			if (this->_get_node_color(sibling->_left) == black &&
-				this->_get_node_color(sibling->_right) == black) // Case 2
+				this->_get_node_color(sibling->_right) == black) // Case 4
 			{
 				sibling->flip_color();
-				node = sibling->_parent;
-				if (node == root || this->_get_node_color(node) == red)
+				db_node = sibling->_parent;
+				if (db_node == root || this->_get_node_color(db_node) == red)
 				{
-					node->flip_color();
+					db_node->_color = black;
 					break;
 				}
-				sibling = this->_get_sibling(node);
+				sibling = this->_get_sibling(db_node);
 			}
 			else // sibling has one red child
 			{
-				if (this->_get_node_color(sibling->_right) == black) // Case 3
+				if (this->_get_node_color(sibling->_right) == black) // Case 5
 				{
 					sibling->_left->flip_color(); // the left child is red
 					sibling->flip_color();
 					this->_rotate_right(sibling);
 					sibling = sibling->_parent;
 				}
-				sibling->_color = sibling->_parent->_color; // Case 4
+				sibling->_color = sibling->_parent->_color; // Case 6
 				sibling->_parent->_color = black;
 				sibling->_right->_color = black;
 				this->_rotate_left(sibling->_parent);
 				break;
 			}
 		}
-		else
+		else // the same as before, but in reverse order
 		{
-			if (this->_get_node_color(sibling) == red) // Case 1
+			if (this->_get_node_color(sibling) == red) // Case 3
 			{
 				sibling->flip_color();
 				sibling->_parent->flip_color();
@@ -1254,29 +1357,28 @@ RBtree<T,Compare,Alloc>::_rebalance_before_erasion(node_ptr root, node_ptr node,
 				sibling = sibling->_right->_left;
 			}
 			if (this->_get_node_color(sibling->_left) == black &&
-				this->_get_node_color(sibling->_right) == black) // Case 2
+				this->_get_node_color(sibling->_right) == black) // Case 4
 			{
+
 				sibling->flip_color();
-				node = sibling->_parent;
-				if (node == root || this->_get_node_color(node) == red)
+				db_node = sibling->_parent;
+				if (db_node == root || this->_get_node_color(db_node) == red)
 				{
-					node->flip_color();
+					db_node->_color = black;
 					break;
 				}
-				sibling = this->_get_sibling(node);
-				// node->print_node();
-				this->print_tree(this->_root());
+				sibling = this->_get_sibling(db_node);
 			}
 			else // sibling has one red child
 			{
-				if (this->_get_node_color(sibling->_left) == black) // Case 3
+				if (this->_get_node_color(sibling->_left) == black) // Case 5
 				{
 					sibling->_right->flip_color(); // the right child is red
 					sibling->flip_color();
 					this->_rotate_left(sibling);
 					sibling = sibling->_parent;
 				}
-				sibling->_color = sibling->_parent->_color; // Case 4
+				sibling->_color = sibling->_parent->_color; // Case 6
 				sibling->_parent->_color = black;
 				sibling->_left->_color = black;
 				this->_rotate_right(sibling->_parent);
@@ -1294,12 +1396,7 @@ RBtree<T,Compare,Alloc>::_replacement_node(node_ptr node) const
 	if (node->_left == nullptr || node->_right == nullptr)
 		return node;
 	else
-	{
-		iterator pos(node);
-		++pos;
-		// return pos.base();
 		return tree_min<value_type>(node->_right);
-	}
 }
 
 template<typename T, typename Compare, typename Alloc>
@@ -1321,55 +1418,12 @@ RBtree<T,Compare,Alloc>::_get_node_color(node_ptr node) const
 	return node->_color;
 }
 
-
+// up for deletion
 template<typename T, typename Compare, typename Alloc>
 bool
 RBtree<T,Compare,Alloc>::_is_double_black(node_ptr node, node_ptr replacement) const
 {
 	return _get_node_color(node) == black && _get_node_color(replacement) == black;
-}
-
-// doesn't work because you cant swap keys...
-template<typename T, typename Compare, typename Alloc>
-typename RBtree<T,Compare,Alloc>::node_ptr
-RBtree<T,Compare,Alloc>::_erase(node_ptr node, const value_type& val, bool& deleted)
-{
-	(void)node; (void)val; (void)deleted;
-	// if (node == nullptr)
-	// {
-	// 	return nullptr;
-	// }
-	// if (this->_comp(node->_data, val))
-	// 	node->_right = _erase(node->_right, val, deleted);
-	// else if (this->_comp(val, node->_data))
-	// 	node->_left = _erase(node->_left, val, deleted);
-	// else
-	// {
-	// 	node_ptr ret_node;
-	// 	if (node->_left == nullptr)
-	// 		ret_node = node->_right;
-	// 	else if (node->_right == nullptr)
-	// 		ret_node = node->_left;
-	// 	else
-	// 	{
-	// 		// ret_node = node;
-	// 		ret_node = ft::tree_max<value_type>(node->_left);
-	// 		if (tree_is_left_child<value_type>(ret_node))
-	// 			ret_node->_parent->_left = nullptr;
-	// 		else
-	// 			ret_node->_parent->_right = nullptr;
-	// 		ft::swap(ret_node->_right, node->_right);
-	// 		ft::swap(ret_node->_parent, node->_parent);
-	// 		ft::swap(ret_node->_left, node->_left);//_erase(node->_left, ret_node->_data, deleted);
-	// 		// rebalance here
-	// 		std::cout << "here" << std::endl;
-	// 	}
-	// 	if (!deleted)
-	// 		this->_destroy_node(node);
-	// 	deleted = true;
-	// 	return ret_node;
-	// }
-	// return node;
 }
 
 template<typename T, typename Compare, typename Alloc>
@@ -1392,13 +1446,6 @@ template<typename T, typename Compare, typename Alloc>
 void
 RBtree<T,Compare,Alloc>::_destroy_node(node_ptr node)
 {
-	if (node == this->_begin_node)
-	{
-		std::cout << "here" << std::endl;
-		iterator pos(node);
-		++pos;
-		this->_begin_node = pos.base();
-	}
 	this->_allocator.destroy(&node->_data);
 	this->_node_allocator.deallocate(node, 1);
 	--this->_size;
@@ -1431,6 +1478,7 @@ RBtree<T,Compare,Alloc>::_destroy(node_ptr node)
 	this->_destroy_node(node);
 }
 
+// up for deletion
 template<typename T, typename Compare, typename Alloc>
 bool
 RBtree<T,Compare,Alloc>::_equals(const value_type& first, const value_type& second) const

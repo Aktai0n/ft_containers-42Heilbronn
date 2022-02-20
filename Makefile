@@ -6,13 +6,13 @@
 #    By: skienzle <skienzle@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/06 15:15:49 by skienzle          #+#    #+#              #
-#    Updated: 2022/02/18 22:52:12 by skienzle         ###   ########.fr        #
+#    Updated: 2022/02/19 19:30:48 by skienzle         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = ft_containers
 CC = clang++
-CFLAGS = -Wall -Wextra -Werror -std=c++98 -g
+CFLAGS = -Wall -Wextra -Werror -std=c++98
 RM = rm -rf
 
 INC = vector.hpp map.hpp stack.hpp set.hpp iterator.hpp \
@@ -51,4 +51,10 @@ re: fclean all
 
 bonus: all
 
-.PHONY: all clean fclean re bonus
+debug: CFLAGS += -g
+debug: re
+
+release: CFLAGS += -Ofast
+release: re
+
+.PHONY: all clean fclean re bonus debug release

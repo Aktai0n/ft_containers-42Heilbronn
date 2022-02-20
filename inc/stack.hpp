@@ -6,7 +6,7 @@
 /*   By: skienzle <skienzle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 15:40:38 by skienzle          #+#    #+#             */
-/*   Updated: 2022/02/08 22:38:48 by skienzle         ###   ########.fr       */
+/*   Updated: 2022/02/19 15:53:12 by skienzle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 namespace ft
 {
 
-template<typename T, typename Container = vector<T> >
+template<typename T, typename Container = ft::vector<T> >
 class stack
 {
 public: // types
@@ -89,6 +89,7 @@ stack<T,Container>::pop()
 {
 	this->_c.pop_back();
 }
+
 
 // external operator overloads
 

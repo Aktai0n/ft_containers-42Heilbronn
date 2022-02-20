@@ -6,7 +6,7 @@
 /*   By: skienzle <skienzle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 15:40:18 by skienzle          #+#    #+#             */
-/*   Updated: 2022/02/17 22:44:30 by skienzle         ###   ########.fr       */
+/*   Updated: 2022/02/19 16:02:07 by skienzle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -436,7 +436,7 @@ inline bool
 operator<(const map<Key,T,Compare,Alloc>& lhs,
 			const map<Key,T,Compare,Alloc>& rhs)
 {
-	return ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin, rhs.end());
+	return ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
 }
 
 template<typename Key, typename T, typename Compare, typename Alloc>

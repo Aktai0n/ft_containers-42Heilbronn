@@ -6,13 +6,14 @@
 /*   By: skienzle <skienzle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/11 14:42:25 by skienzle          #+#    #+#             */
-/*   Updated: 2022/02/11 21:26:50 by skienzle         ###   ########.fr       */
+/*   Updated: 2022/02/19 15:59:06 by skienzle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #pragma once
 
 #include "Itree.hpp"
+#include "functional.hpp"
 
 
 #ifndef nullptr

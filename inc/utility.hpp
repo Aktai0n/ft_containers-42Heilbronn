@@ -6,7 +6,7 @@
 /*   By: skienzle <skienzle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/20 20:29:10 by skienzle          #+#    #+#             */
-/*   Updated: 2022/02/11 19:22:49 by skienzle         ###   ########.fr       */
+/*   Updated: 2022/02/19 16:06:40 by skienzle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,6 @@
 
 namespace ft
 {
-
-
 
 template<typename T1, typename T2>
 struct pair
@@ -54,8 +52,11 @@ template<typename T1, typename T2>
 pair<T1,T2>&
 pair<T1,T2>::operator=(const pair<T1,T2>& pr)
 {
-	this->first = pr.first;
-	this->second = pr.second;
+	if (this != &pr)
+	{
+		this->first = pr.first;
+		this->second = pr.second;
+	}
 	return *this;
 }
 
@@ -111,7 +112,5 @@ make_pair(T1 first, T2 second)
 {
 	return pair<T1,T2>(first, second);
 }
-
-
 
 } // namespace ft
