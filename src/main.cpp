@@ -6,28 +6,12 @@
 /*   By: skienzle <skienzle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 15:46:55 by skienzle          #+#    #+#             */
-/*   Updated: 2022/02/20 21:20:05 by skienzle         ###   ########.fr       */
+/*   Updated: 2022/02/27 10:41:03 by skienzle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
-#ifdef MODE_STD
-
-#include <vector>
-#include <stack>
-#include <map>
-#include <set>
-
-using std::vector;
-using std::stack;
-using std::map;
-using std::set;
-using std::make_pair;
-using std::pair;
-
-// don't forget to erase those includes in the container files!!!
-
-#else
+#ifdef FT_MODE
 
 #include "../inc/vector.hpp"
 #include "../inc/stack.hpp"
@@ -47,13 +31,53 @@ using ft::make_pair;
 using ft::pair;
 
 
-#endif // MODE_STD
+#else
 
+#include <vector>
+#include <stack>
+#include <map>
+#include <set>
+
+using std::vector;
+using std::stack;
+using std::map;
+using std::set;
+using std::make_pair;
+using std::pair;
+
+#endif // FT_MODE
+
+// don't forget to erase those includes in the container files!!!
 #include <iostream>
 #include <string>
+#include <deque>
 
 #define PRINT(__msg) (std::cout << __msg << std::endl)
+#define GREEN "\u001b[32m"
+#define RED "\u001b[31m"
+#define RESET "\u001b[0m"
 
+template<typename T>
+class MutantStack : public stack<T>
+{
+public:
+	MutantStack() {}
+	MutantStack(const MutantStack<T>& src) { *this = src; }
+	MutantStack<T>& operator=(const MutantStack<T>& rhs) 
+	{
+		this->c = rhs.c;
+		return *this;
+	}
+	~MutantStack() {}
+
+	typedef typename stack<T>::container_type::iterator iterator;
+	typedef typename stack<T>::container_type::const_iterator const_iterator;
+
+	iterator begin() { return this->c.begin(); }
+	iterator end() { return this->c.end(); }
+	const_iterator  begin() const { return this->c.begin(); }
+	const_iterator end() const { return this->c.end(); }
+};
 
 template<typename T1, typename T2>
 std::ostream& operator<<(std::ostream& lhs, const pair<T1,T2>& rhs)
@@ -61,7 +85,6 @@ std::ostream& operator<<(std::ostream& lhs, const pair<T1,T2>& rhs)
 	lhs << "First: " << rhs.first << " Second: " << rhs.second;
 	return lhs;
 }
-
 
 template<typename Container>
 void
@@ -74,6 +97,72 @@ print_container(const Container &c)
 	}
 }
 
+
+void stack_tests()
+{
+	PRINT("\n-------------------------------------------------------------------\n");
+	PRINT("tests for stack:\n");
+	stack<int> my_stack;
+	PRINT("empty? " << my_stack.empty());
+	PRINT("size? " << my_stack.size());
+	for (int i = 0; i < 1000; ++i)
+		my_stack.push(i);
+	PRINT("-------------------------------------------------------------------");
+	PRINT("after adding 1000 elements:");
+	PRINT("empty? " << my_stack.empty());
+	PRINT("size? " << my_stack.size());
+	PRINT("top? " << my_stack.top());
+	{
+		PRINT("-------------------------------------------------------------------");
+		PRINT("operator overloads:");
+		stack<int> comp;
+		for (int i = 0; i < 100; ++i)
+			comp.push(i);
+		PRINT("stack1 == stack2? " << (my_stack == comp));
+		PRINT("stack1 != stack2? " << (my_stack != comp));
+		PRINT("stack1 < stack2? " << (my_stack < comp));
+		PRINT("stack1 > stack2? " << (my_stack > comp));
+		PRINT("stack1 <= stack2? " << (my_stack <= comp));
+		PRINT("stack1 >= stack2? " << (my_stack >= comp));
+	}
+	for (int i = 0; i < 100; ++i)
+		my_stack.pop();
+	PRINT("-------------------------------------------------------------------");
+	PRINT("after popping 100 elements:");
+	PRINT("empty? " << my_stack.empty());
+	PRINT("size? " << my_stack.size());
+	PRINT("top? " << my_stack.top());
+	MutantStack<int> mut_stack;
+	for (int i = 0; i < 10; ++i)
+		mut_stack.push(i);
+	print_container(mut_stack);
+	PRINT("stack done. Press enter to continue");
+	std::cin.get();
+}
+
+void vector_tests()
+{
+	PRINT("\n-------------------------------------------------------------------\n");
+	PRINT("tests for vector:\n");
+	vector<int> my_vec;
+	PRINT("capacity? " << my_vec.capacity());
+	for (int i = 0; i < 10; ++i)
+		my_vec.push_back(i);
+	PRINT("capacity? " << my_vec.capacity());
+	print_container(my_vec);
+	{
+		PRINT("-------------------------------------------------------------------");
+		vector<int> comp;
+		comp.push_back(10);
+		comp.push_back(50);
+		PRINT("vector1 == vector2? " << (my_vec == comp));
+		PRINT("vector1 != vector2? " << (my_vec != comp));
+		PRINT("vector1 < vector2? " << (my_vec < comp));
+		PRINT("vector1 > vector2? " << (my_vec > comp));
+		PRINT("vector1 <= vector2? " << (my_vec <= comp));
+		PRINT("vector1 >= vector2? " << (my_vec >= comp));
+	}
+}
 
 void map_benchmark()
 {
@@ -120,12 +209,14 @@ void map_benchmark()
 
 int main()
 {
+	stack_tests();
+	vector_tests();
 	// const std::vector<int> test;
-	vector<int> ft_test(5, 10);
+	// vector<int> ft_test(5, 10);
 	// const ft::vector<int> referencer(5);
-	map_benchmark();
-	set<int> my_set;
-	my_set.insert(500);
+	// map_benchmark();
+	// set<int> my_set;
+	// my_set.insert(500);
 	// PRINT(referencer.size());
 	// PRINT(referencer.capacity());
 	// PRINT(referencer.max_size());

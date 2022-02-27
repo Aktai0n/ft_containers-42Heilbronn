@@ -6,13 +6,15 @@
 /*   By: skienzle <skienzle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/20 16:54:31 by skienzle          #+#    #+#             */
-/*   Updated: 2022/02/20 19:00:17 by skienzle         ###   ########.fr       */
+/*   Updated: 2022/02/27 10:21:34 by skienzle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #pragma once
 
 #include <exception>
+
+#include <iostream>
 
 namespace ft
 {
@@ -213,7 +215,7 @@ vector<T,Alloc>::reserve(size_type n)
 	if (n <= this->_capacity)
 		return;
 	pointer new_begin = this->_vallocate(n);
-	pointer new_end = new_begin + n;
+	pointer new_end = new_begin + this->size();
 	ft::copy(this->_begin, this->_end, new_begin);
 	this->_vdeallocate();
 	this->_begin = new_begin;

@@ -6,7 +6,7 @@
 #    By: skienzle <skienzle@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/06 15:15:49 by skienzle          #+#    #+#              #
-#    Updated: 2022/02/20 21:03:02 by skienzle         ###   ########.fr        #
+#    Updated: 2022/02/27 10:27:01 by skienzle         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,16 +32,16 @@ SRC_FULL = $(addprefix $(SDIR)/, $(SRC))
 ODIR = obj
 OBJ = $(patsubst $(SDIR)/%.cpp, $(ODIR)/%.o, $(SRC_FULL))
 
-STD_ODIR = std_obj
+STD_ODIR = obj_std
 STD_OBJ = $(patsubst $(SDIR)/%.cpp, $(STD_ODIR)/%.o, $(SRC_FULL))
 
 
 all: $(NAME) $(STD_NAME)
 
+$(NAME): CFLAGS += -DFT_MODE=1
 $(NAME): $(ODIR) $(OBJ) $(INC_FULL) $(TPP_FULL)
 	$(CC) $(CFLAGS) $(OBJ) -o $(NAME)
 
-$(STD_NAME): CFLAGS += -DMODE_STD=1
 $(STD_NAME): $(STD_ODIR) $(STD_OBJ)
 	$(CC) $(CFLAGS) $(STD_OBJ) -o $(STD_NAME)
 
@@ -67,7 +67,11 @@ fclean: clean
 
 re: fclean all
 
+bonus: CFLAGS += -DBONUS=1
 bonus: all
+
+benchmark: CFLAGS += -DBENCHMARK=1
+benchmark: re
 
 debug: CFLAGS += -g
 debug: re
@@ -75,4 +79,4 @@ debug: re
 release: CFLAGS += -Ofast
 release: re
 
-.PHONY: all clean fclean re bonus debug release
+.PHONY: all clean fclean re bonus benchmark debug release
