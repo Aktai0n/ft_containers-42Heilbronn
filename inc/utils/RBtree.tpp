@@ -6,7 +6,7 @@
 /*   By: skienzle <skienzle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/20 16:50:18 by skienzle          #+#    #+#             */
-/*   Updated: 2022/02/27 11:45:36 by skienzle         ###   ########.fr       */
+/*   Updated: 2022/02/27 12:31:07 by skienzle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -545,7 +545,7 @@ void
 RBtree<T,Compare,Alloc>::swap(RBtree& other)
 {
 	ft::swap(this->_begin_node, other._begin_node);
-	ft::swap(this->_parent, other._parent);
+	ft::swap(this->_end_node(), other._end_node());
 	ft::swap(this->_size, other._size);
 	ft::swap(this->_comp, other._comp);
 }
@@ -728,7 +728,7 @@ ft::pair<typename RBtree<T,Compare,Alloc>::const_iterator,
 		typename RBtree<T,Compare,Alloc>::const_iterator>
 RBtree<T,Compare,Alloc>::equal_range(const value_type& val) const
 {
-	node_ptr node = this->_root();
+	const_node_ptr node = this->_root();
 	const_node_ptr pos = this->_end_node();
 
 	while (node != nullptr)
