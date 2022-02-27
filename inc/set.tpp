@@ -6,7 +6,7 @@
 /*   By: skienzle <skienzle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/20 16:54:24 by skienzle          #+#    #+#             */
-/*   Updated: 2022/02/20 18:38:27 by skienzle         ###   ########.fr       */
+/*   Updated: 2022/02/27 11:43:45 by skienzle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,7 +133,7 @@ template<typename T, typename Compare, typename Alloc>
 typename set<T,Compare,Alloc>::size_type
 set<T,Compare,Alloc>::max_size() const
 {
-	this->_tree.max_size();
+	return this->_tree.max_size();
 }
 
 

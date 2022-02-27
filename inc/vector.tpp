@@ -6,7 +6,7 @@
 /*   By: skienzle <skienzle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/20 16:54:31 by skienzle          #+#    #+#             */
-/*   Updated: 2022/02/27 10:21:34 by skienzle         ###   ########.fr       */
+/*   Updated: 2022/02/27 11:34:49 by skienzle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ vector<T,Alloc>::operator=(const vector<T,Alloc>& other)
 		this->_vdeallocate();
 		this->_capacity = 0;
 		this->_begin = this->_vallocate(other.capacity());
-		this->_end = this->begin + other.size();
+		this->_end = this->_begin + other.size();
 		this->_construct_at_front(other);
 	}
 	return *this;

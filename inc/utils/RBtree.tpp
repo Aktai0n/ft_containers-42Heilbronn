@@ -6,7 +6,7 @@
 /*   By: skienzle <skienzle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/20 16:50:18 by skienzle          #+#    #+#             */
-/*   Updated: 2022/02/20 19:16:39 by skienzle         ###   ########.fr       */
+/*   Updated: 2022/02/27 11:45:36 by skienzle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -499,7 +499,7 @@ void
 RBtree<T,Compare,Alloc>::insert(InputIterator first, InputIterator last)
 {
 	for(; first != last; ++first)
-		this->_insert(*first);
+		this->insert(*first);
 }
 
 template<typename T, typename Compare, typename Alloc>
@@ -598,7 +598,7 @@ template<typename T, typename Compare, typename Alloc>
 typename RBtree<T,Compare,Alloc>::const_iterator
 RBtree<T,Compare,Alloc>::find(const value_type& val) const
 {
-	node_ptr node = this->_root();
+	const_node_ptr node = this->_root();
 
 	while (node != nullptr)
 	{
@@ -643,7 +643,7 @@ template<typename T, typename Compare, typename Alloc>
 typename RBtree<T,Compare,Alloc>::const_iterator
 RBtree<T,Compare,Alloc>::lower_bound(const value_type& val) const
 {
-	node_ptr node = this->_root();
+	const_node_ptr node = this->_root();
 	const_node_ptr pos = this->_end_node();
 
 	while (node != nullptr)
@@ -683,7 +683,7 @@ template<typename T, typename Compare, typename Alloc>
 typename RBtree<T,Compare,Alloc>::const_iterator
 RBtree<T,Compare,Alloc>::upper_bound(const value_type& val) const
 {
-	node_ptr node = this->_root();
+	const_node_ptr node = this->_root();
 	const_node_ptr pos = this->_end_node();
 
 	while (node != nullptr)
