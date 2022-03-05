@@ -6,7 +6,7 @@
 /*   By: skienzle <skienzle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/08 09:38:58 by skienzle          #+#    #+#             */
-/*   Updated: 2022/03/05 19:11:51 by skienzle         ###   ########.fr       */
+/*   Updated: 2022/03/05 21:47:23 by skienzle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -332,7 +332,7 @@ operator+(typename reverse_iterator<Iterator>::difference_type n,
 
 // linear_iterator
 
-template<typename Iterator>
+template<typename Iterator, typename Container>
 class linear_iterator
 {
 public: // types
@@ -347,8 +347,8 @@ public: // types
 public: // methods
 	// constructors
 	linear_iterator();
-	linear_iterator(const linear_iterator<Iterator>& other);
-	// linear_iterator(const linear_iteator<const Iterator>& other);
+	// linear_iterator(const linear_iterator<Iterator,Container>& other);
+	linear_iterator(const linear_iterator<typename Container::pointer, Container>& other);
 	linear_iterator(const iterator_type& it);
 
 	// destructor
@@ -376,113 +376,114 @@ private: // attributes
 };
 
 
-template<typename Iterator>
-linear_iterator<Iterator>::linear_iterator(): _it() {}
+template<typename Iterator, typename Container>
+linear_iterator<Iterator,Container>::linear_iterator(): _it() {}
 
-template<typename Iterator>
-linear_iterator<Iterator>::linear_iterator(const linear_iterator<Iterator>& other):
-	_it(other.base()) {}
-
-// template<typename Iterator>
-// linear_iterator<Iterator>::linear_iterator(const ft::linear_iterator<const Iterator>& other):
+// template<typename Iterator, typename Container>
+// linear_iterator<Iterator,Container>::linear_iterator(const linear_iterator<Iterator,Container>& other):
 // 	_it(other.base()) {}
 
-template<typename Iterator>
-linear_iterator<Iterator>::linear_iterator(const iterator_type& it): _it(it) {}
+template<typename Iterator, typename Container>
+linear_iterator<Iterator,Container>::linear_iterator(const linear_iterator<
+													typename Container::pointer,Container>& other):
+	_it(other.base()) {}
+
+template<typename Iterator, typename Container>
+linear_iterator<Iterator,Container>::linear_iterator(const iterator_type& it): _it(it) {}
 
 
-template<typename Iterator>
-linear_iterator<Iterator>::~linear_iterator() {}
+template<typename Iterator, typename Container>
+linear_iterator<Iterator,Container>::~linear_iterator() {}
 
 
-template<typename Iterator>
-typename linear_iterator<Iterator>::reference
-linear_iterator<Iterator>::operator*() const
+template<typename Iterator, typename Container>
+typename linear_iterator<Iterator,Container>::reference
+linear_iterator<Iterator,Container>::operator*() const
 {
 	return *this->_it;
 }
 
-template<typename Iterator>
-typename linear_iterator<Iterator>::pointer
-linear_iterator<Iterator>::operator->() const
+template<typename Iterator, typename Container>
+typename linear_iterator<Iterator,Container>::pointer
+linear_iterator<Iterator,Container>::operator->() const
 {
 	return this->_it;
 }
 
-template<typename Iterator>
-linear_iterator<Iterator>&
-linear_iterator<Iterator>::operator++()
+template<typename Iterator, typename Container>
+linear_iterator<Iterator,Container>&
+linear_iterator<Iterator,Container>::operator++()
 {
 	++this->_it;
 	return *this;
 }
 
-template<typename Iterator>
-linear_iterator<Iterator>
-linear_iterator<Iterator>::operator++(int)
+template<typename Iterator, typename Container>
+linear_iterator<Iterator,Container>
+linear_iterator<Iterator,Container>::operator++(int)
 {
 	linear_iterator temp(*this);
 	++this->_it;
 	return temp;
 }
 
-template<typename Iterator>
-linear_iterator<Iterator>&
-linear_iterator<Iterator>::operator--()
+template<typename Iterator, typename Container>
+linear_iterator<Iterator,Container>&
+linear_iterator<Iterator,Container>::operator--()
 {
 	--this->_it;
 	return *this;
 }
 
-template<typename Iterator>
-linear_iterator<Iterator>
-linear_iterator<Iterator>::operator--(int)
+template<typename Iterator, typename Container>
+linear_iterator<Iterator,Container>
+linear_iterator<Iterator,Container>::operator--(int)
 {
 	linear_iterator temp(*this);
 	--this->_it;
 	return temp;
 }
 
-template<typename Iterator>
-linear_iterator<Iterator>
-linear_iterator<Iterator>::operator+(difference_type n) const
+template<typename Iterator, typename Container>
+linear_iterator<Iterator,Container>
+linear_iterator<Iterator,Container>::operator+(difference_type n) const
 {
 	return linear_iterator(this->_it + n);
 }
 
-template<typename Iterator>
-linear_iterator<Iterator>&
-linear_iterator<Iterator>::operator+=(difference_type n)
+template<typename Iterator, typename Container>
+linear_iterator<Iterator,Container>&
+linear_iterator<Iterator,Container>::operator+=(difference_type n)
 {
 	this->_it += n;
 	return *this;
 }
 
-template<typename Iterator>
-linear_iterator<Iterator>
-linear_iterator<Iterator>::operator-(difference_type n) const
+template<typename Iterator, typename Container>
+linear_iterator<Iterator,Container>
+linear_iterator<Iterator,Container>::operator-(difference_type n) const
 {
 	return linear_iterator(this->_it - n);
 }
 
-template<typename Iterator>
-linear_iterator<Iterator>&
-linear_iterator<Iterator>::operator-=(difference_type n)
+template<typename Iterator, typename Container>
+linear_iterator<Iterator,Container>&
+linear_iterator<Iterator,Container>::operator-=(difference_type n)
 {
 	this->_it -= n;
 	return *this;
 }
 
-template<typename Iterator>
-typename linear_iterator<Iterator>::reference
-linear_iterator<Iterator>::operator[](difference_type n) const
+template<typename Iterator, typename Container>
+typename linear_iterator<Iterator,Container>::reference
+linear_iterator<Iterator,Container>::operator[](difference_type n) const
 {
 	return *(this->_it + n);
 }
 
-template<typename Iterator>
+template<typename Iterator, typename Container>
 Iterator
-linear_iterator<Iterator>::base() const
+linear_iterator<Iterator,Container>::base() const
 {
 	return this->_it;
 }
@@ -490,110 +491,110 @@ linear_iterator<Iterator>::base() const
 
 // relational operator overloads for linear_iterator
 
-template<typename Iterator>
-inline linear_iterator<Iterator>
-operator+(typename linear_iterator<Iterator>::difference_type n,
-			linear_iterator<Iterator> it)
+template<typename Iterator, typename Container>
+inline linear_iterator<Iterator,Container>
+operator+(typename linear_iterator<Iterator,Container>::difference_type n,
+			linear_iterator<Iterator,Container> it)
 {
 	it += n;
 	return it;
 }
 
-template<typename Iterator>
-inline typename linear_iterator<Iterator>::difference_type
-operator-(const linear_iterator<Iterator>& lhs, const linear_iterator<Iterator>& rhs)
+template<typename Iterator, typename Container>
+inline typename linear_iterator<Iterator,Container>::difference_type
+operator-(const linear_iterator<Iterator,Container>& lhs, const linear_iterator<Iterator,Container>& rhs)
 {
 	return lhs.base() - rhs.base();
 }
 
-template<typename Iterator1, typename Iterator2>
-inline typename linear_iterator<Iterator1>::difference_type
-operator-(const linear_iterator<Iterator1>& lhs, const linear_iterator<Iterator2>& rhs)
+template<typename Iterator1, typename Iterator2, typename Container>
+inline typename linear_iterator<Iterator1,Container>::difference_type
+operator-(const linear_iterator<Iterator1,Container>& lhs, const linear_iterator<Iterator2,Container>& rhs)
 {
 	return lhs.base() - rhs.base();
 }
 
 
-template<typename Iterator>
+template<typename Iterator, typename Container>
 inline bool
-operator==(const linear_iterator<Iterator>& lhs, const linear_iterator<Iterator>& rhs)
+operator==(const linear_iterator<Iterator,Container>& lhs, const linear_iterator<Iterator,Container>& rhs)
 {
 	return lhs.base() == rhs.base();
 }
 
-template<typename Iterator1, typename Iterator2>
+template<typename Iterator1, typename Iterator2, typename Container>
 inline bool
-operator==(const linear_iterator<Iterator1>& lhs, const linear_iterator<Iterator2>& rhs)
+operator==(const linear_iterator<Iterator1,Container>& lhs, const linear_iterator<Iterator2,Container>& rhs)
 {
 	return lhs.base() == rhs.base();
 }
 
-template<typename Iterator>
+template<typename Iterator, typename Container>
 inline bool
-operator!=(const linear_iterator<Iterator>& lhs, const linear_iterator<Iterator>& rhs)
+operator!=(const linear_iterator<Iterator,Container>& lhs, const linear_iterator<Iterator,Container>& rhs)
 {
 	return !(lhs == rhs);
 }
 
-template<typename Iterator1, typename Iterator2>
+template<typename Iterator1, typename Iterator2, typename Container>
 inline bool
-operator!=(const linear_iterator<Iterator1>& lhs, const linear_iterator<Iterator2>& rhs)
+operator!=(const linear_iterator<Iterator1,Container>& lhs, const linear_iterator<Iterator2,Container>& rhs)
 {
 	return !(lhs == rhs);
 }
 
-template<typename Iterator>
+template<typename Iterator, typename Container>
 inline bool
-operator<(const linear_iterator<Iterator>& lhs, const linear_iterator<Iterator>& rhs)
+operator<(const linear_iterator<Iterator,Container>& lhs, const linear_iterator<Iterator,Container>& rhs)
 {
 	return lhs.base() < rhs.base();
 }
 
-template<typename Iterator1, typename Iterator2>
+template<typename Iterator1, typename Iterator2, typename Container>
 inline bool
-operator<(const linear_iterator<Iterator1>& lhs, const linear_iterator<Iterator2>& rhs)
+operator<(const linear_iterator<Iterator1,Container>& lhs, const linear_iterator<Iterator2,Container>& rhs)
 {
 	return lhs.base() < rhs.base();
 }
 
-template<typename Iterator>
+template<typename Iterator, typename Container>
 inline bool
-operator>(const linear_iterator<Iterator>& lhs, const linear_iterator<Iterator>& rhs)
+operator>(const linear_iterator<Iterator,Container>& lhs, const linear_iterator<Iterator,Container>& rhs)
 {
 	return lhs.base() > rhs.base();
 }
 
-template<typename Iterator1, typename Iterator2>
+template<typename Iterator1, typename Iterator2, typename Container>
 inline bool
-operator>(const linear_iterator<Iterator1>& lhs, const linear_iterator<Iterator2>& rhs)
+operator>(const linear_iterator<Iterator1,Container>& lhs, const linear_iterator<Iterator2,Container>& rhs)
 {
 	return lhs.base() > rhs.base();
 }
 
-template<typename Iterator>
+template<typename Iterator, typename Container>
 inline bool
-operator<=(const linear_iterator<Iterator>& lhs, const linear_iterator<Iterator>& rhs)
+operator<=(const linear_iterator<Iterator,Container>& lhs, const linear_iterator<Iterator,Container>& rhs)
 {
 	return lhs.base() <= rhs.base();
 }
 
-template<typename Iterator1, typename Iterator2>
+template<typename Iterator1, typename Iterator2, typename Container>
 inline bool
-operator<=(const linear_iterator<Iterator1>& lhs, const linear_iterator<Iterator2>& rhs)
+operator<=(const linear_iterator<Iterator1,Container>& lhs, const linear_iterator<Iterator2,Container>& rhs)
 {
 	return lhs.base() <= rhs.base();
 }
 
-template<typename Iterator>
+template<typename Iterator, typename Container>
 inline bool
-operator>=(const linear_iterator<Iterator>& lhs, const linear_iterator<Iterator>& rhs)
+operator>=(const linear_iterator<Iterator,Container>& lhs, const linear_iterator<Iterator,Container>& rhs)
 {
 	return lhs.base() >= rhs.base();
 }
 
-template<typename Iterator1, typename Iterator2>
+template<typename Iterator1, typename Iterator2, typename Container>
 inline bool
-operator>=(const linear_iterator<Iterator1>& lhs, const linear_iterator<Iterator2>& rhs)
+operator>=(const linear_iterator<Iterator1,Container>& lhs, const linear_iterator<Iterator2,Container>& rhs)
 {
 	return lhs.base() >= rhs.base();
 }
