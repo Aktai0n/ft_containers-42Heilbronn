@@ -6,7 +6,7 @@
 /*   By: skienzle <skienzle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 15:40:35 by skienzle          #+#    #+#             */
-/*   Updated: 2022/02/20 19:00:30 by skienzle         ###   ########.fr       */
+/*   Updated: 2022/03/05 16:16:59 by skienzle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ public: // methods
 	explicit vector(size_type n, const value_type& val = value_type(), const allocator_type& alloc = allocator_type());
 	template<typename InputIterator>
 		vector(InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type(),
-				typename ft::enable_if<!ft::is_integral<InputIterator>::value>::type = 0);
+				typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type* = nullptr);
 	vector(const vector& other);
 	~vector();
 
@@ -101,7 +101,7 @@ public: // methods
 
 	template<typename InputIterator>
 		void	assign(InputIterator first, InputIterator last,
-						typename ft::enable_if<!ft::is_integral<InputIterator>::value>::type = 0);
+						typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type* = nullptr);
 	void		assign(size_type n, const value_type& val);
 	void		push_back(const value_type& val);
 	void		pop_back();
@@ -109,7 +109,7 @@ public: // methods
 	void		insert(iterator position, size_type n, const value_type& val);
 	template<typename InputIterator>
 		void	insert(iterator position, InputIterator first, InputIterator last,
-						typename ft::enable_if<!ft::is_integral<InputIterator>::value>::type = 0);
+						typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type* = nullptr);
 	iterator	erase(iterator position);
 	iterator	erase(iterator first, iterator last);
 	void		swap(vector& other);

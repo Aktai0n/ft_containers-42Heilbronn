@@ -6,7 +6,7 @@
 /*   By: skienzle <skienzle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 19:21:18 by skienzle          #+#    #+#             */
-/*   Updated: 2022/02/27 11:58:59 by skienzle         ###   ########.fr       */
+/*   Updated: 2022/03/05 16:17:38 by skienzle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,14 +38,14 @@ struct integral_constant
 	typedef T					value_type;
 	typedef integral_constant	type;
 
-	enum { value = v };
+	// enum { value = v };
 
-	// static const value_type value = v;
+	static const value_type value = v;
 
-	// const value_type operator()() const
-	// {
-	// 	return value;
-	// }
+	const value_type operator()() const
+	{
+		return value;
+	}
 };
 
 

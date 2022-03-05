@@ -6,7 +6,7 @@
 /*   By: skienzle <skienzle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 15:46:55 by skienzle          #+#    #+#             */
-/*   Updated: 2022/02/27 10:41:03 by skienzle         ###   ########.fr       */
+/*   Updated: 2022/03/05 15:59:02 by skienzle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,7 +161,10 @@ void vector_tests()
 		PRINT("vector1 > vector2? " << (my_vec > comp));
 		PRINT("vector1 <= vector2? " << (my_vec <= comp));
 		PRINT("vector1 >= vector2? " << (my_vec >= comp));
+		my_vec.assign(comp.begin(), comp.end());
 	}
+	my_vec.assign(20, 100);
+	print_container(my_vec);
 }
 
 void map_benchmark()
@@ -209,7 +212,7 @@ void map_benchmark()
 
 int main()
 {
-	stack_tests();
+	// stack_tests();
 	vector_tests();
 	// const std::vector<int> test;
 	// vector<int> ft_test(5, 10);

@@ -6,7 +6,7 @@
 /*   By: skienzle <skienzle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/20 16:54:31 by skienzle          #+#    #+#             */
-/*   Updated: 2022/02/27 11:34:49 by skienzle         ###   ########.fr       */
+/*   Updated: 2022/03/05 16:16:27 by skienzle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ vector<T,Alloc>::vector(size_type n, const value_type& val, const allocator_type
 template<typename T, typename Alloc>
 template<typename InputIterator>
 vector<T,Alloc>::vector(InputIterator first, InputIterator last, const allocator_type& alloc,
-						typename ft::enable_if<!ft::is_integral<InputIterator>::value>::type):
+						typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type*):
 	_capacity(0), _begin(), _end(), _allocator(alloc)
 {
 	this->_begin = this->_end = this->_vallocate(ft::distance(first, last));
@@ -278,7 +278,7 @@ template<typename T, typename Alloc>
 template<typename InputIterator>
 void
 vector<T,Alloc>::assign(InputIterator first, InputIterator last,
-						typename ft::enable_if<!ft::is_integral<InputIterator>::value>::type)
+						typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type*)
 {
 	if (first == last)
 		return;
@@ -372,7 +372,7 @@ template<typename T, typename Alloc>
 template<typename InputIterator>
 void
 vector<T,Alloc>::insert(iterator position, InputIterator first, InputIterator last,
-						typename ft::enable_if<!ft::is_integral<InputIterator>::value>::type)
+						typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type*)
 {
 	if (first == last)
 		return;
