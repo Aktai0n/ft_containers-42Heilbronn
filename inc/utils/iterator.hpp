@@ -6,7 +6,7 @@
 /*   By: skienzle <skienzle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/08 09:38:58 by skienzle          #+#    #+#             */
-/*   Updated: 2022/02/27 17:12:42 by skienzle         ###   ########.fr       */
+/*   Updated: 2022/03/05 17:47:02 by skienzle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ template<typename InputIterator>
 inline typename iterator_traits<InputIterator>::difference_type
 distance(InputIterator first, InputIterator last)
 {
-	return _distance(first, last, typename iterator_traits<InputIterator>::iterator_category());
+	return _distance(first, last, typename ft::iterator_traits<InputIterator>::iterator_category());
 }
 
 

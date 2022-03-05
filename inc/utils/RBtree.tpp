@@ -6,7 +6,7 @@
 /*   By: skienzle <skienzle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/20 16:50:18 by skienzle          #+#    #+#             */
-/*   Updated: 2022/03/05 17:02:01 by skienzle         ###   ########.fr       */
+/*   Updated: 2022/03/05 17:32:27 by skienzle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -545,7 +545,7 @@ void
 RBtree<T,Compare,Alloc>::swap(RBtree& other)
 {
 	ft::swap(this->_begin_node, other._begin_node);
-	ft::swap(this->_end_node(), other._end_node());
+	ft::swap(this->_parent->_left, other._parent->_left);
 	ft::swap(this->_size, other._size);
 	ft::swap(this->_comp, other._comp);
 }
@@ -1033,7 +1033,7 @@ RBtree<T,Compare,Alloc>::_erase(node_ptr root, node_ptr node)
 	else
 	{
 		// root can't be this->_parent's right child
-		repl->_parent->_right = repl_child; 
+		repl->_parent->_right = repl_child;
 		sibling = repl->_parent->_left;
 	}
 	node_color repl_color = repl->_color;
@@ -1129,7 +1129,6 @@ RBtree<T,Compare,Alloc>::_rebalance_before_erasion(node_ptr root, node_ptr db_no
 			if (this->_get_node_color(sibling->_left) == black &&
 				this->_get_node_color(sibling->_right) == black) // Case 4
 			{
-
 				sibling->flip_color();
 				db_node = sibling->_parent;
 				if (db_node == root || this->_get_node_color(db_node) == red)
