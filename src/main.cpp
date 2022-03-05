@@ -6,7 +6,7 @@
 /*   By: skienzle <skienzle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 15:46:55 by skienzle          #+#    #+#             */
-/*   Updated: 2022/03/05 15:59:02 by skienzle         ###   ########.fr       */
+/*   Updated: 2022/03/05 19:47:36 by skienzle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,6 +167,37 @@ void vector_tests()
 	print_container(my_vec);
 }
 
+void map_tests()
+{
+	// std::vector<T3> lst;
+	// unsigned int lst_size = 10;
+	// for (unsigned int i = 0; i < lst_size; ++i)
+	// 	lst.push_back(T3(i, std::string((lst_size - i), i + 65)));
+	// TESTED_NAMESPACE::map<T1, T2> mp(lst.begin(), lst.end());
+
+	// ft_erase(mp, ++mp.begin());
+
+	// ft_erase(mp, mp.begin());
+	// ft_erase(mp, --mp.end());
+
+	// ft_erase(mp, mp.begin(), ++(++(++mp.begin())));
+	// ft_erase(mp, --(--(--mp.end())), --mp.end());
+
+	std::deque<pair<int, std::string> > vec;
+	for (int i = 0; i < 10; ++i)
+		vec.push_back(ft::make_pair(i, std::string(10 - i, i + 65)));
+	map<int, std::string> my_map(vec.begin(), vec.end());
+	
+	my_map.erase(++my_map.begin());
+	// print_container(my_map);
+	my_map.erase(--my_map.end());
+	print_container(my_map);
+	// my_map.erase(my_map.begin(), ++(++(++my_map.begin())));
+	print_container(my_map);
+	my_map.erase(--(--(--my_map.end())), --my_map.end());
+	print_container(my_map);
+}
+
 void map_benchmark()
 {
 	// map<int,std::string> test;
@@ -213,7 +244,8 @@ void map_benchmark()
 int main()
 {
 	// stack_tests();
-	vector_tests();
+	// vector_tests();
+	map_tests();
 	// const std::vector<int> test;
 	// vector<int> ft_test(5, 10);
 	// const ft::vector<int> referencer(5);
