@@ -6,7 +6,7 @@
 /*   By: skienzle <skienzle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/11 16:06:31 by skienzle          #+#    #+#             */
-/*   Updated: 2022/03/05 16:58:09 by skienzle         ###   ########.fr       */
+/*   Updated: 2022/03/05 17:02:07 by skienzle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -243,7 +243,7 @@ public: // methods
 	const_tree_iterator(const Const_node_ptr& val);
 	// operator overloads
 	const_tree_iterator&	operator=(const const_tree_iterator& other);
-	const_tree_iterator&	operator=(const normal_tree_iterator& other);
+	// const_tree_iterator&	operator=(const normal_tree_iterator& other);
 	const_tree_iterator&	operator=(const Const_node_ptr& ptr);
 	reference		operator*() const;
 	pointer			operator->() const;

@@ -6,7 +6,7 @@
 /*   By: skienzle <skienzle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/20 16:50:18 by skienzle          #+#    #+#             */
-/*   Updated: 2022/03/05 16:52:36 by skienzle         ###   ########.fr       */
+/*   Updated: 2022/03/05 17:02:01 by skienzle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -224,7 +224,7 @@ const_tree_iterator<Const_node_ptr,Value>::const_tree_iterator(const const_tree_
 
 template<typename Const_node_ptr, typename Value>
 const_tree_iterator<Const_node_ptr,Value>::const_tree_iterator(const normal_tree_iterator& other):
-	_current_node(other._current_node) {}
+	_current_node(other.base()) {}
 
 template<typename Const_node_ptr, typename Value>
 const_tree_iterator<Const_node_ptr,Value>::const_tree_iterator(const Const_node_ptr& val):
@@ -239,13 +239,13 @@ const_tree_iterator<Const_node_ptr,Value>::operator=(const const_tree_iterator& 
 	return *this;
 }
 
-template<typename Const_node_ptr, typename Value>
-const_tree_iterator<Const_node_ptr,Value>&
-const_tree_iterator<Const_node_ptr,Value>::operator=(const normal_tree_iterator& other)
-{
-	this->_current_node = other._current_node;
-	return *this;
-}
+// template<typename Const_node_ptr, typename Value>
+// const_tree_iterator<Const_node_ptr,Value>&
+// const_tree_iterator<Const_node_ptr,Value>::operator=(const normal_tree_iterator& other)
+// {
+// 	this->_current_node = other._current_node;
+// 	return *this;
+// }
 
 template<typename Const_node_ptr, typename Value>
 const_tree_iterator<Const_node_ptr,Value>&
