@@ -6,7 +6,7 @@
 /*   By: skienzle <skienzle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 15:40:35 by skienzle          #+#    #+#             */
-/*   Updated: 2022/03/05 21:45:02 by skienzle         ###   ########.fr       */
+/*   Updated: 2022/03/05 22:11:00 by skienzle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,6 @@ namespace ft
 template<typename T, typename Alloc = std::allocator<T> >
 class vector
 {
-private: // types
-	typedef vector<T,Alloc>								self;
 public: // types
 	typedef Alloc										allocator_type;
 	typedef typename allocator_type::value_type			value_type; // typedef T for std::allocator
@@ -42,8 +40,8 @@ public: // types
 	typedef typename allocator_type::const_pointer		const_pointer; // typedef const T* for std::allocator
 	typedef typename allocator_type::reference			reference; // typedef T& for std::allocator
 	typedef typename allocator_type::const_reference	const_reference; // typedef const T& for std::allocator
-	typedef ft::linear_iterator<pointer,self>			iterator;
-	typedef ft::linear_iterator<const_pointer,self>		const_iterator;
+	typedef ft::linear_iterator<pointer>				iterator;
+	typedef ft::linear_iterator<const_pointer>			const_iterator;
 	typedef ft::reverse_iterator<iterator>				reverse_iterator;
 	typedef ft::reverse_iterator<const_iterator>		const_reverse_iterator;
 
