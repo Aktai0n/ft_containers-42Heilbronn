@@ -6,7 +6,7 @@
 /*   By: skienzle <skienzle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 19:31:04 by skienzle          #+#    #+#             */
-/*   Updated: 2022/02/20 15:59:07 by skienzle         ###   ########.fr       */
+/*   Updated: 2022/03/05 18:41:59 by skienzle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ template<typename T>
 void
 swap(T& first, T& second)
 {
-	T temp(first);
+	T temp = first;
 	first = second;
 	second = temp;
 }
