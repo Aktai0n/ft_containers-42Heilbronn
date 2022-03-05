@@ -6,13 +6,15 @@
 /*   By: skienzle <skienzle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/08 09:38:58 by skienzle          #+#    #+#             */
-/*   Updated: 2022/03/05 19:11:51 by skienzle         ###   ########.fr       */
+/*   Updated: 2022/03/05 22:00:19 by skienzle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #pragma once
 
-#include <iterator>
+#include <type_traits>
+
+#include "type_traits.hpp"
 
 #ifndef nullptr
 #define nullptr NULL
@@ -347,8 +349,10 @@ public: // types
 public: // methods
 	// constructors
 	linear_iterator();
-	linear_iterator(const linear_iterator<Iterator>& other);
-	// linear_iterator(const linear_iteator<const Iterator>& other);
+	// linear_iterator(const linear_iterator<Iterator>& other);
+	template<typename Iterator2>
+	linear_iterator(const linear_iterator<Iterator2>& other,
+					typename enable_if<std::is_convertible<Iterator2, Iterator>::value, Iterator>::type* = nullptr);
 	linear_iterator(const iterator_type& it);
 
 	// destructor
@@ -379,13 +383,19 @@ private: // attributes
 template<typename Iterator>
 linear_iterator<Iterator>::linear_iterator(): _it() {}
 
-template<typename Iterator>
-linear_iterator<Iterator>::linear_iterator(const linear_iterator<Iterator>& other):
-	_it(other.base()) {}
+// template<typename Iterator>
+// linear_iterator<Iterator>::linear_iterator(const linear_iterator<Iterator>& other):
+// 	_it(other.base()) {}
 
 // template<typename Iterator>
 // linear_iterator<Iterator>::linear_iterator(const ft::linear_iterator<const Iterator>& other):
 // 	_it(other.base()) {}
+
+template<typename Iterator>
+template<typename Iterator2>
+linear_iterator<Iterator>::linear_iterator(const linear_iterator<Iterator2>& other,
+					typename enable_if<std::is_convertible<Iterator2, Iterator>::value, Iterator>::type*):
+	_it(other.base()) {}
 
 template<typename Iterator>
 linear_iterator<Iterator>::linear_iterator(const iterator_type& it): _it(it) {}
