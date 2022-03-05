@@ -6,7 +6,7 @@
 /*   By: skienzle <skienzle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/20 16:50:18 by skienzle          #+#    #+#             */
-/*   Updated: 2022/02/27 12:31:07 by skienzle         ###   ########.fr       */
+/*   Updated: 2022/03/05 16:52:36 by skienzle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -738,7 +738,7 @@ RBtree<T,Compare,Alloc>::equal_range(const value_type& val) const
 			pos = node;
 			node = node->_left;
 		}
-		else if (this->_comp(node->data, val))
+		else if (this->_comp(node->_data, val))
 			node = node->_right;
 		else
 			return ft::make_pair(const_iterator(node), const_iterator(
@@ -986,6 +986,32 @@ RBtree<T,Compare,Alloc>::_destroy(node_ptr node)
 	_destroy(node->_right);
 	this->_destroy_node(node);
 }
+
+/*
+					Node name lookup table for RBtree::_erase:
+
+-> see RBtree::_erase in RBtree.tpp
+
+*	many guides aren't very verbose, so they just call the nodes w, x, y and z.
+	I decided to be a bit more verbose, so here's a lookup table if the names are
+	confusing:
+*	root: The root of the tree
+*	node: The node to be deleted (also known as z)
+*	repl: The successor of node or if node had either no children or one child,
+			the same as node. It's the leaf-node node will be replaced by
+			(also known as y)
+*	repl_child: The child of repl (also known as x)
+				It's null if repl had no children.
+				It's the first node to be marked as double black if it was
+				black before.
+				In the rebalancing part, it will be referred to as db_node,
+				since it's the double black node
+*	sibling: The sibling of repl_child (also known as w).
+			Case 3, 4, 5 and 6 will be chosen according to his color
+			and the colors of his children.
+			It is also the node responsible for the heavy lifting in the
+			rebalancing part, since repl_child is might be null
+*/
 
 template<typename T, typename Compare, typename Alloc>
 void

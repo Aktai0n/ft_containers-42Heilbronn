@@ -6,7 +6,7 @@
 /*   By: skienzle <skienzle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/11 16:06:31 by skienzle          #+#    #+#             */
-/*   Updated: 2022/02/20 21:24:53 by skienzle         ###   ########.fr       */
+/*   Updated: 2022/03/05 16:58:09 by skienzle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,33 +84,6 @@
 				-> the grandparent becomes red
 				-> rotate the grandparent to the left
 				-> we're done
-*/
-
-
-/*
-					Node name lookup table for RBtree::_erase:
-
--> see RBtree::_erase in RBtree.tpp
-
-*	many guides aren't very verbose, so they just call the nodes w, x, y and z.
-	I decided to be a bit more verbose, so here's a lookup table if the names are
-	confusing:
-*	root: The root of the tree
-*	node: The node to be deleted (also known as z)
-*	repl: The successor of node or if node had either no children or one child,
-			the same as node. It's the leaf-node node will be replaced by
-			(also known as y)
-*	repl_child: The child of repl (also known as x)
-				It's null if repl had no children.
-				It's the first node to be marked as double black if it was
-				black before.
-				In the rebalancing part, it will be referred to as db_node,
-				since it's the double black node
-*	sibling: The sibling of repl_child (also known as w).
-			Case 3, 4, 5 and 6 will be chosen according to his color
-			and the colors of his children.
-			It is also the node responsible for the heavy lifting in the
-			rebalancing part, since repl_child is might be null
 */
 
 
@@ -261,7 +234,7 @@ public: // types
 	typedef const Value&					reference;
 
 private: // types
-	typedef tree_iterator<RBtree_node<Value>,Value>	normal_tree_iterator;
+	typedef tree_iterator<typename RBtree_node<Value>::node_ptr,Value>	normal_tree_iterator;
 public: // methods
 	// constructors
 	const_tree_iterator();
