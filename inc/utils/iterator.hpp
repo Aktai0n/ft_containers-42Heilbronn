@@ -6,7 +6,7 @@
 /*   By: skienzle <skienzle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/08 09:38:58 by skienzle          #+#    #+#             */
-/*   Updated: 2022/03/05 17:58:40 by skienzle         ###   ########.fr       */
+/*   Updated: 2022/03/05 18:29:00 by skienzle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -348,7 +348,7 @@ public: // methods
 	// constructors
 	linear_iterator();
 	linear_iterator(const linear_iterator<Iterator>& other);
-	explicit linear_iterator(const iterator_type& it);
+	linear_iterator(const iterator_type& it);
 
 	// destructor
 	~linear_iterator();
