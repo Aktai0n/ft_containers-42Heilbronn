@@ -6,7 +6,7 @@
 /*   By: skienzle <skienzle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/08 09:38:58 by skienzle          #+#    #+#             */
-/*   Updated: 2022/03/05 17:47:02 by skienzle         ###   ########.fr       */
+/*   Updated: 2022/03/05 17:58:40 by skienzle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,25 @@
 namespace ft
 {
 
-
-// Iterator traits
+/*
+couldn't create seperate iterator tags, as they would only work for ft::iterators
+without being compatible to std::iterators, therefore defeating the puropse of 
+general iterator tags
 
 struct output_iterator_tag {};
 struct input_iterator_tag {};
 struct forward_iterator_tag: public input_iterator_tag {};
 struct bidirectional_iterator_tag: public forward_iterator_tag {};
 struct random_access_iterator_tag: public bidirectional_iterator_tag {};
+*/
+
+// Iterator traits
+
+typedef std::output_iterator_tag		output_iterator_tag;
+typedef std::input_iterator_tag			input_iterator_tag ;
+typedef std::forward_iterator_tag		forward_iterator_tag;
+typedef std::bidirectional_iterator_tag	bidirectional_iterator_tag;
+typedef std::random_access_iterator_tag	random_access_iterator_tag;
 
 template <typename Category, typename T, typename Distance = ptrdiff_t,
 		typename Pointer = T*, typename Reference = T&>
@@ -95,7 +106,7 @@ template<typename InputIterator>
 inline typename iterator_traits<InputIterator>::difference_type
 distance(InputIterator first, InputIterator last)
 {
-	return _distance(first, last, typename ft::iterator_traits<InputIterator>::iterator_category());
+	return _distance(first, last, typename iterator_traits<InputIterator>::iterator_category());
 }
 
 
