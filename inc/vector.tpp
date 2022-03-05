@@ -6,7 +6,7 @@
 /*   By: skienzle <skienzle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/20 16:54:31 by skienzle          #+#    #+#             */
-/*   Updated: 2022/03/05 16:16:27 by skienzle         ###   ########.fr       */
+/*   Updated: 2022/03/05 21:15:16 by skienzle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -333,7 +333,7 @@ vector<T,Alloc>::insert(iterator position, const value_type& val)
 		this->push_back(val);
 	else
 		this->insert(position, 1, val);
-	return iterator(this->_begin[index]);
+	return iterator(this->_begin + index);
 }
 
 template<typename T, typename Alloc>
@@ -355,7 +355,7 @@ vector<T,Alloc>::insert(iterator position, size_type n, const value_type& val)
 			this->_allocator.construct(new_begin + j + dist, val);
 		size_type vec_size = this->size();
 		for (; i < vec_size; ++i)
-			this->_allocator.construct(new_begin + i + dist + n, this->_begin[i]);
+			this->_allocator.construct(new_begin + i + n, this->_begin[i]);
 		this->_vdeallocate();
 		this->_begin = new_begin;
 		this->_end = new_begin + i + j;
@@ -390,7 +390,7 @@ vector<T,Alloc>::insert(iterator position, InputIterator first, InputIterator la
 			this->_allocator.construct(new_begin + j + dist, *first);
 		size_type vec_size = this->size();
 		for (; i < vec_size; ++i)
-			this->_allocator.construct(new_begin + i + dist + n, this->_begin[i]);
+			this->_allocator.construct(new_begin + i + n, this->_begin[i]);
 		this->_vdeallocate();
 		this->_begin = new_begin;
 		this->_end = new_begin + i + j;
@@ -431,9 +431,19 @@ template<typename T, typename Alloc>
 void
 vector<T,Alloc>::swap(vector& other)
 {
-	ft::swap(this->_capacity, other._capacity);
-	ft::swap(this->_begin, other._begin);
-	ft::swap(this->_end, other._end);
+	size_type temp_capacity = this->_capacity;
+	pointer temp_begin = this->_begin;
+	pointer temp_end = this->_end;
+	this->_capacity = other._capacity;
+	this->_begin = other._begin;
+	this->_end = other._end;
+	other._capacity = temp_capacity;
+	other._begin = temp_begin;
+	other._end = temp_end;
+	
+	// ft::swap(this->_capacity, other._capacity);
+	// ft::swap(this->_begin, other._begin);
+	// ft::swap(this->_end, other._end);
 }
 
 template<typename T, typename Alloc>
