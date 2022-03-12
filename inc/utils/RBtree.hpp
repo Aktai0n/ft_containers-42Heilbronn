@@ -6,7 +6,7 @@
 /*   By: skienzle <skienzle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/11 16:06:31 by skienzle          #+#    #+#             */
-/*   Updated: 2022/03/05 20:17:44 by skienzle         ###   ########.fr       */
+/*   Updated: 2022/03/12 09:40:14 by skienzle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include <iostream> // has to be erased
 
 #include "iterator.hpp"
+#include "utility.hpp"
 
 #ifndef nullptr
 #define nullptr NULL

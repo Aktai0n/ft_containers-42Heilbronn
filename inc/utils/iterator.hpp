@@ -6,7 +6,7 @@
 /*   By: skienzle <skienzle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/08 09:38:58 by skienzle          #+#    #+#             */
-/*   Updated: 2022/03/05 22:16:21 by skienzle         ###   ########.fr       */
+/*   Updated: 2022/03/05 22:19:30 by skienzle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -396,9 +396,6 @@ template<typename Iterator2>
 linear_iterator<Iterator>::linear_iterator(const linear_iterator<Iterator2>& other,
 					typename enable_if<std::is_convertible<Iterator2, Iterator>::value, Iterator>::type*):
 	_it(other.base()) {}
-
-template<typename Iterator>
-linear_iterator<Iterator>::linear_iterator(const iterator_type& it): _it(it) {}
 
 template<typename Iterator>
 linear_iterator<Iterator>::linear_iterator(const iterator_type& it): _it(it) {}

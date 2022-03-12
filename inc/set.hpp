@@ -6,7 +6,7 @@
 /*   By: skienzle <skienzle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/20 19:23:50 by skienzle          #+#    #+#             */
-/*   Updated: 2022/02/27 12:23:30 by skienzle         ###   ########.fr       */
+/*   Updated: 2022/03/12 09:40:54 by skienzle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,7 +150,7 @@ inline bool
 operator<(const set<T,Compare,Alloc>& lhs,
 			const set<T,Compare,Alloc>& rhs)
 {
-	return ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin, rhs.end());
+	return ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
 }
 
 template<typename T, typename Compare, typename Alloc>

@@ -6,7 +6,7 @@
 /*   By: skienzle <skienzle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/20 16:50:18 by skienzle          #+#    #+#             */
-/*   Updated: 2022/03/05 20:54:25 by skienzle         ###   ########.fr       */
+/*   Updated: 2022/03/12 09:49:00 by skienzle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -546,6 +546,7 @@ RBtree<T,Compare,Alloc>::swap(RBtree& other)
 {
 	ft::swap(this->_begin_node, other._begin_node);
 	ft::swap(this->_parent._left, other._parent._left);
+	ft::swap(this->_root()->_parent, other._root()->_parent);
 	ft::swap(this->_size, other._size);
 	ft::swap(this->_comp, other._comp);
 }
