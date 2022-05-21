@@ -6,7 +6,7 @@
 /*   By: skienzle <skienzle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/20 16:54:24 by skienzle          #+#    #+#             */
-/*   Updated: 2022/02/27 11:43:45 by skienzle         ###   ########.fr       */
+/*   Updated: 2022/05/21 20:25:52 by skienzle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,7 +165,7 @@ template<typename T, typename Compare, typename Alloc>
 void
 set<T,Compare,Alloc>::erase(iterator position)
 {
-	this->_tree.erase(position);
+	this->_tree.erase(*position);
 }
 
 template<typename T, typename Compare, typename Alloc>
@@ -179,7 +179,8 @@ template<typename T, typename Compare, typename Alloc>
 void
 set<T,Compare,Alloc>::erase(iterator first, iterator last)
 {
-	this->_tree.erase(first, last);
+	while (first != last)
+		this->_tree.erase((*first)++);
 }
 
 template<typename T, typename Compare, typename Alloc>
