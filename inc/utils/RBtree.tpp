@@ -6,7 +6,7 @@
 /*   By: skienzle <skienzle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/20 16:50:18 by skienzle          #+#    #+#             */
-/*   Updated: 2022/05/21 14:35:38 by skienzle         ###   ########.fr       */
+/*   Updated: 2022/05/21 20:16:31 by skienzle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,9 +118,9 @@ template<typename Node_ptr, typename Value>
 tree_iterator<Node_ptr,Value>::tree_iterator(const tree_iterator& other):
 	_current_node(other._current_node) {}
 
-template<typename Node_ptr, typename Value>
-tree_iterator<Node_ptr,Value>::tree_iterator(const const_tree_it& other):
-	_current_node(other._current_node) {}
+// template<typename Node_ptr, typename Value>
+// tree_iterator<Node_ptr,Value>::tree_iterator(const const_tree_it& other):
+// 	_current_node(other._current_node) {}
 
 template<typename Node_ptr, typename Value>
 tree_iterator<Node_ptr,Value>::tree_iterator(const Node_ptr& val):

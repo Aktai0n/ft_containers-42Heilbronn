@@ -6,7 +6,7 @@
 /*   By: skienzle <skienzle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/20 19:23:50 by skienzle          #+#    #+#             */
-/*   Updated: 2022/03/12 09:40:54 by skienzle         ###   ########.fr       */
+/*   Updated: 2022/05/21 20:15:51 by skienzle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,9 @@ public: // types
 	typedef typename tree_type::const_pointer				const_pointer;
 	typedef typename tree_type::size_type					size_type;
 	typedef typename tree_type::difference_type				difference_type;
-	typedef typename tree_type::iterator					iterator;
+	typedef typename tree_type::const_iterator				iterator;
 	typedef typename tree_type::const_iterator				const_iterator;
-	typedef typename tree_type::reverse_iterator			reverse_iterator;
+	typedef typename tree_type::const_reverse_iterator		reverse_iterator;
 	typedef typename tree_type::const_reverse_iterator		const_reverse_iterator;
 
 public: // methods
