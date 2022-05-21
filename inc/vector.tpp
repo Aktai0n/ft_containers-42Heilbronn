@@ -6,7 +6,7 @@
 /*   By: skienzle <skienzle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/20 16:54:31 by skienzle          #+#    #+#             */
-/*   Updated: 2022/03/05 21:15:16 by skienzle         ###   ########.fr       */
+/*   Updated: 2022/05/21 22:00:40 by skienzle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ template<typename T, typename Alloc>
 vector<T,Alloc>::~vector()
 {
 	if (this->_begin != nullptr)
-		this->_vdeallocate();
+		this->_vdeallocate(this->_capacity);
 }
 
 
@@ -81,7 +81,7 @@ vector<T,Alloc>::operator=(const vector<T,Alloc>& other)
 		// 	this->clear();
 		// 	this->_construct_at_front(other);
 		// }
-		this->_vdeallocate();
+		this->_vdeallocate(this->_capacity);
 		this->_capacity = 0;
 		this->_begin = this->_vallocate(other.capacity());
 		this->_end = this->_begin + other.size();
@@ -214,10 +214,11 @@ vector<T,Alloc>::reserve(size_type n)
 {
 	if (n <= this->_capacity)
 		return;
+	size_type old_capacity = this->_capacity;
 	pointer new_begin = this->_vallocate(n);
 	pointer new_end = new_begin + this->size();
 	ft::copy(this->_begin, this->_end, new_begin);
-	this->_vdeallocate();
+	this->_vdeallocate(old_capacity);
 	this->_begin = new_begin;
 	this->_end = new_end;
 }
@@ -346,6 +347,7 @@ vector<T,Alloc>::insert(iterator position, size_type n, const value_type& val)
 	size_type tot_size = this->size() + n;
 	if (tot_size >= this->_capacity)
 	{
+		size_type old_capacity = this->_capacity;
 		pointer new_begin = this->_vallocate(tot_size);
 		size_type dist = pos - this->_begin;
 		size_type i, j;
@@ -356,7 +358,7 @@ vector<T,Alloc>::insert(iterator position, size_type n, const value_type& val)
 		size_type vec_size = this->size();
 		for (; i < vec_size; ++i)
 			this->_allocator.construct(new_begin + i + n, this->_begin[i]);
-		this->_vdeallocate();
+		this->_vdeallocate(old_capacity);
 		this->_begin = new_begin;
 		this->_end = new_begin + i + j;
 	}
@@ -381,6 +383,7 @@ vector<T,Alloc>::insert(iterator position, InputIterator first, InputIterator la
 	size_type tot_size = this->size() + n;
 	if (tot_size >= this->_capacity)
 	{
+		size_type old_capacity = this->_capacity;
 		pointer new_begin = this->_vallocate(tot_size);
 		size_type dist = pos - this->_begin;
 		size_type i, j;
@@ -391,7 +394,7 @@ vector<T,Alloc>::insert(iterator position, InputIterator first, InputIterator la
 		size_type vec_size = this->size();
 		for (; i < vec_size; ++i)
 			this->_allocator.construct(new_begin + i + n, this->_begin[i]);
-		this->_vdeallocate();
+		this->_vdeallocate(old_capacity);
 		this->_begin = new_begin;
 		this->_end = new_begin + i + j;
 	}
@@ -491,10 +494,10 @@ vector<T,Alloc>::_vallocate(size_type n)
 
 template<typename T, typename Alloc>
 void
-vector<T,Alloc>::_vdeallocate()
+vector<T,Alloc>::_vdeallocate(size_type n)
 {
 	this->_destroy_at_end(this->_begin);
-	this->_allocator.deallocate(this->_begin, this->_capacity);
+	this->_allocator.deallocate(this->_begin, n);
 	this->_begin = this->_end = nullptr;
 }
 
@@ -502,7 +505,7 @@ template<typename T, typename Alloc>
 void
 vector<T,Alloc>::_vreallocate(size_type n)
 {
-	this->_vdeallocate();
+	this->_vdeallocate(this->_capacity);
 	this->_begin = this->_vallocate(n);
 	this->_end = this->_begin + n;
 }

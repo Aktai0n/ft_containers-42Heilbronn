@@ -6,7 +6,7 @@
 /*   By: skienzle <skienzle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 15:46:55 by skienzle          #+#    #+#             */
-/*   Updated: 2022/04/16 17:47:47 by skienzle         ###   ########.fr       */
+/*   Updated: 2022/05/21 21:57:46 by skienzle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -283,10 +283,10 @@ void map_benchmark()
 
 int main()
 {
-	// stack_tests();
-	// vector_tests();
-	// map_tests();
-	// set_tests();
+	stack_tests();
+	vector_tests();
+	map_tests();
+	set_tests();
 
 
 

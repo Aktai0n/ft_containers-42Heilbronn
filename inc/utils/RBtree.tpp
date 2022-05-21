@@ -6,7 +6,7 @@
 /*   By: skienzle <skienzle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/20 16:50:18 by skienzle          #+#    #+#             */
-/*   Updated: 2022/05/21 21:05:59 by skienzle         ###   ########.fr       */
+/*   Updated: 2022/05/21 21:10:20 by skienzle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -539,6 +539,7 @@ RBtree<T,Compare,Alloc>::erase(iterator first, iterator last)
 		this->erase(first++);
 }
 
+// some more work required
 template<typename T, typename Compare, typename Alloc>
 void
 RBtree<T,Compare,Alloc>::swap(RBtree& other)

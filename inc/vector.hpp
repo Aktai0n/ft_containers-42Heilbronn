@@ -6,7 +6,7 @@
 /*   By: skienzle <skienzle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 15:40:35 by skienzle          #+#    #+#             */
-/*   Updated: 2022/03/05 22:17:30 by skienzle         ###   ########.fr       */
+/*   Updated: 2022/05/21 21:52:39 by skienzle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,7 +124,7 @@ public: // methods
 private: // methods
 	size_type	_vsizecheck(size_type new_size) const;
 	pointer		_vallocate(size_type n);
-	void		_vdeallocate();
+	void		_vdeallocate(size_type n);
 	void		_vreallocate(size_type n);
 	void		_construct_at_front(const size_type& n, const value_type& val);
 	void		_construct_at_front(const vector& other);
