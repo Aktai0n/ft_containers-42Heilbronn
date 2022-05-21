@@ -6,7 +6,7 @@
 /*   By: skienzle <skienzle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/20 16:50:18 by skienzle          #+#    #+#             */
-/*   Updated: 2022/05/21 20:16:31 by skienzle         ###   ########.fr       */
+/*   Updated: 2022/05/21 20:42:25 by skienzle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,10 +117,6 @@ tree_iterator<Node_ptr,Value>::tree_iterator(): _current_node() {}
 template<typename Node_ptr, typename Value>
 tree_iterator<Node_ptr,Value>::tree_iterator(const tree_iterator& other):
 	_current_node(other._current_node) {}
-
-// template<typename Node_ptr, typename Value>
-// tree_iterator<Node_ptr,Value>::tree_iterator(const const_tree_it& other):
-// 	_current_node(other._current_node) {}
 
 template<typename Node_ptr, typename Value>
 tree_iterator<Node_ptr,Value>::tree_iterator(const Node_ptr& val):
@@ -491,10 +487,9 @@ RBtree<T,Compare,Alloc>::insert(const value_type& val)
 
 template<typename T, typename Compare, typename Alloc>
 typename RBtree<T,Compare,Alloc>::iterator
-RBtree<T,Compare,Alloc>::insert(iterator position, const value_type& val) // room for optimisation
+RBtree<T,Compare,Alloc>::insert(__attribute__((unused)) iterator position, const value_type& val) // room for optimisation
 {
 	return this->insert(val).first;
-	(void)position;
 }
 
 template<typename T, typename Compare, typename Alloc>

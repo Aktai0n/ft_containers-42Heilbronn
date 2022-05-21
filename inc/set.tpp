@@ -6,7 +6,7 @@
 /*   By: skienzle <skienzle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/20 16:54:24 by skienzle          #+#    #+#             */
-/*   Updated: 2022/05/21 20:25:52 by skienzle         ###   ########.fr       */
+/*   Updated: 2022/05/21 20:34:40 by skienzle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,9 +148,9 @@ set<T,Compare,Alloc>::insert(const value_type& val)
 
 template<typename T, typename Compare, typename Alloc>
 typename set<T,Compare,Alloc>::iterator
-set<T,Compare,Alloc>::insert(iterator position, const value_type& val)
+set<T,Compare,Alloc>::insert(__attribute__((unused)) iterator position, const value_type& val)
 {
-	return this->_tree.insert(position, val);
+	return this->_tree.insert(val).first;
 }
 
 template<typename T, typename Compare, typename Alloc>
@@ -180,7 +180,7 @@ void
 set<T,Compare,Alloc>::erase(iterator first, iterator last)
 {
 	while (first != last)
-		this->_tree.erase((*first)++);
+		this->_tree.erase(*(first++));
 }
 
 template<typename T, typename Compare, typename Alloc>

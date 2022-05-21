@@ -6,7 +6,7 @@
 /*   By: skienzle <skienzle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/11 16:06:31 by skienzle          #+#    #+#             */
-/*   Updated: 2022/05/21 20:16:19 by skienzle         ###   ########.fr       */
+/*   Updated: 2022/05/21 20:35:50 by skienzle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -171,9 +171,6 @@ struct RBtree_node
 
 //		tree_iterator
 
-// template<typename Const_node_ptr, typename Value>
-// class const_tree_iterator;
-
 template<typename Node_ptr, typename Value>
 class tree_iterator
 {
@@ -184,14 +181,10 @@ public: // types
 	typedef Value*							pointer;
 	typedef Value&							reference;
 
-private: // types
-	// typedef const_tree_iterator<typename RBtree_node<Value>::const_node_ptr,Value>	const_tree_it;
-
 public: // methods
 	// constructors
 	tree_iterator();
 	tree_iterator(const tree_iterator& other);
-	// tree_iterator(const const_tree_it& other);
 	tree_iterator(const Node_ptr& val);
 	// operator overloads
 	tree_iterator&	operator=(const tree_iterator& other);
