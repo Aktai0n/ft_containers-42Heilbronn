@@ -6,7 +6,7 @@
 /*   By: skienzle <skienzle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/08 09:38:58 by skienzle          #+#    #+#             */
-/*   Updated: 2022/05/21 15:01:50 by skienzle         ###   ########.fr       */
+/*   Updated: 2022/05/21 20:05:29 by skienzle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -296,7 +296,7 @@ operator!=(const reverse_iterator<Iterator1> &lhs, const reverse_iterator<Iterat
 
 template<typename Iterator1, typename Iterator2>
 inline bool
-operator<(const reverse_iterator<Iterator> &lhs, const reverse_iterator<Iterator> &rhs)
+operator<(const reverse_iterator<Iterator1> &lhs, const reverse_iterator<Iterator2> &rhs)
 {
 	return lhs.base() < rhs.base();
 }
