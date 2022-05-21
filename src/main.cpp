@@ -6,7 +6,7 @@
 /*   By: skienzle <skienzle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 15:46:55 by skienzle          #+#    #+#             */
-/*   Updated: 2022/03/05 21:27:56 by skienzle         ###   ########.fr       */
+/*   Updated: 2022/04/16 17:47:47 by skienzle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,33 +169,73 @@ void vector_tests()
 
 void map_tests()
 {
-	// std::vector<T3> lst;
-	// unsigned int lst_size = 10;
-	// for (unsigned int i = 0; i < lst_size; ++i)
-	// 	lst.push_back(T3(i, std::string((lst_size - i), i + 65)));
-	// TESTED_NAMESPACE::map<T1, T2> mp(lst.begin(), lst.end());
-
-	// ft_erase(mp, ++mp.begin());
-
-	// ft_erase(mp, mp.begin());
-	// ft_erase(mp, --mp.end());
-
-	// ft_erase(mp, mp.begin(), ++(++(++mp.begin())));
-	// ft_erase(mp, --(--(--mp.end())), --mp.end());
-
+	PRINT("\n-------------------------------------------------------------------\n");
+	PRINT("tests for map:\n");
 	std::deque<pair<int, std::string> > vec;
 	for (int i = 0; i < 10; ++i)
 		vec.push_back(ft::make_pair(i, std::string(10 - i, i + 65)));
 	map<int, std::string> my_map(vec.begin(), vec.end());
-	
+	PRINT("empty? " << my_map.empty());
+	PRINT("size? " << my_map.size());
+	{
+		PRINT("-------------------------------------------------------------------");
+		map<int, std::string> comp(my_map);
+		// print_container(comp); comp.erase(++comp.begin());
+		PRINT("map1 == map2? " << (my_map == comp));
+		PRINT("map1 != map2? " << (my_map != comp));
+		PRINT("map1 < map2? " << (my_map < comp));
+		PRINT("map1 > map2? " << (my_map > comp));
+		PRINT("map1 <= map2? " << (my_map <= comp));
+		PRINT("map1 >= map2? " << (my_map >= comp));
+	}
+	PRINT("-------------------------------------------------------------------");
+	PRINT("testing erase()");
+	PRINT("before:");
+	PRINT("empty? " << my_map.empty());
+	PRINT("size? " << my_map.size());
+	print_container(my_map);
 	my_map.erase(++my_map.begin());
-	// print_container(my_map);
 	my_map.erase(--my_map.end());
-	print_container(my_map);
-	// my_map.erase(my_map.begin(), ++(++(++my_map.begin())));
-	print_container(my_map);
+	// print_container(my_map);
+	my_map.erase(my_map.begin(), ++(++(++my_map.begin())));
+	// print_container(my_map);
 	my_map.erase(--(--(--my_map.end())), --my_map.end());
+	// print_container(my_map);
+	my_map.erase(5);
+	// print_container(my_map);
+	my_map.erase(8);
+	// print_container(my_map);
+	my_map.erase(4);
+	PRINT("after:");
 	print_container(my_map);
+	PRINT("empty? " << my_map.empty());
+	PRINT("size? " << my_map.size());
+	PRINT("-------------------------------------------------------------------");
+	PRINT("testing insert()");
+	pair<map<int,std::string>::iterator,bool> ret;
+	ret = my_map.insert(make_pair(100, "hello world"));
+	PRINT("inserted 100? " << (ret.second == true ? "yes" : "no"));
+	ret = my_map.insert(make_pair(-50, "alfred"));
+	ret = my_map.insert(make_pair(100, "something"));
+	PRINT("inserted 100 again? " << (ret.second == true ? "yes" : "no"));
+	PRINT("it's value is still: " << *ret.first);
+	std::deque<pair<int,std::string> > deq;
+	for (int i = 0; i < 90; ++i)
+		deq.push_front(ft::make_pair(i, std::string(i, i + 32)));
+	my_map.insert(deq.begin(), deq.end());
+	my_map.insert(--my_map.end(), make_pair(500, "hello there"));
+	my_map.insert(my_map.begin(), make_pair(150, "test"));
+	print_container(my_map);
+}
+
+void set_tests()
+{
+	set<int> my_set;
+	my_set.insert(10);
+	my_set.insert(682);
+	my_set.insert(289);
+	my_set.insert(-3498);
+	print_container(my_set);
 }
 
 void map_benchmark()
@@ -244,8 +284,12 @@ void map_benchmark()
 int main()
 {
 	// stack_tests();
-	vector_tests();
-	map_tests();
+	// vector_tests();
+	// map_tests();
+	// set_tests();
+
+
+
 	// const std::vector<int> test;
 	// vector<int> ft_test(5, 10);
 	// const ft::vector<int> referencer(5);

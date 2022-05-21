@@ -1,0 +1,4 @@
+*.o
+*_output
+*_containers
+ft_containers.dSYM
