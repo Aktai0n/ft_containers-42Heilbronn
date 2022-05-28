@@ -6,11 +6,13 @@
 /*   By: skienzle <skienzle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/08 09:38:58 by skienzle          #+#    #+#             */
-/*   Updated: 2022/05/21 21:18:13 by skienzle         ###   ########.fr       */
+/*   Updated: 2022/05/28 19:34:10 by skienzle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #pragma once
+
+#include <iterator>
 
 #include <type_traits>
 
@@ -196,7 +198,7 @@ template<typename Iterator>
 typename reverse_iterator<Iterator>::pointer
 reverse_iterator<Iterator>::operator->() const
 {
-	return(&(operator*()));
+	return (&(this->operator*()));
 }
 
 template<typename Iterator>
@@ -244,7 +246,7 @@ template<typename Iterator>
 reverse_iterator<Iterator>&
 reverse_iterator<Iterator>::operator+=(difference_type n)
 {
-	this->current += n;
+	this->current -= n;
 	return *this;
 }
 
@@ -259,7 +261,7 @@ template<typename Iterator>
 reverse_iterator<Iterator>&
 reverse_iterator<Iterator>::operator-=(difference_type n)
 {
-	this->current + n;
+	this->current += n;
 	return *this;
 }
 
@@ -298,35 +300,35 @@ template<typename Iterator1, typename Iterator2>
 inline bool
 operator<(const reverse_iterator<Iterator1> &lhs, const reverse_iterator<Iterator2> &rhs)
 {
-	return lhs.base() < rhs.base();
+	return lhs.base() > rhs.base();
 }
 
 template<typename Iterator1, typename Iterator2>
 inline bool
 operator<=(const reverse_iterator<Iterator1> &lhs, const reverse_iterator<Iterator2> &rhs)
 {
-	return lhs.base() <= rhs.base();
+	return lhs.base() >= rhs.base();
 }
 
 template<typename Iterator1, typename Iterator2>
 inline bool
 operator>(const reverse_iterator<Iterator1> &lhs, const reverse_iterator<Iterator2> &rhs)
 {
-	return lhs.base() > rhs.base();
+	return lhs.base() < rhs.base();
 }
 
 template<typename Iterator1, typename Iterator2>
 inline bool
 operator>=(const reverse_iterator<Iterator1> &lhs, const reverse_iterator<Iterator2> &rhs)
 {
-	return lhs.base() >= rhs.base();
+	return lhs.base() <= rhs.base();
 }
 
 template<typename Iterator1, typename Iterator2>
 inline typename reverse_iterator<Iterator1>::difference_type
 operator-(const reverse_iterator<Iterator1> &lhs, const reverse_iterator<Iterator2> &rhs)
 {
-	return lhs.base() - rhs.base();
+	return rhs.base() - lhs.base();
 }
 
 template<typename Iterator>
@@ -353,19 +355,17 @@ public: // types
 
 
 public: // methods
-	// constructors
+	// constructors / destructor
+
 	linear_iterator();
-	// linear_iterator(const linear_iterator<Iterator>& other);
 	template<typename Iterator2>
 	linear_iterator(const linear_iterator<Iterator2>& other,
 					typename enable_if<std::is_convertible<Iterator2, Iterator>::value, Iterator>::type* = nullptr);
 	linear_iterator(const iterator_type& it);
-
-	// destructor
 	~linear_iterator();
 
 	// operator overloads
-	
+
 	reference			operator*() const;
 	pointer				operator->() const;
 	linear_iterator&	operator++();
@@ -379,6 +379,7 @@ public: // methods
 	reference			operator[](difference_type n) const;
 	
 	// getter
+
 	Iterator base() const;
 
 private: // attributes
@@ -389,18 +390,10 @@ private: // attributes
 template<typename Iterator>
 linear_iterator<Iterator>::linear_iterator(): _it() {}
 
-// template<typename Iterator>
-// linear_iterator<Iterator>::linear_iterator(const linear_iterator<Iterator>& other):
-// 	_it(other.base()) {}
-
-// template<typename Iterator>
-// linear_iterator<Iterator>::linear_iterator(const linear_iterator<Iterator>& other):
-// 	_it(other.base()) {}
-
 template<typename Iterator>
 template<typename Iterator2>
 linear_iterator<Iterator>::linear_iterator(const linear_iterator<Iterator2>& other,
-					typename enable_if<std::is_convertible<Iterator2, Iterator>::value, Iterator>::type*):
+					typename ft::enable_if<std::is_convertible<Iterator2, Iterator>::value, Iterator>::type*):
 	_it(other.base()) {}
 
 template<typename Iterator>

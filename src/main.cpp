@@ -6,7 +6,7 @@
 /*   By: skienzle <skienzle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 15:46:55 by skienzle          #+#    #+#             */
-/*   Updated: 2022/05/21 21:57:46 by skienzle         ###   ########.fr       */
+/*   Updated: 2022/05/28 20:53:29 by skienzle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,8 @@ template<typename Container>
 void
 print_container(const Container &c)
 {
+	PRINT("-------------------------------------------------------------------");
+	PRINT("container size: " << c.size());
 	typename Container::const_iterator ite = c.end();
 	for (typename Container::const_iterator it = c.begin(); it != ite; ++it)
 	{
@@ -164,6 +166,10 @@ void vector_tests()
 		my_vec.assign(comp.begin(), comp.end());
 	}
 	my_vec.assign(20, 100);
+	print_container(my_vec);
+	vector<int>::iterator it = my_vec.begin();
+	it += 5;
+	my_vec.insert(it, 5, 10);
 	print_container(my_vec);
 }
 
@@ -283,10 +289,10 @@ void map_benchmark()
 
 int main()
 {
-	stack_tests();
+	// stack_tests();
 	vector_tests();
-	map_tests();
-	set_tests();
+	// map_tests();
+	// set_tests();
 
 
 
