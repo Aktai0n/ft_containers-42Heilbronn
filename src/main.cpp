@@ -6,7 +6,7 @@
 /*   By: skienzle <skienzle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 15:46:55 by skienzle          #+#    #+#             */
-/*   Updated: 2022/05/28 20:53:29 by skienzle         ###   ########.fr       */
+/*   Updated: 2022/05/29 00:07:05 by skienzle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,9 @@ using std::pair;
 #include <iostream>
 #include <string>
 #include <deque>
+#include <typeinfo>
 
-#define PRINT(__msg) (std::cout << __msg << std::endl)
+#define PRINT(msg) (std::cout << msg << std::endl)
 #define GREEN "\u001b[32m"
 #define RED "\u001b[31m"
 #define RESET "\u001b[0m"
@@ -86,17 +87,30 @@ std::ostream& operator<<(std::ostream& lhs, const pair<T1,T2>& rhs)
 	return lhs;
 }
 
+
 template<typename Container>
 void
-print_container(const Container &c)
+print_capacity(__attribute((unused)) const Container& c) {}
+
+template<>
+void
+print_capacity<vector<int> >(const vector<int>& c)
 {
-	PRINT("-------------------------------------------------------------------");
+	PRINT("capacity: " << c.capacity());
+}
+
+template<typename Container>
+void
+print_container(const Container& c)
+{
 	PRINT("container size: " << c.size());
+	print_capacity(c);
 	typename Container::const_iterator ite = c.end();
 	for (typename Container::const_iterator it = c.begin(); it != ite; ++it)
 	{
 		PRINT(*it);
 	}
+	PRINT("-------------------------------------------------------------------");
 }
 
 
@@ -165,13 +179,21 @@ void vector_tests()
 		PRINT("vector1 >= vector2? " << (my_vec >= comp));
 		my_vec.assign(comp.begin(), comp.end());
 	}
-	my_vec.assign(20, 100);
+	my_vec.assign(5, 100);
 	print_container(my_vec);
+	PRINT("capacity: " << my_vec.capacity());
+	PRINT("-------------------------------------------------------------------");
+	PRINT("inserting 200 elements:");
 	vector<int>::iterator it = my_vec.begin();
 	it += 5;
 	my_vec.insert(it, 5, 10);
 	print_container(my_vec);
+	std::set<int> my_set(my_vec.begin(), my_vec.end());
+	my_vec.insert(my_vec.begin() + 2, my_set.begin(), my_set.end());
+	print_container(my_vec);
 }
+
+#if 0
 
 void map_tests()
 {
@@ -233,6 +255,8 @@ void map_tests()
 	my_map.insert(my_map.begin(), make_pair(150, "test"));
 	print_container(my_map);
 }
+
+#endif
 
 void set_tests()
 {

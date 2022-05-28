@@ -6,7 +6,7 @@
 /*   By: skienzle <skienzle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/20 16:54:31 by skienzle          #+#    #+#             */
-/*   Updated: 2022/05/28 18:28:30 by skienzle         ###   ########.fr       */
+/*   Updated: 2022/05/29 00:09:28 by skienzle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -451,9 +451,8 @@ vector<T,Alloc>::insert(iterator position, InputIterator first, InputIterator la
 	size_type dist = static_cast<size_type>(ft::distance(this->_begin, pos));
 	size_type old_size = this->size();
 	this->resize(old_size + n);
-	ft::copy_backward(this->_begin + dist, this->_begin + old_size, this->_begin + dist + n);
-	for (size_type i = 0; i < n; ++i, ++first)
-		this->_begin[dist + i] = *first;
+	ft::copy_backward(this->_begin + dist, this->_begin + old_size, this->_begin + old_size + n);
+	ft::copy(first, last, this->_begin + dist);
 }
 
 #endif
