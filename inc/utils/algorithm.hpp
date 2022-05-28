@@ -6,7 +6,7 @@
 /*   By: skienzle <skienzle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 19:31:04 by skienzle          #+#    #+#             */
-/*   Updated: 2022/03/05 18:41:59 by skienzle         ###   ########.fr       */
+/*   Updated: 2022/05/28 15:38:24 by skienzle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,14 @@ copy_backward(BidirectionalIterator1 first, BidirectionalIterator1 last,
 	while (last != first)
 		*(--result) = *(--last);
 	return result;
+}
+
+template<typename ForwardIterator, typename T>
+void
+fill(ForwardIterator first, ForwardIterator last, const T& val)
+{
+	for (; first != last; ++first)
+		*first = val;
 }
 
 template<typename T>

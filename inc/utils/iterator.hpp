@@ -6,7 +6,7 @@
 /*   By: skienzle <skienzle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/08 09:38:58 by skienzle          #+#    #+#             */
-/*   Updated: 2022/05/21 21:18:13 by skienzle         ###   ########.fr       */
+/*   Updated: 2022/05/28 19:21:43 by skienzle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -244,7 +244,7 @@ template<typename Iterator>
 reverse_iterator<Iterator>&
 reverse_iterator<Iterator>::operator+=(difference_type n)
 {
-	this->current += n;
+	this->current -= n;
 	return *this;
 }
 
@@ -259,7 +259,7 @@ template<typename Iterator>
 reverse_iterator<Iterator>&
 reverse_iterator<Iterator>::operator-=(difference_type n)
 {
-	this->current + n;
+	this->current += n;
 	return *this;
 }
 
@@ -298,35 +298,35 @@ template<typename Iterator1, typename Iterator2>
 inline bool
 operator<(const reverse_iterator<Iterator1> &lhs, const reverse_iterator<Iterator2> &rhs)
 {
-	return lhs.base() < rhs.base();
+	return lhs.base() > rhs.base();
 }
 
 template<typename Iterator1, typename Iterator2>
 inline bool
 operator<=(const reverse_iterator<Iterator1> &lhs, const reverse_iterator<Iterator2> &rhs)
 {
-	return lhs.base() <= rhs.base();
+	return lhs.base() >= rhs.base();
 }
 
 template<typename Iterator1, typename Iterator2>
 inline bool
 operator>(const reverse_iterator<Iterator1> &lhs, const reverse_iterator<Iterator2> &rhs)
 {
-	return lhs.base() > rhs.base();
+	return lhs.base() < rhs.base();
 }
 
 template<typename Iterator1, typename Iterator2>
 inline bool
 operator>=(const reverse_iterator<Iterator1> &lhs, const reverse_iterator<Iterator2> &rhs)
 {
-	return lhs.base() >= rhs.base();
+	return lhs.base() <= rhs.base();
 }
 
 template<typename Iterator1, typename Iterator2>
 inline typename reverse_iterator<Iterator1>::difference_type
 operator-(const reverse_iterator<Iterator1> &lhs, const reverse_iterator<Iterator2> &rhs)
 {
-	return lhs.base() - rhs.base();
+	return rhs.base() - lhs.base();
 }
 
 template<typename Iterator>
