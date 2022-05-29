@@ -6,13 +6,12 @@
 /*   By: skienzle <skienzle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 19:21:18 by skienzle          #+#    #+#             */
-/*   Updated: 2022/03/05 21:24:47 by skienzle         ###   ########.fr       */
+/*   Updated: 2022/05/29 19:15:49 by skienzle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #pragma once
 
-#include <type_traits>
 
 namespace ft
 {
@@ -40,10 +39,15 @@ struct integral_constant
 
 	static const value_type value = v;
 
-	const value_type operator()() const
+	operator value_type() const
 	{
 		return value;
 	}
+
+	// const value_type operator()() const
+	// {
+	// 	return value;
+	// }
 };
 
 

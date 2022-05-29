@@ -6,13 +6,12 @@
 /*   By: skienzle <skienzle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 15:40:38 by skienzle          #+#    #+#             */
-/*   Updated: 2022/02/27 10:36:25 by skienzle         ###   ########.fr       */
+/*   Updated: 2022/05/29 18:51:08 by skienzle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #pragma once
 
-#include <stack>
 
 #include "vector.hpp"
 

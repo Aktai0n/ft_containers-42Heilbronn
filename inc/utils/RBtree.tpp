@@ -6,7 +6,7 @@
 /*   By: skienzle <skienzle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/20 16:50:18 by skienzle          #+#    #+#             */
-/*   Updated: 2022/05/28 21:10:39 by skienzle         ###   ########.fr       */
+/*   Updated: 2022/05/29 17:39:13 by skienzle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -238,14 +238,6 @@ const_tree_iterator<Const_node_ptr,Value>::operator=(const const_tree_iterator& 
 		this->_current_node = other._current_node;
 	return *this;
 }
-
-// template<typename Const_node_ptr, typename Value>
-// const_tree_iterator<Const_node_ptr,Value>&
-// const_tree_iterator<Const_node_ptr,Value>::operator=(const normal_tree_iterator& other)
-// {
-// 	this->_current_node = other._current_node;
-// 	return *this;
-// }
 
 template<typename Const_node_ptr, typename Value>
 const_tree_iterator<Const_node_ptr,Value>&

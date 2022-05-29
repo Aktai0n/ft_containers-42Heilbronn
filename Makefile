@@ -6,7 +6,7 @@
 #    By: skienzle <skienzle@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/06 15:15:49 by skienzle          #+#    #+#              #
-#    Updated: 2022/02/27 10:27:01 by skienzle         ###   ########.fr        #
+#    Updated: 2022/05/29 17:03:10 by skienzle         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,7 +25,7 @@ INC_FULL = $(addprefix $(IDIR)/, $(INC))
 TPP = vector.tpp stack.tpp map.tpp set.tpp utils/RBtree.tpp
 TPP_FULL = $(addprefix $(IDIR)/, $(TPP))
 
-SRC = main.cpp
+SRC = main_jludt.cpp
 SDIR = src
 SRC_FULL = $(addprefix $(SDIR)/, $(SRC))
 

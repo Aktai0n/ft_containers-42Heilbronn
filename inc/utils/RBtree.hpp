@@ -6,14 +6,13 @@
 /*   By: skienzle <skienzle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/11 16:06:31 by skienzle          #+#    #+#             */
-/*   Updated: 2022/05/21 20:35:50 by skienzle         ###   ########.fr       */
+/*   Updated: 2022/05/29 17:38:26 by skienzle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #pragma once
 
 #include <memory>
-#include <iostream> // has to be erased
 
 #include "iterator.hpp"
 #include "utility.hpp"
@@ -138,12 +137,14 @@ namespace ft
 enum node_color { black = true, red = false };
 
 template<typename T>
-struct RBtree_node
+class RBtree_node
 {
+public: // types
 	typedef T								value_type;
 	typedef RBtree_node<value_type>*		node_ptr;
 	typedef const RBtree_node<value_type>*	const_node_ptr;
 
+public: // methods
 	RBtree_node();
 	RBtree_node(const RBtree_node& other);
 
@@ -153,14 +154,7 @@ struct RBtree_node
 
 	void flip_color();
 
-	void print_node() const
-	{
-		std::cout << "color: " << (_color == black ? "black" : "red") << '\n'
-			<< "data: " << _data.first << ' ' << _data.second << '\n'
-			<< "parent: " << _parent << "\nleft: " << _left
-			<< "\nright: " << _right << "\nnode addr: " << this << '\n' << std::endl;
-	}
-
+public: // attributes
 	node_color	_color;
 	value_type	_data;
 	node_ptr	_parent;
@@ -244,7 +238,6 @@ public: // methods
 	const_tree_iterator(const Const_node_ptr& val);
 	// operator overloads
 	const_tree_iterator&	operator=(const const_tree_iterator& other);
-	// const_tree_iterator&	operator=(const normal_tree_iterator& other);
 	const_tree_iterator&	operator=(const Const_node_ptr& ptr);
 	reference		operator*() const;
 	pointer			operator->() const;
@@ -420,17 +413,9 @@ private: // methods
 	node_ptr		_replacement_node(node_ptr node) const;
 	void			_destroy(node_ptr node);
 
-	void print_tree(const node_ptr node) const
-	{
-		if (node == nullptr)
-			return;
-		node->print_node();
-		std::cout << "going left" << std::endl;
-		print_tree(node->_left);
-		std::cout << "going right" << std::endl;
-		print_tree(node->_right);
-	}
+
 private: // attributes
+
 	size_type			_size;
 	node_type			_parent; // note: _parent->_left is the root
 	node_ptr			_begin_node;

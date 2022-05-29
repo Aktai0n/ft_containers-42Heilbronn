@@ -6,15 +6,13 @@
 /*   By: skienzle <skienzle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/20 16:54:31 by skienzle          #+#    #+#             */
-/*   Updated: 2022/05/29 00:09:28 by skienzle         ###   ########.fr       */
+/*   Updated: 2022/05/29 17:45:40 by skienzle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #pragma once
 
 #include <exception>
-
-#include <iostream>
 
 namespace ft
 {
@@ -485,16 +483,6 @@ template<typename T, typename Alloc>
 void
 vector<T,Alloc>::swap(vector& other)
 {
-	// size_type temp_capacity = this->_capacity;
-	// pointer temp_begin = this->_begin;
-	// pointer temp_end = this->_end;
-	// this->_capacity = other._capacity;
-	// this->_begin = other._begin;
-	// this->_end = other._end;
-	// other._capacity = temp_capacity;
-	// other._begin = temp_begin;
-	// other._end = temp_end;
-	
 	ft::swap(this->_capacity, other._capacity);
 	ft::swap(this->_begin, other._begin);
 	ft::swap(this->_end, other._end);

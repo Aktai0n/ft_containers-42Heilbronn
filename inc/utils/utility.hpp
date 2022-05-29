@@ -6,16 +6,12 @@
 /*   By: skienzle <skienzle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/20 20:29:10 by skienzle          #+#    #+#             */
-/*   Updated: 2022/03/05 21:18:30 by skienzle         ###   ########.fr       */
+/*   Updated: 2022/05/29 17:44:01 by skienzle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #pragma once
 
-#include "type_traits.hpp"
-#include "iterator.hpp"
-#include "functional.hpp"
-#include "algorithm.hpp"
 
 namespace ft
 {

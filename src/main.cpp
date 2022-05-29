@@ -6,57 +6,12 @@
 /*   By: skienzle <skienzle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 15:46:55 by skienzle          #+#    #+#             */
-/*   Updated: 2022/05/29 00:07:05 by skienzle         ###   ########.fr       */
+/*   Updated: 2022/05/29 17:32:06 by skienzle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
-#ifdef FT_MODE
-
-#include "../inc/vector.hpp"
-#include "../inc/stack.hpp"
-#include "../inc/map.hpp"
-#include "../inc/set.hpp"
-
-#define __left_ _left
-#define __right_ _right
-#define __is_black_ _color
-#define __parent_ _parent
-
-using ft::vector;
-using ft::stack;
-using ft::map;
-using ft::set;
-using ft::make_pair;
-using ft::pair;
-
-
-#else
-
-#include <vector>
-#include <stack>
-#include <map>
-#include <set>
-
-using std::vector;
-using std::stack;
-using std::map;
-using std::set;
-using std::make_pair;
-using std::pair;
-
-#endif // FT_MODE
-
-// don't forget to erase those includes in the container files!!!
-#include <iostream>
-#include <string>
-#include <deque>
-#include <typeinfo>
-
-#define PRINT(msg) (std::cout << msg << std::endl)
-#define GREEN "\u001b[32m"
-#define RED "\u001b[31m"
-#define RESET "\u001b[0m"
+#include "../inc/headers.hpp"
 
 template<typename T>
 class MutantStack : public stack<T>
@@ -193,7 +148,6 @@ void vector_tests()
 	print_container(my_vec);
 }
 
-#if 0
 
 void map_tests()
 {
@@ -256,7 +210,6 @@ void map_tests()
 	print_container(my_map);
 }
 
-#endif
 
 void set_tests()
 {

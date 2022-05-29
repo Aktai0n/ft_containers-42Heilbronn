@@ -6,13 +6,12 @@
 /*   By: skienzle <skienzle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 15:40:35 by skienzle          #+#    #+#             */
-/*   Updated: 2022/05/21 21:52:39 by skienzle         ###   ########.fr       */
+/*   Updated: 2022/05/29 18:56:08 by skienzle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #pragma once
 
-#include <vector>
 
 #include <memory>
 
@@ -40,8 +39,8 @@ public: // types
 	typedef typename allocator_type::const_pointer		const_pointer; // typedef const T* for std::allocator
 	typedef typename allocator_type::reference			reference; // typedef T& for std::allocator
 	typedef typename allocator_type::const_reference	const_reference; // typedef const T& for std::allocator
-	typedef ft::linear_iterator<pointer>				iterator;
-	typedef ft::linear_iterator<const_pointer>			const_iterator;
+	typedef ft::linear_iterator<value_type>				iterator;
+	typedef ft::linear_iterator<const value_type>			const_iterator;
 	typedef ft::reverse_iterator<iterator>				reverse_iterator;
 	typedef ft::reverse_iterator<const_iterator>		const_reverse_iterator;
 
