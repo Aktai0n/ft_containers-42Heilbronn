@@ -6,7 +6,7 @@
 /*   By: skienzle <skienzle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 15:46:55 by skienzle          #+#    #+#             */
-/*   Updated: 2022/05/31 12:28:00 by skienzle         ###   ########.fr       */
+/*   Updated: 2022/05/31 17:13:55 by skienzle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,18 @@ void print_test_time(const char *testcase, double time)
 	PRINT(std::left << testcase << time << "ms" << RESET);
 }
 
-
+void print_end_time(const char *cntr_name, double time)
+{
+	std::cout << '\n' << RED << "total:\n";
+	#if FT_MODE
+	std::cout << GREEN;
+	#else
+	std::cout << YELLOW;
+	#endif
+	std::cout << BOLD << '\t';
+	std::cout.width(22);
+	PRINT(std::left << cntr_name << time << "ms" << RESET);
+}
 
 int main(int argc, char** argv)
 {
@@ -101,7 +112,7 @@ int main(int argc, char** argv)
 	if (argc == 1)
 	{
 		vector_tests(std::cout);
-		// stack_tests(std::cout);
+		stack_tests(std::cout);
 		// map_tests(std::cout);
 		#ifdef BONUS
 		set_tests(std::cout);
@@ -116,7 +127,7 @@ int main(int argc, char** argv)
 			std::exit(errno);
 		}
 		vector_tests(outfile);
-		// stack_tests(outfile);
+		stack_tests(outfile);
 		// map_tests(outfile);
 		#ifdef BONUS
 		set_tests(outfile);
@@ -166,6 +177,6 @@ int main(int argc, char** argv)
 	// test_map.insert(std::make_pair(5, 10));
 	// print_container(test_map);
 	#ifdef FT_MODE
-	system("leaks ft_containers");
+	// system("leaks ft_containers");
 	#endif
 }

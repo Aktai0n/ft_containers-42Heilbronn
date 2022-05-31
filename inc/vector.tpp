@@ -6,7 +6,7 @@
 /*   By: skienzle <skienzle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/20 16:54:31 by skienzle          #+#    #+#             */
-/*   Updated: 2022/05/29 17:45:40 by skienzle         ###   ########.fr       */
+/*   Updated: 2022/05/31 18:29:18 by skienzle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,11 +74,6 @@ vector<T,Alloc>::operator=(const vector<T,Alloc>& other)
 {
 	if (this != &other)
 	{
-		// if (this->_capacity >= other._capacity)
-		// {
-		// 	this->clear();
-		// 	this->_construct_at_front(other);
-		// }
 		this->_vdeallocate(this->_capacity);
 		this->_capacity = 0;
 		this->_begin = this->_vallocate(other.capacity());
@@ -214,9 +209,11 @@ vector<T,Alloc>::reserve(size_type n)
 	if (n <= this->_capacity)
 		return;
 	size_type old_capacity = this->_capacity;
+	size_type old_size = this->size();
 	pointer new_begin = this->_vallocate(n);
-	pointer new_end = new_begin + this->size();
-	ft::copy(this->_begin, this->_end, new_begin);
+	pointer new_end = new_begin + old_size;
+	for (size_type i = 0; i < old_size; ++i)
+		this->_allocator.construct(new_begin + i, this->_begin[i]);
 	this->_vdeallocate(old_capacity);
 	this->_begin = new_begin;
 	this->_end = new_end;

@@ -6,7 +6,7 @@
 /*   By: skienzle <skienzle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 16:05:52 by skienzle          #+#    #+#             */
-/*   Updated: 2022/05/31 12:37:48 by skienzle         ###   ########.fr       */
+/*   Updated: 2022/05/31 17:08:48 by skienzle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,3 +77,4 @@ print_container(std::ostream& out, const Container& c)
 
 void print_header(const char *cntr_name);
 void print_test_time(const char *testcase, double time);
+void print_end_time(const char *cntr_name, double time);
