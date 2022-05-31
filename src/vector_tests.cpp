@@ -6,7 +6,7 @@
 /*   By: skienzle <skienzle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 10:53:59 by skienzle          #+#    #+#             */
-/*   Updated: 2022/05/31 18:28:54 by skienzle         ###   ########.fr       */
+/*   Updated: 2022/05/31 21:21:23 by skienzle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,22 @@ void iterators(std::ostream& out, vector<T>& vec)
 	FPRINT(out, "it <= ite " << (it <= ite));
 	FPRINT(out, "it >= ite" << (it >= ite));
 	FPRINT(out, "it == ite " << (it == ite));
-	FPRINT(out, "it != cite" << (cit != cite));
+	FPRINT(out, "it != cite" << (it != ite));
+
+	FPRINT(out, "it < cite " << (it < cite));
+	FPRINT(out, "it > cite " << (it < cite));
+	FPRINT(out, "it <= cite " << (it <= cite));
+	FPRINT(out, "it >= cite" << (it >= cite));
+	FPRINT(out, "it == cite " << (it == cite));
+	FPRINT(out, "it != cite" << (it != cite));
+
+	FPRINT(out, "cit < ite " << (cit < ite));
+	FPRINT(out, "cit > ite " << (cit < ite));
+	FPRINT(out, "cit <= ite " << (cit <= ite));
+	FPRINT(out, "cit >= ite" << (cit >= ite));
+	FPRINT(out, "cit == ite " << (cit == ite));
+	FPRINT(out, "cit != cite" << (cit != ite));
+
 	FPRINT(out, "cit < cite " << (cit < cite));
 	FPRINT(out, "cit > cite " << (cit < cite));
 	FPRINT(out, "cit <= cite " << (cit <= cite));
@@ -129,7 +144,22 @@ void iterators(std::ostream& out, vector<T>& vec)
 	FPRINT(out, "rit <= rite " << (rit <= rite));
 	FPRINT(out, "rit >= rite" << (rit >= rite));
 	FPRINT(out, "rit == rite " << (rit == rite));
-	FPRINT(out, "rit != cite" << (crit != crite));
+	FPRINT(out, "rit != ite" << (rit != rite));
+
+	FPRINT(out, "rit < crite " << (rit < crite));
+	FPRINT(out, "rit > crite " << (rit < crite));
+	FPRINT(out, "rit <= crite " << (rit <= crite));
+	FPRINT(out, "rit >= crite" << (rit >= crite));
+	FPRINT(out, "rit == crite " << (rit == crite));
+	FPRINT(out, "rit != cite" << (rit != crite));
+
+	FPRINT(out, "crit < rite " << (crit < rite));
+	FPRINT(out, "crit > rite " << (crit < rite));
+	FPRINT(out, "crit <= rite " << (crit <= rite));
+	FPRINT(out, "crit >= rite" << (crit >= rite));
+	FPRINT(out, "crit == rite " << (crit == rite));
+	FPRINT(out, "crit != ite" << (crit != rite));
+
 	FPRINT(out, "crit < crite " << (crit < crite));
 	FPRINT(out, "crit > crite " << (crit < crite));
 	FPRINT(out, "crit <= crite " << (crit <= crite));
@@ -409,8 +439,8 @@ vector_tests(std::ostream& out)
 		print_container(out, copy);
 		print_container(out, range);
 	}
-	
 	print_test_time("constructors: ", timer.stop());
+
 	timer.start();
 	assignment(out, vec_short, vec_middle, vec_long);
 	assignment(out, my_vec_short, my_vec_middle, my_vec_long);

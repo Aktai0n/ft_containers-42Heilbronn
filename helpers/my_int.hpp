@@ -6,7 +6,7 @@
 /*   By: skienzle <skienzle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 11:45:57 by skienzle          #+#    #+#             */
-/*   Updated: 2022/05/31 11:50:43 by skienzle         ###   ########.fr       */
+/*   Updated: 2022/05/31 19:38:19 by skienzle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,11 @@ public:
 		return *_ptr;
 	}
 
+	bool operator<(const my_int& other) const
+	{
+		return *_ptr < *other._ptr;
+	}
+
 	my_int& operator=(const my_int& other)
 	{
 		if (this != &other)
@@ -40,3 +45,4 @@ public:
 private:
 	int *_ptr;
 };
+

@@ -6,7 +6,7 @@
 /*   By: skienzle <skienzle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 15:46:55 by skienzle          #+#    #+#             */
-/*   Updated: 2022/05/31 17:13:55 by skienzle         ###   ########.fr       */
+/*   Updated: 2022/05/31 19:22:33 by skienzle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,7 @@ int main(int argc, char** argv)
 	{
 		vector_tests(std::cout);
 		stack_tests(std::cout);
-		// map_tests(std::cout);
+		map_tests(std::cout);
 		#ifdef BONUS
 		set_tests(std::cout);
 		#endif
@@ -128,7 +128,7 @@ int main(int argc, char** argv)
 		}
 		vector_tests(outfile);
 		stack_tests(outfile);
-		// map_tests(outfile);
+		map_tests(outfile);
 		#ifdef BONUS
 		set_tests(outfile);
 		#endif

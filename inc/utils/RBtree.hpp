@@ -6,7 +6,7 @@
 /*   By: skienzle <skienzle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/11 16:06:31 by skienzle          #+#    #+#             */
-/*   Updated: 2022/05/29 17:38:26 by skienzle         ###   ########.fr       */
+/*   Updated: 2022/05/31 21:17:25 by skienzle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -271,7 +271,6 @@ operator!=(const const_tree_iterator<Const_node_ptr,Value>& rhs,
 	return rhs.base() != lhs.base();
 }
 
-// needs testing!
 
 template<typename Const_node_ptr, typename Node_ptr, typename Value>
 inline bool
@@ -285,6 +284,22 @@ template<typename Const_node_ptr, typename Node_ptr, typename Value>
 inline bool
 operator!=(const const_tree_iterator<Const_node_ptr,Value>& rhs,
 			const tree_iterator<Node_ptr,Value>& lhs)
+{
+	return rhs.base() != lhs.base();
+}
+
+template<typename Const_node_ptr, typename Node_ptr, typename Value>
+inline bool
+operator==(const tree_iterator<Node_ptr,Value>& rhs,
+			const const_tree_iterator<Const_node_ptr,Value>& lhs)
+{
+	return rhs.base() == lhs.base();
+}
+
+template<typename Const_node_ptr, typename Node_ptr, typename Value>
+inline bool
+operator!=(const tree_iterator<Node_ptr,Value>& rhs,
+			const const_tree_iterator<Const_node_ptr,Value>& lhs)
 {
 	return rhs.base() != lhs.base();
 }
