@@ -6,209 +6,20 @@
 /*   By: skienzle <skienzle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 15:46:55 by skienzle          #+#    #+#             */
-/*   Updated: 2022/05/29 17:32:06 by skienzle         ###   ########.fr       */
+/*   Updated: 2022/05/31 12:28:00 by skienzle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
-#include "../inc/headers.hpp"
+#include "headers.hpp"
+#include "timer.hpp"
 
-template<typename T>
-class MutantStack : public stack<T>
-{
-public:
-	MutantStack() {}
-	MutantStack(const MutantStack<T>& src) { *this = src; }
-	MutantStack<T>& operator=(const MutantStack<T>& rhs) 
-	{
-		this->c = rhs.c;
-		return *this;
-	}
-	~MutantStack() {}
-
-	typedef typename stack<T>::container_type::iterator iterator;
-	typedef typename stack<T>::container_type::const_iterator const_iterator;
-
-	iterator begin() { return this->c.begin(); }
-	iterator end() { return this->c.end(); }
-	const_iterator  begin() const { return this->c.begin(); }
-	const_iterator end() const { return this->c.end(); }
-};
-
-template<typename T1, typename T2>
-std::ostream& operator<<(std::ostream& lhs, const pair<T1,T2>& rhs)
-{
-	lhs << "First: " << rhs.first << " Second: " << rhs.second;
-	return lhs;
-}
+#if 0
 
 
-template<typename Container>
-void
-print_capacity(__attribute((unused)) const Container& c) {}
-
-template<>
-void
-print_capacity<vector<int> >(const vector<int>& c)
-{
-	PRINT("capacity: " << c.capacity());
-}
-
-template<typename Container>
-void
-print_container(const Container& c)
-{
-	PRINT("container size: " << c.size());
-	print_capacity(c);
-	typename Container::const_iterator ite = c.end();
-	for (typename Container::const_iterator it = c.begin(); it != ite; ++it)
-	{
-		PRINT(*it);
-	}
-	PRINT("-------------------------------------------------------------------");
-}
 
 
-void stack_tests()
-{
-	PRINT("\n-------------------------------------------------------------------\n");
-	PRINT("tests for stack:\n");
-	stack<int> my_stack;
-	PRINT("empty? " << my_stack.empty());
-	PRINT("size? " << my_stack.size());
-	for (int i = 0; i < 1000; ++i)
-		my_stack.push(i);
-	PRINT("-------------------------------------------------------------------");
-	PRINT("after adding 1000 elements:");
-	PRINT("empty? " << my_stack.empty());
-	PRINT("size? " << my_stack.size());
-	PRINT("top? " << my_stack.top());
-	{
-		PRINT("-------------------------------------------------------------------");
-		PRINT("operator overloads:");
-		stack<int> comp;
-		for (int i = 0; i < 100; ++i)
-			comp.push(i);
-		PRINT("stack1 == stack2? " << (my_stack == comp));
-		PRINT("stack1 != stack2? " << (my_stack != comp));
-		PRINT("stack1 < stack2? " << (my_stack < comp));
-		PRINT("stack1 > stack2? " << (my_stack > comp));
-		PRINT("stack1 <= stack2? " << (my_stack <= comp));
-		PRINT("stack1 >= stack2? " << (my_stack >= comp));
-	}
-	for (int i = 0; i < 100; ++i)
-		my_stack.pop();
-	PRINT("-------------------------------------------------------------------");
-	PRINT("after popping 100 elements:");
-	PRINT("empty? " << my_stack.empty());
-	PRINT("size? " << my_stack.size());
-	PRINT("top? " << my_stack.top());
-	MutantStack<int> mut_stack;
-	for (int i = 0; i < 10; ++i)
-		mut_stack.push(i);
-	print_container(mut_stack);
-	PRINT("stack done. Press enter to continue");
-	std::cin.get();
-}
 
-void vector_tests()
-{
-	PRINT("\n-------------------------------------------------------------------\n");
-	PRINT("tests for vector:\n");
-	vector<int> my_vec;
-	PRINT("capacity? " << my_vec.capacity());
-	for (int i = 0; i < 10; ++i)
-		my_vec.push_back(i);
-	PRINT("capacity? " << my_vec.capacity());
-	print_container(my_vec);
-	{
-		PRINT("-------------------------------------------------------------------");
-		vector<int> comp;
-		comp.push_back(10);
-		comp.push_back(50);
-		PRINT("vector1 == vector2? " << (my_vec == comp));
-		PRINT("vector1 != vector2? " << (my_vec != comp));
-		PRINT("vector1 < vector2? " << (my_vec < comp));
-		PRINT("vector1 > vector2? " << (my_vec > comp));
-		PRINT("vector1 <= vector2? " << (my_vec <= comp));
-		PRINT("vector1 >= vector2? " << (my_vec >= comp));
-		my_vec.assign(comp.begin(), comp.end());
-	}
-	my_vec.assign(5, 100);
-	print_container(my_vec);
-	PRINT("capacity: " << my_vec.capacity());
-	PRINT("-------------------------------------------------------------------");
-	PRINT("inserting 200 elements:");
-	vector<int>::iterator it = my_vec.begin();
-	it += 5;
-	my_vec.insert(it, 5, 10);
-	print_container(my_vec);
-	std::set<int> my_set(my_vec.begin(), my_vec.end());
-	my_vec.insert(my_vec.begin() + 2, my_set.begin(), my_set.end());
-	print_container(my_vec);
-}
-
-
-void map_tests()
-{
-	PRINT("\n-------------------------------------------------------------------\n");
-	PRINT("tests for map:\n");
-	std::deque<pair<int, std::string> > vec;
-	for (int i = 0; i < 10; ++i)
-		vec.push_back(ft::make_pair(i, std::string(10 - i, i + 65)));
-	map<int, std::string> my_map(vec.begin(), vec.end());
-	PRINT("empty? " << my_map.empty());
-	PRINT("size? " << my_map.size());
-	{
-		PRINT("-------------------------------------------------------------------");
-		map<int, std::string> comp(my_map);
-		// print_container(comp); comp.erase(++comp.begin());
-		PRINT("map1 == map2? " << (my_map == comp));
-		PRINT("map1 != map2? " << (my_map != comp));
-		PRINT("map1 < map2? " << (my_map < comp));
-		PRINT("map1 > map2? " << (my_map > comp));
-		PRINT("map1 <= map2? " << (my_map <= comp));
-		PRINT("map1 >= map2? " << (my_map >= comp));
-	}
-	PRINT("-------------------------------------------------------------------");
-	PRINT("testing erase()");
-	PRINT("before:");
-	PRINT("empty? " << my_map.empty());
-	PRINT("size? " << my_map.size());
-	print_container(my_map);
-	my_map.erase(++my_map.begin());
-	my_map.erase(--my_map.end());
-	// print_container(my_map);
-	my_map.erase(my_map.begin(), ++(++(++my_map.begin())));
-	// print_container(my_map);
-	my_map.erase(--(--(--my_map.end())), --my_map.end());
-	// print_container(my_map);
-	my_map.erase(5);
-	// print_container(my_map);
-	my_map.erase(8);
-	// print_container(my_map);
-	my_map.erase(4);
-	PRINT("after:");
-	print_container(my_map);
-	PRINT("empty? " << my_map.empty());
-	PRINT("size? " << my_map.size());
-	PRINT("-------------------------------------------------------------------");
-	PRINT("testing insert()");
-	pair<map<int,std::string>::iterator,bool> ret;
-	ret = my_map.insert(make_pair(100, "hello world"));
-	PRINT("inserted 100? " << (ret.second == true ? "yes" : "no"));
-	ret = my_map.insert(make_pair(-50, "alfred"));
-	ret = my_map.insert(make_pair(100, "something"));
-	PRINT("inserted 100 again? " << (ret.second == true ? "yes" : "no"));
-	PRINT("it's value is still: " << *ret.first);
-	std::deque<pair<int,std::string> > deq;
-	for (int i = 0; i < 90; ++i)
-		deq.push_front(ft::make_pair(i, std::string(i, i + 32)));
-	my_map.insert(deq.begin(), deq.end());
-	my_map.insert(--my_map.end(), make_pair(500, "hello there"));
-	my_map.insert(my_map.begin(), make_pair(150, "test"));
-	print_container(my_map);
-}
 
 
 void set_tests()
@@ -263,13 +74,59 @@ void map_benchmark()
 	// 	std::cout << (*it).first << std::endl;
 }
 
+#endif // 0
 
-int main()
+void print_header(const char *cntr_name)
 {
-	// stack_tests();
-	vector_tests();
-	// map_tests();
-	// set_tests();
+	CPRINT(BOLD, "\n\t\t\t\t" << cntr_name << ":");
+}
+
+void print_test_time(const char *testcase, double time)
+{
+	std::cout << CYAN;
+	std::cout.width(30);
+	PRINT(std::left << testcase << time << "ms" << RESET);
+}
+
+
+
+int main(int argc, char** argv)
+{
+	#ifdef FT_MODE
+	CPRINT(GREEN << BOLD, "\n\t\t\tFT Containers\n");
+	#else
+	CPRINT(YELLOW << BOLD, "\n\t\t\tSTD Containers\n");
+	#endif
+
+	if (argc == 1)
+	{
+		vector_tests(std::cout);
+		// stack_tests(std::cout);
+		// map_tests(std::cout);
+		#ifdef BONUS
+		set_tests(std::cout);
+		#endif
+	}
+	else if (argc == 2)
+	{
+		std::ofstream outfile(argv[1]);
+		if (!outfile.is_open())
+		{
+			std::cerr << RED << BOLD << "error\n" << "couldn't open the outfile: " << RESET << std::strerror(errno) << std::endl;
+			std::exit(errno);
+		}
+		vector_tests(outfile);
+		// stack_tests(outfile);
+		// map_tests(outfile);
+		#ifdef BONUS
+		set_tests(outfile);
+		#endif
+	}
+	else
+	{
+		std::cerr << RED << BOLD << "error\nusage: " << RESET << argv[0] << " <output-filename>" << std::endl;
+		std::exit(1);
+	}
 
 
 
@@ -308,4 +165,7 @@ int main()
 	// test_map.insert(std::make_pair(5, 2));
 	// test_map.insert(std::make_pair(5, 10));
 	// print_container(test_map);
+	#ifdef FT_MODE
+	system("leaks ft_containers");
+	#endif
 }

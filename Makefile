@@ -6,13 +6,13 @@
 #    By: skienzle <skienzle@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/06 15:15:49 by skienzle          #+#    #+#              #
-#    Updated: 2022/05/29 17:03:10 by skienzle         ###   ########.fr        #
+#    Updated: 2022/05/31 10:55:19 by skienzle         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = ft_containers
 CC = clang++
-CFLAGS = -Wall -Wextra -Werror -std=c++98
+CFLAGS = -Wall -Wextra -Werror -std=c++98 -Ihelpers
 RM = rm -rf
 
 STD_NAME = std_containers
@@ -25,7 +25,8 @@ INC_FULL = $(addprefix $(IDIR)/, $(INC))
 TPP = vector.tpp stack.tpp map.tpp set.tpp utils/RBtree.tpp
 TPP_FULL = $(addprefix $(IDIR)/, $(TPP))
 
-SRC = main_jludt.cpp
+
+SRC = main.cpp vector_tests.cpp stack_tests.cpp map_tests.cpp set_tests.cpp
 SDIR = src
 SRC_FULL = $(addprefix $(SDIR)/, $(SRC))
 
@@ -65,10 +66,10 @@ fclean: clean
 	$(RM) $(NAME)
 	$(RM) $(STD_NAME)
 
-re: fclean all
-
 bonus: CFLAGS += -DBONUS=1
 bonus: all
+
+re: fclean bonus
 
 benchmark: CFLAGS += -DBENCHMARK=1
 benchmark: re
@@ -76,7 +77,7 @@ benchmark: re
 debug: CFLAGS += -g
 debug: re
 
-release: CFLAGS += -Ofast
+release: CFLAGS += -O3
 release: re
 
 .PHONY: all clean fclean re bonus benchmark debug release

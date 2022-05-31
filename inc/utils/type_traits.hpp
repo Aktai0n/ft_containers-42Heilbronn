@@ -6,7 +6,7 @@
 /*   By: skienzle <skienzle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 19:21:18 by skienzle          #+#    #+#             */
-/*   Updated: 2022/05/29 19:15:49 by skienzle         ###   ########.fr       */
+/*   Updated: 2022/05/29 19:28:19 by skienzle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,11 +43,6 @@ struct integral_constant
 	{
 		return value;
 	}
-
-	// const value_type operator()() const
-	// {
-	// 	return value;
-	// }
 };
 
 

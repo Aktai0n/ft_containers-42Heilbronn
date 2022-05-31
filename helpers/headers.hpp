@@ -6,7 +6,7 @@
 /*   By: skienzle <skienzle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 17:31:24 by skienzle          #+#    #+#             */
-/*   Updated: 2022/05/29 17:33:47 by skienzle         ###   ########.fr       */
+/*   Updated: 2022/05/30 16:20:59 by skienzle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 
 #ifdef FT_MODE
 
-#include "../vector.hpp"
-#include "../stack.hpp"
-#include "../map.hpp"
-#include "../set.hpp"
+#include "../inc/vector.hpp"
+#include "../inc/stack.hpp"
+#include "../inc/map.hpp"
+#include "../inc/set.hpp"
 
 using ft::vector;
 using ft::stack;
@@ -44,15 +44,21 @@ using std::pair;
 #endif // FT_MODE
 
 // don't forget to erase those includes in the container files!!!
+#include <cerrno>
+#include <fstream>
 #include <iostream>
 #include <string>
 #include <deque>
 #include <typeinfo>
 
-#define PRINT(msg) (std::cout << msg << std::endl)
-#define RESET   "\033[0m"
-#define GREEN   "\033[32m"
-#define YELLOW  "\033[33m"
-#define CYAN    "\033[36m"
-#define BLUE    "\033[34m"
-#define RED     "\u001b[31m"
+void vector_tests(std::ostream& out);
+void stack_tests(std::ostream& out);
+void map_tests(std::ostream& out);
+
+#ifdef BONUS
+void set_tests(std::ostream& out);
+#endif
+
+
+#include "print.hpp"
+#include "MutantStack.hpp"
