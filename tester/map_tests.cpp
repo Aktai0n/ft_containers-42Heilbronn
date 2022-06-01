@@ -6,7 +6,7 @@
 /*   By: skienzle <skienzle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 10:54:10 by skienzle          #+#    #+#             */
-/*   Updated: 2022/06/01 18:18:06 by skienzle         ###   ########.fr       */
+/*   Updated: 2022/06/01 20:59:47 by skienzle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -510,6 +510,8 @@ int main(int argc, char **argv)
 		std::cerr << RED << BOLD << "error\nusage: " << RESET << argv[0] << " <output-filename>" << std::endl;
 		std::exit(1);
 	}
+
+	std::cout << '\n' << RED << "total:\n" << RESET;
 	#if FT_MODE
 	print_end_time("ft::map", map_time);
 	#else

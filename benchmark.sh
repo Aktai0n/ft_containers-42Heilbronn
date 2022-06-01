@@ -1,52 +1,68 @@
 #!/bin/bash
 
-trap 'rm -f a.out' EXIT
-
 RESET="\033[0m"
 BOLD="\033[1m"
-RED="\033[31m"
-GREEN="\033[32m"
+RED="\033[91m"
 YELLOW="\033[33m"
-BLUE="\033[34m"
-CYAN="\033[36m"
 
 CC="c++"
 CFLAGS="-Wall -Werror -Wextra -std=c++98"
 SDIR="./tester"
 # CFLAGS += " -fsanitize=address"
 
-compile () {
-	# 1=source files 2=mode (ft/std) 3=containers 4=executable name
+FT_OUTFILE="ft_output"
+FT_ERROR="ft_error"
 
+STD_OUTFILE="std_output"
+STD_ERROR="std_error"
+
+DIFF_FILE="diff_containers"
+
+compile () {
+	# 1=source files 2=mode (ft/std) 3=container switch 4=executable name
 	eval "$CC $CFLAGS ${1} -D${2} -D${3} -o ${4}"
 }
 
-run () {
-	# 1=source files 2=containers
-	compile ${1} "FT_MODE=1" ${2} "./ft_containers"
-	eval "./ft_containers ft_output"
-	compile ${1} "STD_MODE" ${2} "./std_containers"
-	eval "./std_containers std_output"
+run_one () {
+	# 1=container name
+	local container_file=$(echo "${SDIR}/${1}_tests.cpp")
+	local container_flag=$(echo "${1}_ONLY" | awk '{ print toupper($0) }')
+	local ft_executable_name=$(echo "ft_${1}")
+	local std_executable_name=$(echo "std_${1}")
+
+	compile ${container_file} "FT_MODE=1" ${container_flag} ${ft_executable_name}
+	eval "./${ft_executable_name} ${FT_OUTFILE} 2> ${FT_ERROR}"
+
+	compile ${container_file} "STD_MODE" ${container_flag} ${std_executable_name}
+	eval "./${std_executable_name} ${STD_OUTFILE} 2> ${STD_ERROR}"
+
+	diff ${FT_OUTFILE} ${STD_OUTFILE} > ${DIFF_FILE}
+	rm -f ${std_executable_name} ${ft_executable_name}
 }
 
-# main () {
-# 	echo hello
-# 	if [ $# -ne 0 ]; then
-# 		echo here
-# 		eval "make bonus"
-# 	fi
-# }
+run_all () {
+	eval "make benchmark"
+	echo ""
+	eval "./ft_containers ${FT_OUTFILE} 2> ${FT_ERROR}"
+	eval "./std_containers ${STD_OUTFILE} 2> ${STD_ERROR}"
+	diff ${FT_OUTFILE} ${STD_OUTFILE} > ${DIFF_FILE}
+}
 
-if [[ $# -eq 0 || $1 -eq all ]]; then
-	eval "make --silent benchmark"
-	eval "./ft_containers ft_output"
-	eval "./std_containers std_output"
-elif [ $1 -eq vector ]; then
-	compile "${SDIR}/vector_tests.cpp" 
+clean () {
+	rm ${FT_OUTFILE} ${FT_ERROR} ${STD_OUTFILE} ${STD_ERROR} ${DIFF_FILE}
+}
+
+if [[ $# -eq 0 ]]; then
+	run_all
+else
+	case $1 in
+		vector) run_one "vector";;
+		stack) run_one "stack";;
+		map) run_one "map";;
+		set) run_one "set";;
+		all) run_all;;
+		clean) clean;;
+		*) printf "${RED}error\n${YELLOW}unknown option: ${RESET}$1\n"
+			printf "options are: vector, stack, map, set, all and clean\n";;
+	esac
 fi
-
-# make bonus
-# ./ft_containers ft_output 2> ft_error
-# ./std_containers std_output 2> std_error
-# diff ft_output std_output
-# rm ft_output std_output

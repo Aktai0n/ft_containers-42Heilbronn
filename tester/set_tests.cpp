@@ -6,7 +6,7 @@
 /*   By: skienzle <skienzle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 10:54:20 by skienzle          #+#    #+#             */
-/*   Updated: 2022/06/01 17:58:07 by skienzle         ###   ########.fr       */
+/*   Updated: 2022/06/01 21:08:39 by skienzle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -453,3 +453,39 @@ double set_tests(std::ostream& out)
 	PRINT("\n--------------------------------------------------------------------------\n");
 	return timer.get_total_time();
 }
+
+
+#ifdef SET_ONLY
+
+int main(int argc, char **argv)
+{
+	print_mode();
+	double set_time = 0.0;
+
+	if (argc == 1)
+		set_time = set_tests(std::cout);
+	else if (argc == 2)
+	{
+		std::ofstream outfile(argv[1]);
+		if (!outfile.is_open())
+		{
+			std::cerr << RED << BOLD << "error\n" << "couldn't open the outfile: " << RESET << std::strerror(errno) << std::endl;
+			std::exit(errno);
+		}
+		set_time = set_tests(outfile);
+	}
+	else
+	{
+		std::cerr << RED << BOLD << "error\nusage: " << RESET << argv[0] << " <output-filename>" << std::endl;
+		std::exit(1);
+	}
+
+	std::cout << '\n' << RED << "total:\n" << RESET;
+	#if FT_MODE
+	print_end_time("ft::set", set_time);
+	#else
+	print_end_time("std::set", set_time);
+	#endif
+}
+
+#endif // SET_ONLY

@@ -6,7 +6,7 @@
 /*   By: skienzle <skienzle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 16:05:52 by skienzle          #+#    #+#             */
-/*   Updated: 2022/06/01 18:15:27 by skienzle         ###   ########.fr       */
+/*   Updated: 2022/06/01 20:58:09 by skienzle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,8 @@ print_capacity(std::ostream& out, const Vector<Value,Alloc>& c)
 }
 
 template<typename Container>
-inline void print_container(std::ostream& out, const Container& c)
+inline void
+print_container(std::ostream& out, const Container& c)
 {
 	FPRINT(out, "container size: " << c.size());
 	FPRINT(out, "empty? " << (c.empty() ? "true" : "false"));

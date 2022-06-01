@@ -6,7 +6,7 @@
 /*   By: skienzle <skienzle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 10:53:59 by skienzle          #+#    #+#             */
-/*   Updated: 2022/06/01 18:23:32 by skienzle         ###   ########.fr       */
+/*   Updated: 2022/06/01 21:00:20 by skienzle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -551,7 +551,7 @@ double vector_tests(std::ostream& out)
 }
 
 
-#ifdef VEC_ONLY
+#ifdef VECTOR_ONLY
 
 int main(int argc, char **argv)
 {
@@ -575,7 +575,8 @@ int main(int argc, char **argv)
 		std::cerr << RED << BOLD << "error\nusage: " << RESET << argv[0] << " <output-filename>" << std::endl;
 		std::exit(1);
 	}
-	
+
+	std::cout << '\n' << RED << "total:\n" << RESET;
 	#if FT_MODE
 	print_end_time("ft::vector", vec_time);
 	#else
@@ -583,4 +584,4 @@ int main(int argc, char **argv)
 	#endif
 }
 
-#endif // VEC_ONLY
+#endif // VECTOR_ONLY

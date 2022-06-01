@@ -6,13 +6,13 @@
 #    By: skienzle <skienzle@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/06 15:15:49 by skienzle          #+#    #+#              #
-#    Updated: 2022/06/01 18:48:41 by skienzle         ###   ########.fr        #
+#    Updated: 2022/06/01 21:17:42 by skienzle         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = ft_containers
 CC = c++
-CFLAGS = -Wall -Wextra -Werror -std=c++98
+CFLAGS = -Wall -Wextra -Werror -std=c++98 -DBONUS=1
 RM = rm -rf
 
 STD_NAME = std_containers
@@ -66,7 +66,7 @@ fclean: clean
 	$(RM) $(NAME)
 	$(RM) $(STD_NAME)
 
-bonus: CFLAGS += -DBONUS=1
+# bonus: CFLAGS += -DBONUS=1
 bonus: all
 
 re: fclean bonus
@@ -79,5 +79,6 @@ debug: re
 
 release: CFLAGS += -O3
 release: re
+
 
 .PHONY: all clean fclean re bonus benchmark debug release

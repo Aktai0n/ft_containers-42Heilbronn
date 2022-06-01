@@ -6,7 +6,7 @@
 /*   By: skienzle <skienzle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 15:46:55 by skienzle          #+#    #+#             */
-/*   Updated: 2022/06/01 18:14:53 by skienzle         ###   ########.fr       */
+/*   Updated: 2022/06/01 20:48:17 by skienzle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,9 @@ int main(int argc, char** argv)
 	double vec_time = 0.0;
 	double stack_time = 0.0;
 	double map_time = 0.0;
+	#ifdef BONUS
 	double set_time = 0.0;
+	#endif
 
 	if (argc == 1)
 	{
@@ -58,12 +60,16 @@ int main(int argc, char** argv)
 	print_end_time("ft::vector", vec_time);
 	print_end_time("ft::stack", stack_time);
 	print_end_time("ft::map", map_time);
+	#ifdef BONUS
 	print_end_time("ft::set", set_time);
+	#endif
 	#else
 	print_end_time("std::vector", vec_time);
 	print_end_time("std::stack", stack_time);
 	print_end_time("std::map", map_time);
+	#ifdef BONUS
 	print_end_time("std::set", set_time);
+	#endif
 	#endif
 
 	#ifdef FT_MODE

@@ -6,7 +6,7 @@
 /*   By: skienzle <skienzle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 17:31:24 by skienzle          #+#    #+#             */
-/*   Updated: 2022/06/01 17:44:03 by skienzle         ###   ########.fr       */
+/*   Updated: 2022/06/01 20:46:33 by skienzle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,11 +43,10 @@ using std::pair;
 
 #endif // FT_MODE
 
-// don't forget to erase those includes in the container files!!!
+
 #include <cerrno>
-#include <string>
 #include <deque>
-#include <typeinfo>
+
 
 double vector_tests(std::ostream& out);
 double stack_tests(std::ostream& out);
