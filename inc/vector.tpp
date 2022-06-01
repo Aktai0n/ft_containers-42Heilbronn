@@ -6,7 +6,7 @@
 /*   By: skienzle <skienzle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/20 16:54:31 by skienzle          #+#    #+#             */
-/*   Updated: 2022/05/31 18:29:18 by skienzle         ###   ########.fr       */
+/*   Updated: 2022/06/01 14:41:40 by skienzle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -277,8 +277,6 @@ void
 vector<T,Alloc>::assign(InputIterator first, InputIterator last,
 						typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type*)
 {
-	if (first == last)
-		return;
 	size_type new_size = static_cast<size_type>(ft::distance(first, last));
 	if (new_size > this->_capacity)
 	{

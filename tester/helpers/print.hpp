@@ -6,7 +6,7 @@
 /*   By: skienzle <skienzle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 16:05:52 by skienzle          #+#    #+#             */
-/*   Updated: 2022/05/31 17:08:48 by skienzle         ###   ########.fr       */
+/*   Updated: 2022/06/01 18:15:27 by skienzle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 #include <iostream>
 #include <fstream>
-#include "MutantStack.hpp"
 
 #define RESET   "\033[0m"
 #define BOLD    "\033[1m"
@@ -38,29 +37,28 @@ std::ostream& operator<<(std::ostream& lhs, const pair<T1,T2>& rhs)
 
 template<typename Key, typename Value, typename Comp, typename Alloc,
 		template<typename, typename, typename, typename> class Map>
-void
+inline void
 print_capacity(__attribute((unused)) std::ostream& out,
 				__attribute((unused)) const Map<Key,Value,Comp,Alloc>& c)
 {}
 
 template<typename Value, typename Comp, typename Alloc,
 		template<typename, typename, typename> class Set>
-void
+inline void
 print_capacity(__attribute((unused)) std::ostream& out,
 				__attribute((unused)) const Set<Value,Comp,Alloc>& c)
 {}
 
 template<typename Value, typename Alloc,
 		template<typename, typename> class Vector>
-void
+inline void
 print_capacity(std::ostream& out, const Vector<Value,Alloc>& c)
 {
 	FPRINT(out, "capacity: " << c.capacity());
 }
 
 template<typename Container>
-void
-print_container(std::ostream& out, const Container& c)
+inline void print_container(std::ostream& out, const Container& c)
 {
 	FPRINT(out, "container size: " << c.size());
 	FPRINT(out, "empty? " << (c.empty() ? "true" : "false"));
@@ -75,6 +73,41 @@ print_container(std::ostream& out, const Container& c)
 	FPRINT(out, "\n-------------------------------------------------------------------");
 }
 
-void print_header(const char *cntr_name);
-void print_test_time(const char *testcase, double time);
-void print_end_time(const char *cntr_name, double time);
+inline void print_mode()
+{
+	#ifdef FT_MODE
+	CPRINT(GREEN << BOLD, "\n\t\t\tFT Containers\n");
+	#else
+	CPRINT(BOLD, "\n##########################################################################");
+	CPRINT(YELLOW << BOLD, "\n\t\t\tSTD Containers\n");
+	#endif
+}
+
+inline void print_header(const char *cntr_name)
+{
+	CPRINT(BOLD, "\t\t\t\t" << cntr_name << ":\n");
+}
+
+inline void print_test_header(std::ostream& out, const char *test_name)
+{
+	FPRINT(out, '\n' << test_name << ": \n");
+}
+
+inline void print_test_time(const char *testcase, double time)
+{
+	std::cout << CYAN;
+	std::cout.width(30);
+	PRINT(std::left << testcase << time << "ms" << RESET);
+}
+
+inline void print_end_time(const char *cntr_name, double time)
+{
+	#if FT_MODE
+	std::cout << GREEN;
+	#else
+	std::cout << YELLOW;
+	#endif
+	std::cout << BOLD << '\t';
+	std::cout.width(22);
+	PRINT(std::left << cntr_name << time << "ms" << RESET);
+}

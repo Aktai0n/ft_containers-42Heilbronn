@@ -6,17 +6,18 @@
 /*   By: skienzle <skienzle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 10:53:59 by skienzle          #+#    #+#             */
-/*   Updated: 2022/05/31 21:21:23 by skienzle         ###   ########.fr       */
+/*   Updated: 2022/06/01 18:23:32 by skienzle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "headers.hpp"
-#include "timer.hpp"
-#include "my_int.hpp"
+#include "../config.hpp"
+#include "./helpers/timer.hpp"
+#include "./helpers/my_int.hpp"
+#include "./helpers/print.hpp"
 
 
 template<typename T>
-void assignment(std::ostream& out, vector<T>& vec_short, vector<T>& vec_middle, vector<T>& vec_long)
+static void assignment(std::ostream& out, vector<T>& vec_short, vector<T>& vec_middle, vector<T>& vec_long)
 {
 	vector<T> test;
 	
@@ -29,7 +30,7 @@ void assignment(std::ostream& out, vector<T>& vec_short, vector<T>& vec_middle, 
 }
 
 template<typename T>
-void iterators(std::ostream& out, vector<T>& vec)
+static void iterators(std::ostream& out, vector<T>& vec)
 {
 	typename vector<T>::iterator it = vec.begin();
 	typename vector<T>::iterator ite = vec.end();
@@ -170,7 +171,7 @@ void iterators(std::ostream& out, vector<T>& vec)
 }
 
 template<typename T>
-void resize(std::ostream& out, vector<T>& vec_short, vector<T>& vec_middle, vector<T>& vec_long)
+static void resize(std::ostream& out, vector<T>& vec_short, vector<T>& vec_middle, vector<T>& vec_long)
 {
 	vec_short.resize(100);
 	vec_middle.resize(1000);
@@ -205,7 +206,7 @@ void reserve(std::ostream& out, vector<T>& vec_short, vector<T>& vec_middle, vec
 
 
 template<typename T>
-void bracket_operator(std::ostream& out, vector<T>& vec_short, vector<T>& vec_middle, vector<T>& vec_long)
+static void bracket_operator(std::ostream& out, vector<T>& vec_short, vector<T>& vec_middle, vector<T>& vec_long)
 {
 	for (size_t i = 0; i < vec_short.size(); ++i)
 	{
@@ -225,7 +226,7 @@ void bracket_operator(std::ostream& out, vector<T>& vec_short, vector<T>& vec_mi
 }
 
 template<typename T>
-void at(std::ostream& out, vector<T>& vec_short, vector<T>& vec_middle, vector<T>& vec_long)
+static void at(std::ostream& out, vector<T>& vec_short, vector<T>& vec_middle, vector<T>& vec_long)
 {
 	try
 	{
@@ -278,7 +279,7 @@ void at(std::ostream& out, vector<T>& vec_short, vector<T>& vec_middle, vector<T
 }
 
 template<typename T>
-void front_back(std::ostream& out, vector<T>& vec_short, vector<T>& vec_middle, vector<T>& vec_long)
+static void front_back(std::ostream& out, vector<T>& vec_short, vector<T>& vec_middle, vector<T>& vec_long)
 {
 	if (!vec_short.empty())
 		FPRINT(out, "front: " << vec_short.front());
@@ -295,7 +296,7 @@ void front_back(std::ostream& out, vector<T>& vec_short, vector<T>& vec_middle, 
 }
 
 template<typename T>
-void assign(std::ostream& out, vector<T>& vec_short, vector<T>& vec_middle, vector<T>& vec_long, const std::deque<T>& deq)
+static void assign(std::ostream& out, vector<T>& vec_short, vector<T>& vec_middle, vector<T>& vec_long, const std::deque<T>& deq)
 {
 	vec_middle.assign(vec_short.begin(), vec_short.end());
 	print_container(out, vec_middle);
@@ -310,7 +311,7 @@ void assign(std::ostream& out, vector<T>& vec_short, vector<T>& vec_middle, vect
 }
 
 template<typename T>
-void pop_back(std::ostream& out, vector<T>& vec_short, vector<T>& vec_middle, vector<T>& vec_long)
+static void pop_back(std::ostream& out, vector<T>& vec_short, vector<T>& vec_middle, vector<T>& vec_long)
 {
 	while (!vec_short.empty())
 		vec_short.pop_back();
@@ -324,7 +325,7 @@ void pop_back(std::ostream& out, vector<T>& vec_short, vector<T>& vec_middle, ve
 }
 
 template<typename T>
-void push_back(std::ostream& out, vector<T>& vec_short, vector<T>& vec_middle, vector<T>& vec_long)
+static void push_back(std::ostream& out, vector<T>& vec_short, vector<T>& vec_middle, vector<T>& vec_long)
 {
 	for (int i = 0; i < 100; ++i)
 		vec_short.push_back(T(i));
@@ -338,7 +339,7 @@ void push_back(std::ostream& out, vector<T>& vec_short, vector<T>& vec_middle, v
 }
 
 template<typename T>
-void erase(std::ostream& out, vector<T>& vec_short, vector<T>& vec_middle, vector<T>& vec_long)
+static void erase(std::ostream& out, vector<T>& vec_short, vector<T>& vec_middle, vector<T>& vec_long)
 {
 	vec_short.erase(vec_short.begin());
 	vec_short.erase(vec_short.begin() + vec_short.size() / 4);
@@ -352,7 +353,7 @@ void erase(std::ostream& out, vector<T>& vec_short, vector<T>& vec_middle, vecto
 }
 
 template<typename T>
-void insert(std::ostream& out, vector<T>& vec_short, vector<T>& vec_middle, vector<T>& vec_long, const std::deque<T>& deq)
+static void insert(std::ostream& out, vector<T>& vec_short, vector<T>& vec_middle, vector<T>& vec_long, const std::deque<T>& deq)
 {
 	vec_short.insert(vec_short.end(), T());
 	vec_short.insert(vec_short.begin(), T(100));
@@ -365,7 +366,7 @@ void insert(std::ostream& out, vector<T>& vec_short, vector<T>& vec_middle, vect
 }
 
 template<typename T>
-void relational_operators(std::ostream& out, vector<T>& vec_short, vector<T>& vec_middle, vector<T>& vec_long)
+static void relational_operators(std::ostream& out, vector<T>& vec_short, vector<T>& vec_middle, vector<T>& vec_long)
 {
 	FPRINT(out, "vector_short == vector_middle? " << (vec_short == vec_middle));
 	FPRINT(out, "vector_short != vector_middle? " << (vec_short != vec_middle));
@@ -383,7 +384,7 @@ void relational_operators(std::ostream& out, vector<T>& vec_short, vector<T>& ve
 }
 
 template<typename T>
-void swap_vec(std::ostream& out, vector<T>& vec_short, vector<T>& vec_middle, vector<T>& vec_long)
+static void swap_vec(std::ostream& out, vector<T>& vec_short, vector<T>& vec_middle, vector<T>& vec_long)
 {
 	vector<T> swap1;
 	vector<T> swap2(50);
@@ -400,7 +401,7 @@ void swap_vec(std::ostream& out, vector<T>& vec_short, vector<T>& vec_middle, ve
 }
 
 template<typename T>
-void clear(std::ostream& out, vector<T>& vec_short, vector<T>& vec_middle, vector<T>& vec_long)
+static void clear(std::ostream& out, vector<T>& vec_short, vector<T>& vec_middle, vector<T>& vec_long)
 {
 	vec_short.clear();
 	vec_middle.clear();
@@ -411,18 +412,18 @@ void clear(std::ostream& out, vector<T>& vec_short, vector<T>& vec_middle, vecto
 }
 
 template<typename T>
-void get_allocator(vector<T>& vec_short, vector<T>& vec_middle, vector<T>& vec_long)
+static void get_allocator(vector<T>& vec_short, vector<T>& vec_middle, vector<T>& vec_long)
 {
 	vec_short.get_allocator();
 	vec_middle.get_allocator();
 	vec_long.get_allocator();
 }
 
-void
-vector_tests(std::ostream& out)
+double vector_tests(std::ostream& out)
 {
 	print_header("vector");
 	
+	print_test_header(out, "vector constructors");
 	Timer<> timer;
 	vector<int> vec_short;
 	vector<int> vec_middle(1000);
@@ -441,36 +442,43 @@ vector_tests(std::ostream& out)
 	}
 	print_test_time("constructors: ", timer.stop());
 
+	print_test_header(out, "vector assignment operator");
 	timer.start();
 	assignment(out, vec_short, vec_middle, vec_long);
 	assignment(out, my_vec_short, my_vec_middle, my_vec_long);
 	print_test_time("assignment operator: ", timer.stop());
 
+	print_test_header(out, "vector iterators");
 	timer.start();
 	iterators(out, vec_long);
 	iterators(out, my_vec_long);
 	print_test_time("iterators: ", timer.stop());
 
+	print_test_header(out, "vector resize");
 	timer.start();
 	resize(out, vec_short, vec_middle, vec_long);
 	resize(out, my_vec_short, my_vec_middle, my_vec_long);
 	print_test_time("resize: ", timer.stop());
 
+	print_test_header(out, "vector reserve");
 	timer.start();
 	reserve(out, vec_short, vec_middle, vec_long);
 	reserve(out, my_vec_short, my_vec_middle, my_vec_long);
 	print_test_time("reserve: ", timer.stop());
 
+	print_test_header(out, "vector operator[]");
 	timer.start();
 	bracket_operator(out, vec_short, vec_middle, vec_long);
 	bracket_operator(out, my_vec_short, my_vec_middle, my_vec_long);
 	print_test_time("operator[]: ", timer.stop());
 
+	print_test_header(out, "vector at");
 	timer.start();
 	at(out, vec_short, vec_middle, vec_long);
 	at(out, my_vec_short, my_vec_middle, my_vec_long);
 	print_test_time("at: ", timer.stop());
 
+	print_test_header(out, "vector front and back");
 	timer.start();
 	front_back(out, vec_short, vec_middle, vec_long);
 	front_back(out, my_vec_short, my_vec_middle, my_vec_long);
@@ -479,22 +487,26 @@ vector_tests(std::ostream& out)
 	{
 		std::deque<int> deq(1000, -500);
 		std::deque<my_int> my_deq(1000, -500);
+		print_test_header(out, "vector assign");
 		timer.start();
 		assign(out, vec_short, vec_middle, vec_long, deq);
 		assign(out, my_vec_short, my_vec_middle, my_vec_long, my_deq);
 		print_test_time("assign: ", timer.stop());
 	}
 
+	print_test_header(out, "vector pop_back");
 	timer.start();
 	pop_back(out, vec_short, vec_middle, vec_long);
 	pop_back(out, my_vec_short, my_vec_middle, my_vec_long);
 	print_test_time("pop_back: ", timer.stop());
 
+	print_test_header(out, "vector push_back");
 	timer.start();
 	push_back(out, vec_short, vec_middle, vec_long);
 	push_back(out, my_vec_short, my_vec_middle, my_vec_long);
 	print_test_time("push_back: ", timer.stop());
 
+	print_test_header(out, "vector erase");
 	timer.start();
 	erase(out, vec_short, vec_middle, vec_long);
 	erase(out, my_vec_short, my_vec_middle, my_vec_long);
@@ -503,35 +515,72 @@ vector_tests(std::ostream& out)
 	{
 		std::deque<int> deq(1000, -500);
 		std::deque<my_int> my_deq(1000, -500);
+		print_test_header(out, "vector insert");
 		timer.start();
 		insert(out, vec_short, vec_middle, vec_long, deq);
 		insert(out, my_vec_short, my_vec_middle, my_vec_long, my_deq);
 		print_test_time("insert: ", timer.stop());
 	}
 
+	print_test_header(out, "vector get_allocator");
 	timer.start();
 	get_allocator(vec_short, vec_middle, vec_long);
 	get_allocator(my_vec_short, my_vec_middle, my_vec_long);
 	print_test_time("get_allocator: ", timer.stop());
 
+	print_test_header(out, "vector relational operators");
 	timer.start();
 	relational_operators(out, vec_short, vec_middle, vec_long);
 	relational_operators(out, my_vec_short, my_vec_middle, my_vec_long);
 	print_test_time("relational operators: ", timer.stop());
 
+	print_test_header(out, "vector swap");
 	timer.start();
 	swap_vec(out, vec_short, vec_middle, vec_long);
 	swap_vec(out, my_vec_short, my_vec_middle, my_vec_long);
 	print_test_time("swap: ", timer.stop());
 
+	print_test_header(out, "vector clear");
 	timer.start();
 	clear(out, vec_short, vec_middle, vec_long);
 	clear(out, my_vec_short, my_vec_middle, my_vec_long);
 	print_test_time("clear: ", timer.stop());
 
+	PRINT("\n--------------------------------------------------------------------------\n");
+	return timer.get_total_time();
+}
+
+
+#ifdef VEC_ONLY
+
+int main(int argc, char **argv)
+{
+	print_mode();
+	double vec_time = 0.0;
+
+	if (argc == 1)
+		vec_time = vector_tests(std::cout);
+	else if (argc == 2)
+	{
+		std::ofstream outfile(argv[1]);
+		if (!outfile.is_open())
+		{
+			std::cerr << RED << BOLD << "error\n" << "couldn't open the outfile: " << RESET << std::strerror(errno) << std::endl;
+			std::exit(errno);
+		}
+		vec_time = vector_tests(outfile);
+	}
+	else
+	{
+		std::cerr << RED << BOLD << "error\nusage: " << RESET << argv[0] << " <output-filename>" << std::endl;
+		std::exit(1);
+	}
+	
 	#if FT_MODE
-	print_end_time("ft::vector", timer.get_total_time());
+	print_end_time("ft::vector", vec_time);
 	#else
-	print_end_time("std::vector", timer.get_total_time());
+	print_end_time("std::vector", vec_time);
 	#endif
 }
+
+#endif // VEC_ONLY

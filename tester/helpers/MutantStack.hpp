@@ -6,11 +6,13 @@
 /*   By: skienzle <skienzle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 16:20:08 by skienzle          #+#    #+#             */
-/*   Updated: 2022/05/30 16:20:18 by skienzle         ###   ########.fr       */
+/*   Updated: 2022/06/01 17:43:26 by skienzle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #pragma once
+
+#include "../../config.hpp"
 
 template<typename T>
 class MutantStack : public stack<T>

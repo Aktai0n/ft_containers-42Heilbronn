@@ -6,13 +6,13 @@
 #    By: skienzle <skienzle@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/06 15:15:49 by skienzle          #+#    #+#              #
-#    Updated: 2022/05/31 10:55:19 by skienzle         ###   ########.fr        #
+#    Updated: 2022/06/01 18:48:41 by skienzle         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = ft_containers
-CC = clang++
-CFLAGS = -Wall -Wextra -Werror -std=c++98 -Ihelpers
+CC = c++
+CFLAGS = -Wall -Wextra -Werror -std=c++98
 RM = rm -rf
 
 STD_NAME = std_containers
@@ -26,8 +26,8 @@ TPP = vector.tpp stack.tpp map.tpp set.tpp utils/RBtree.tpp
 TPP_FULL = $(addprefix $(IDIR)/, $(TPP))
 
 
-SRC = main.cpp vector_tests.cpp stack_tests.cpp map_tests.cpp set_tests.cpp
-SDIR = src
+SRC = all.cpp vector_tests.cpp stack_tests.cpp map_tests.cpp set_tests.cpp
+SDIR = tester
 SRC_FULL = $(addprefix $(SDIR)/, $(SRC))
 
 ODIR = obj
