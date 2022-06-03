@@ -83,16 +83,17 @@ Due to that, the set shares almost the same advantages and disadvantages as the 
 **stack:** \
 [stack in the stdlib](https://www.cplusplus.com/reference/stack/stack/)
 
-**map and set (red-black tree):** \
+**map:** \
 [map in the stdlib](https://www.cplusplus.com/reference/map/map/) \
-[how do maps work](https://www.youtube.com/watch?v=KiB0vRi2wlc) \
+[how do maps work](https://www.youtube.com/watch?v=KiB0vRi2wlc)
 
-[set in the stdlib](https://www.cplusplus.com/reference/set/set/) \
+**set:** \
+[set in the stdlib](https://www.cplusplus.com/reference/set/set/)
 
+**red-black tree:** \
 [introduction to red-black trees](https://www.youtube.com/watch?v=3RQtq7PDHog) \
 [red-black tree insertion](https://www.youtube.com/watch?v=qA02XWRTBdw) \
-[red-black tree deletion](https://www.youtube.com/watch?v=w5cvkTXY0vQ) \
-
+[red-black tree deletion](https://www.youtube.com/watch?v=w5cvkTXY0vQ)
 
 **iterators:** \
 [iterator in the stdlib](https://www.cplusplus.com/reference/iterator/) \
