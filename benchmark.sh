@@ -19,7 +19,7 @@ STD_ERROR="std_error"
 DIFF_FILE="diff_containers"
 
 compile () {
-	# 1=source files 2=mode (ft/std) 3=container switch 4=executable name
+	# 1=source file 2=mode (ft/std) 3=container switch 4=executable name
 	eval "$CC $CFLAGS ${1} -D${2} -D${3} -o ${4}"
 }
 
@@ -50,6 +50,7 @@ run_all () {
 
 clean () {
 	rm ${FT_OUTFILE} ${FT_ERROR} ${STD_OUTFILE} ${STD_ERROR} ${DIFF_FILE}
+	eval "make fclean"
 }
 
 if [[ $# -eq 0 ]]; then

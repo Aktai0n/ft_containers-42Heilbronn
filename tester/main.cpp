@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   all.cpp                                            :+:      :+:    :+:   */
+/*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: skienzle <skienzle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 15:46:55 by skienzle          #+#    #+#             */
-/*   Updated: 2022/06/01 20:48:17 by skienzle         ###   ########.fr       */
+/*   Updated: 2022/06/02 14:34:03 by skienzle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 #include "../config.hpp"
-#include "./helpers/print.hpp"
+#include "./headers/print.hpp"
 
 int main(int argc, char** argv)
 {
@@ -70,9 +70,12 @@ int main(int argc, char** argv)
 	#ifdef BONUS
 	print_end_time("std::set", set_time);
 	#endif
-	#endif
+
+	#endif // FT_MODE
 
 	#ifdef FT_MODE
 	// system("leaks ft_containers");
+	#else
+	// system("leaks std_containers");
 	#endif
 }

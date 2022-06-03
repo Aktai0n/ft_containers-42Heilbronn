@@ -6,7 +6,7 @@
 /*   By: skienzle <skienzle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/11 16:06:31 by skienzle          #+#    #+#             */
-/*   Updated: 2022/05/31 21:17:25 by skienzle         ###   ########.fr       */
+/*   Updated: 2022/06/02 14:49:29 by skienzle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 #include <memory>
 
+#include "algorithm.hpp"
 #include "iterator.hpp"
 #include "utility.hpp"
 

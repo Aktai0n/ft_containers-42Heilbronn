@@ -6,7 +6,7 @@
 #    By: skienzle <skienzle@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/06 15:15:49 by skienzle          #+#    #+#              #
-#    Updated: 2022/06/01 21:17:42 by skienzle         ###   ########.fr        #
+#    Updated: 2022/06/03 14:29:42 by skienzle         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,7 @@ TPP = vector.tpp stack.tpp map.tpp set.tpp utils/RBtree.tpp
 TPP_FULL = $(addprefix $(IDIR)/, $(TPP))
 
 
-SRC = all.cpp vector_tests.cpp stack_tests.cpp map_tests.cpp set_tests.cpp
+SRC = main.cpp vector_tests.cpp stack_tests.cpp map_tests.cpp set_tests.cpp
 SDIR = tester
 SRC_FULL = $(addprefix $(SDIR)/, $(SRC))
 

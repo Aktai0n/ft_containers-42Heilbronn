@@ -1,7 +1,7 @@
 #include <iostream>
 #include <string>
 #include <deque>
-#if 1 //CREATE A REAL STL EXAMPLE
+#if FT_MODE
 	#include <map>
 	#include <stack>
 	#include <vector>

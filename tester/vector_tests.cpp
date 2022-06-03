@@ -6,14 +6,14 @@
 /*   By: skienzle <skienzle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 10:53:59 by skienzle          #+#    #+#             */
-/*   Updated: 2022/06/01 21:00:20 by skienzle         ###   ########.fr       */
+/*   Updated: 2022/06/01 22:11:10 by skienzle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../config.hpp"
-#include "./helpers/timer.hpp"
-#include "./helpers/my_int.hpp"
-#include "./helpers/print.hpp"
+#include "./headers/timer.hpp"
+#include "./headers/my_int.hpp"
+#include "./headers/print.hpp"
 
 
 template<typename T>

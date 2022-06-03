@@ -6,7 +6,7 @@
 /*   By: skienzle <skienzle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 16:05:52 by skienzle          #+#    #+#             */
-/*   Updated: 2022/06/01 20:58:09 by skienzle         ###   ########.fr       */
+/*   Updated: 2022/06/03 14:24:30 by skienzle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 #include <iostream>
 #include <fstream>
+
+#include "../../config.hpp"
 
 #define RESET   "\033[0m"
 #define BOLD    "\033[1m"

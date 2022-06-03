@@ -6,15 +6,15 @@
 /*   By: skienzle <skienzle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 16:13:07 by skienzle          #+#    #+#             */
-/*   Updated: 2022/06/01 21:06:48 by skienzle         ###   ########.fr       */
+/*   Updated: 2022/06/01 22:11:02 by skienzle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../config.hpp"
-#include "./helpers/timer.hpp"
-#include "./helpers/my_int.hpp"
-#include "./helpers/print.hpp"
-#include "./helpers/MutantStack.hpp"
+#include "./headers/timer.hpp"
+#include "./headers/my_int.hpp"
+#include "./headers/print.hpp"
+#include "./headers/MutantStack.hpp"
 
 #define NUM_ELEMENTS 10000
 

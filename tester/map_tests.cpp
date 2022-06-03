@@ -6,14 +6,14 @@
 /*   By: skienzle <skienzle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 10:54:10 by skienzle          #+#    #+#             */
-/*   Updated: 2022/06/01 20:59:47 by skienzle         ###   ########.fr       */
+/*   Updated: 2022/06/01 22:10:32 by skienzle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../config.hpp"
-#include "./helpers/timer.hpp"
-#include "./helpers/my_int.hpp"
-#include "./helpers/print.hpp"
+#include "./headers/timer.hpp"
+#include "./headers/my_int.hpp"
+#include "./headers/print.hpp"
 
 typedef map<int, my_int> map_int;
 typedef map<my_int, int> map_my_int;
