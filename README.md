@@ -64,7 +64,7 @@ A map container stores its elements as pairs of keys and values. Searching for e
 :+1: elements are sorted in ascending order \
 :+1: only allocates as much memory as it currently needs
 
-:-1: all elements are stored in destinct blocks of memory. This leads to cache misses which increase the time it takes to iterate over the container \
+:-1: all elements are stored in destinct blocks of memory. This leads to cache misses which increases the time it takes to iterate over the container \
 :-1: every element has to allocate additional storage to store the pointers and node color \
 :-1: insertion and deletion may cause rotations to keep the tree (somewhat) balanced
 
@@ -76,29 +76,29 @@ Due to that, the set shares almost the same advantages and disadvantages as the 
 ## Resources:
 
 **vector:** \
-[vector in the stdlib](https://www.cplusplus.com/reference/vector/vector/)
-[how does a vector work](https://www.youtube.com/watch?v=PocJ5jXv8No)
+[vector in the stdlib](https://www.cplusplus.com/reference/vector/vector/) \
+[how does a vector work](https://www.youtube.com/watch?v=PocJ5jXv8No) \
 [writing a vector](https://www.youtube.com/watch?v=ryRf4Jh_YC0)
 
 **stack:** \
 [stack in the stdlib](https://www.cplusplus.com/reference/stack/stack/)
 
 **map and set (red-black tree):** \
-[map in the stdlib](https://www.cplusplus.com/reference/map/map/)
-[how do maps work](https://www.youtube.com/watch?v=KiB0vRi2wlc)
+[map in the stdlib](https://www.cplusplus.com/reference/map/map/) \
+[how do maps work](https://www.youtube.com/watch?v=KiB0vRi2wlc) \
 
-[set in the stdlib](https://www.cplusplus.com/reference/set/set/)
+[set in the stdlib](https://www.cplusplus.com/reference/set/set/) \
 
-[introduction to red-black trees](https://www.youtube.com/watch?v=3RQtq7PDHog)
-[red-black tree insertion](https://www.youtube.com/watch?v=qA02XWRTBdw)
-[red-black tree deletion](https://www.youtube.com/watch?v=w5cvkTXY0vQ)
+[introduction to red-black trees](https://www.youtube.com/watch?v=3RQtq7PDHog) \
+[red-black tree insertion](https://www.youtube.com/watch?v=qA02XWRTBdw) \
+[red-black tree deletion](https://www.youtube.com/watch?v=w5cvkTXY0vQ) \
 
 
 **iterators:** \
-[iterator in the stdlib](#https://www.cplusplus.com/reference/iterator/)
-[what are iterators](#https://www.youtube.com/watch?v=SgcHcbQ0RCQ)
-[writing an iterator yourself](#https://www.youtube.com/watch?v=F9eDv-YIOQ0)
+[iterator in the stdlib](https://www.cplusplus.com/reference/iterator/) \
+[what are iterators](https://www.youtube.com/watch?v=SgcHcbQ0RCQ) \
+[writing an iterator yourself](https://www.youtube.com/watch?v=F9eDv-YIOQ0)
 
 **enable_if (SFINAE):** \
-[overview of enable_if](#https://en.cppreference.com/w/cpp/types/enable_if)
-[what is SFINAE](#https://en.cppreference.com/w/cpp/language/sfinae)
+[overview of enable_if](https://en.cppreference.com/w/cpp/types/enable_if) \
+[what is SFINAE](https://en.cppreference.com/w/cpp/language/sfinae)
