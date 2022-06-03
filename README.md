@@ -25,7 +25,7 @@ run the benchmark:
 
 to run individual container benchmarks use:
 ```bash
-./benchmark [container name]
+./benchmark [container_name]
 ```
 
 modify the include paths inside config.hpp to test your own containers:
@@ -50,7 +50,7 @@ All elements of a vector are stored in a contiguous block of memory and sorted b
 
 :-1: has to copy all its elements when running out of memory \
 :-1: linear insertion and deletion time at the beginning of the container \
-:-1: allocates potentially unused memory \
+:-1: allocates potentially unused memory
 
 ### stack:
 The stack container is a wrapper for a different container (usually a deque) to offer the functionalities of a LIFO stack, where elements are pushed and popped only at the end.
