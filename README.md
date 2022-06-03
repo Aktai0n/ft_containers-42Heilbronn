@@ -39,25 +39,25 @@ modify the include paths inside config.hpp to test your own containers:
 
 ## Overview:
 
-**vector:**
+**vector:** \
 A vector container is an array that dynamically increases or shrinks in size when you add or remove elements from it.
 All elements of a vector are stored in a contiguous block of memory and sorted by insertion order.
 
-:+1: element access in constant time
-:+1: contiguous memory leads to few cache misses when iterating over the container
-:+1: usually constant insertion and deletion time on the end of the container
+:+1: element access in constant time \
+:+1: contiguous memory leads to few cache misses when iterating over the container \
+:+1: usually constant insertion and deletion time on the end of the container \
 :+1: preallocates memory to avoid copies
 
-:-1: has to copy all its elements when running out of memory
-:-1: linear insertion and deletion time at the beginning of the container
-:-1: allocates potentially unused memory
+:-1: has to copy all its elements when running out of memory \
+:-1: linear insertion and deletion time at the beginning of the container \
+:-1: allocates potentially unused memory \
 
 ## stack:
 The stack container is a wrapper for a different container (usually a deque) to offer the functionalities of a LIFO stack, where elements are pushed and popped only at the end.
 My self-written stack uses my vector as underlying container by default.
 
 ## map:
-A map container stores its elements as pairs of keys and values. Searching for elements is done by providing a key to retrive the associated value. Maps use a binary search tree, which is usually implemented as a red-black tree, as their underlying data structure. More information about red-black trees can be found [here](#./inc/utils/RBtree.hpp).
+A map container stores its elements as pairs of keys and values. Searching for elements is done by providing a key to retrive the associated value. Maps use a binary search tree, which is usually implemented as a red-black tree, as their underlying data structure. More information about red-black trees can be found [here](#https://github.com/Aktai0n/ft_containers-42Heilbronn/blob/master/inc/utils/RBtree.hpp).
 
 :+1: fast insertion, deletion and search times in O(log n)
 :+1: keys can be any data type that is comparable using the < operator
