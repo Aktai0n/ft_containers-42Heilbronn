@@ -1,6 +1,6 @@
 # ft_containers
 
-The goal of ft_containers is to recode some of the containers of the C++ [STL](https://www.geeksforgeeks.org/the-c-standard-template-library-stl/) (namely the vector, stack, map and set) as they were implemented in the C++98 standart while maintaining a performance that is comparable to the original implementation.
+The goal of ft_containers is to recode some of the containers of the [C++ STL](https://www.geeksforgeeks.org/the-c-standard-template-library-stl/) (namely the vector, stack, map and set) as they were implemented in the C++98 standart while maintaining a performance that is comparable to the original implementation.
 
 1. [Usage](#usage)
 2. [Overview](#overview)
