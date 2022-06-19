@@ -6,12 +6,13 @@
 /*   By: skienzle <skienzle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 19:21:18 by skienzle          #+#    #+#             */
-/*   Updated: 2022/05/31 15:16:30 by skienzle         ###   ########.fr       */
+/*   Updated: 2022/06/19 11:58:15 by skienzle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #pragma once
 
+#include <cstddef>
 
 namespace ft
 {
@@ -67,11 +68,15 @@ struct is_integral<unsigned char>: public true_type {};
 template<>
 struct is_integral<wchar_t>: public true_type {};
 
+#if __cplusplus >= 201103L
+
 template<>
 struct is_integral<char16_t>: public true_type {};
 
 template<>
 struct is_integral<char32_t>: public true_type {};
+
+#endif // C++11
 
 template<>
 struct is_integral<short>: public true_type {};

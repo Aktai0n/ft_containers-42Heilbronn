@@ -6,13 +6,13 @@
 #    By: skienzle <skienzle@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/06 15:15:49 by skienzle          #+#    #+#              #
-#    Updated: 2022/06/03 14:29:42 by skienzle         ###   ########.fr        #
+#    Updated: 2022/06/19 12:35:22 by skienzle         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = ft_containers
 CC = c++
-CFLAGS = -Wall -Wextra -Werror -std=c++98 -DBONUS=1
+CFLAGS = -Wall -Wextra -Werror -DBONUS=1 -std=c++98
 RM = rm -rf
 
 STD_NAME = std_containers

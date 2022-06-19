@@ -6,13 +6,14 @@
 /*   By: skienzle <skienzle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/08 09:38:58 by skienzle          #+#    #+#             */
-/*   Updated: 2022/05/30 15:26:35 by skienzle         ###   ########.fr       */
+/*   Updated: 2022/06/19 12:02:09 by skienzle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #pragma once
 
 #include <iterator>
+
 
 #include "type_traits.hpp"
 
@@ -68,7 +69,7 @@ template<typename T>
 struct iterator_traits<T*>
 {
 	typedef T										value_type;
-	typedef ptrdiff_t								difference_type;
+	typedef std::ptrdiff_t							difference_type;
 	typedef T*										pointer;
 	typedef T&										reference;
 	typedef random_access_iterator_tag				iterator_category;
@@ -78,7 +79,7 @@ template<typename T>
 struct iterator_traits<const T*>
 {
 	typedef T										value_type;
-	typedef ptrdiff_t								difference_type;
+	typedef std::ptrdiff_t							difference_type;
 	typedef const T*								pointer;
 	typedef const T&								reference;
 	typedef random_access_iterator_tag				iterator_category;
@@ -362,7 +363,7 @@ public: // methods
 
 	// operator overloads
 
-	// operator linear_iterator<const T>() const { return this->_ptr; }
+	
 	operator linear_iterator<const T>() const;
 	reference			operator*() const;
 	pointer				operator->() const;

@@ -6,7 +6,7 @@
 /*   By: skienzle <skienzle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 17:31:24 by skienzle          #+#    #+#             */
-/*   Updated: 2022/06/01 20:46:33 by skienzle         ###   ########.fr       */
+/*   Updated: 2022/06/19 12:27:12 by skienzle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,11 @@ using std::pair;
 
 #endif // FT_MODE
 
-
+#include <cstdlib>
+#include <cstring>
 #include <cerrno>
 #include <deque>
+#include <iostream>
 
 
 double vector_tests(std::ostream& out);
