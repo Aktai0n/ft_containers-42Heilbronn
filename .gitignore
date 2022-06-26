@@ -1,6 +1,5 @@
 *.o
 *_output
 *_containers
-src/main_*
 *_error
 .vscode

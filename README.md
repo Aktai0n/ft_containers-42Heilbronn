@@ -27,7 +27,7 @@ run the benchmark:
 
 to run individual container benchmarks use:
 ```bash
-./benchmark [container_name]
+./benchmark.sh [container_name]
 ```
 
 modify the include paths inside config.hpp to test your own containers:
