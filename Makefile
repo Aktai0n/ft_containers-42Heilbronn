@@ -6,7 +6,7 @@
 #    By: skienzle <skienzle@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/06 15:15:49 by skienzle          #+#    #+#              #
-#    Updated: 2022/06/19 12:35:22 by skienzle         ###   ########.fr        #
+#    Updated: 2022/08/02 20:53:39 by skienzle         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,7 @@ STD_NAME = std_containers
 
 INC = vector.hpp map.hpp stack.hpp set.hpp utils/iterator.hpp \
 	utils/utility.hpp utils/type_traits.hpp utils/algorithm.hpp utils/RBtree.hpp
-IDIR = inc
+IDIR = containers
 INC_FULL = $(addprefix $(IDIR)/, $(INC))
 
 TPP = vector.tpp stack.tpp map.tpp set.tpp utils/RBtree.tpp

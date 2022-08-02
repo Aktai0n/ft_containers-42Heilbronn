@@ -6,7 +6,7 @@
 /*   By: skienzle <skienzle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/20 16:54:31 by skienzle          #+#    #+#             */
-/*   Updated: 2022/06/01 21:35:19 by skienzle         ###   ########.fr       */
+/*   Updated: 2022/08/02 20:52:24 by skienzle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -443,7 +443,8 @@ void
 vector<T,Alloc>::_vdeallocate(size_type n)
 {
 	this->_destroy_at_end(this->_begin);
-	this->_allocator.deallocate(this->_begin, n);
+	if (this->_begin != nullptr)
+		this->_allocator.deallocate(this->_begin, n);
 	this->_begin = this->_end = nullptr;
 }
 

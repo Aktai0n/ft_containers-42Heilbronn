@@ -6,7 +6,7 @@
 /*   By: skienzle <skienzle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 17:31:24 by skienzle          #+#    #+#             */
-/*   Updated: 2022/06/19 12:27:12 by skienzle         ###   ########.fr       */
+/*   Updated: 2022/08/02 20:53:16 by skienzle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 
 #ifdef FT_MODE
 
-#include "./inc/vector.hpp"
-#include "./inc/stack.hpp"
-#include "./inc/map.hpp"
-#include "./inc/set.hpp"
+#include "./containers/vector.hpp"
+#include "./containers/stack.hpp"
+#include "./containers/map.hpp"
+#include "./containers/set.hpp"
 
 using ft::vector;
 using ft::stack;
