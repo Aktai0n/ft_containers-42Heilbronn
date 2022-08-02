@@ -32,10 +32,10 @@ to run individual container benchmarks use:
 
 modify the include paths inside config.hpp to test your own containers:
 ```c
-#include "./inc/vector.hpp"
-#include "./inc/stack.hpp"
-#include "./inc/map.hpp"
-#include "./inc/set.hpp"
+#include "./container/vector.hpp"
+#include "./container/stack.hpp"
+#include "./container/map.hpp"
+#include "./container/set.hpp"
 ```
 
 
