@@ -59,7 +59,7 @@ The stack container is a wrapper for a different container (usually a deque) to 
 My self-written stack uses my vector as underlying container by default.
 
 ### map:
-A map container stores its elements as pairs of keys and values. Searching for elements is done by providing a key to retrive the associated value. Maps use a binary search tree, which is usually implemented as a red-black tree, as their underlying data structure. More information about red-black trees can be found [here](https://github.com/Aktai0n/ft_containers-42Heilbronn/blob/master/inc/utils/RBtree.hpp).
+A map container stores its elements as pairs of keys and values. Searching for elements is done by providing a key to retrive the associated value. Maps use a binary search tree, which is usually implemented as a red-black tree, as their underlying data structure. More information about red-black trees can be found [here](https://github.com/Aktai0n/ft_containers-42Heilbronn/blob/master/container/utils/RBtree.hpp).
 
 :+1: fast insertion, deletion and search times in O(log n) \
 :+1: keys can be any data type that is comparable using the < operator \
